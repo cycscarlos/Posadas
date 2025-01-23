@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Posada | Menú</title>
+  <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
+  <link rel="stylesheet" href="../css/menu.css" />
+  <link rel="preload" href="../img/playa1.webp" as="image" />
+</head>
+
+<body>
+  <%- include('../../public/components/menu.html') %>
+
+    <div class="container">
+      <div class="sidebar">
+        <div class="logo"></div>
+        <h2>Menú</h2>
+        <ul>
+          <li>
+            Consultas <span class="toggle-icon">▼</span>
+            <ul>
+              <li><a href="/consultaGral" class="link">Consulta General</a></li>
+              <li><a href="/historialHabitaciones">Historial Habitaciones</a></li>
+              <li>
+                <a href="/disponibilidadPorFecha">Habitaciones sin reservas <span>Por rango de fechas</span></a>
+              </li>
+              <li>
+                <a href="/statusReservaciones">Habitaciones<br />
+                  Reservadas <span>Status</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            Reservaciones <span class="toggle-icon">▼</span>
+            <ul>
+              <li><a href="/registro">Reservaciones</a></li>
+              <li><a href="/preReservaciones">Pre-reservaciones</a></li>
+              <li><a href="/consulta-pagos">Perfil de Pagos</a></li>
+            </ul>
+          </li>
+
+          <li>
+            Publicidad <span class="toggle-icon">▼</span>
+            <ul>
+              <li><a href="/enviar-correo">Por Correo Electrónico</a></li>
+              <!-- <li>
+                <a href="/whatsapp-envioMensajes">Publicidad por Whatsapp</a>
+              </li>
+              <li>
+                <a href="/whatsapp-reservaciones">Whatsapp Reservaciones</a>
+              </li> -->
+            </ul>
+          </li>
+
+          <li>
+            Gráficas <span class="toggle-icon">▼</span>
+            <ul>
+              <li><a href="/graficas">Gráficas</a></li>
+            </ul>
+          </li>
+
+          <li>
+            Administración <span class="toggle-icon">▼</span>
+            <ul>
+              <li>
+                <a href="/administracionManualEstados">Administracion Status Habitaciones</a>
+              </li>
+
+              <li>
+                <a href="/users">Administracion de Usuarios</a>
+              </li>
+
+              <li>
+                <a href="/depuracion">Depuración de la BDD</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="content">
+        <div class="card">
+          <h2><a href="/mapaHabitaciones">Habitaciones</a></h2>
+        </div>
+
+        <div class="card">
+          <h2><a href="/consulta-cliente">Cliente</a></h2>
+        </div>
+
+        <!-- <div class="card">
+          <h2><a href="/historialHabitaciones">Historial</a></h2>
+        </div> -->
+
+      </div>
+    </div>
+
+    <script>
+      document.querySelectorAll(".sidebar > ul > li").forEach((menuItem) => {
+        menuItem.addEventListener("click", function (event) {
+          event.stopPropagation();
+          document
+            .querySelectorAll(".sidebar > ul > li")
+            .forEach((otherItem) => {
+              if (otherItem !== menuItem) {
+                const otherSubmenu = otherItem.querySelector("ul");
+                const otherToggleIcon = otherItem.querySelector(".toggle-icon");
+                if (otherSubmenu) {
+                  otherSubmenu.classList.remove("open");
+                  otherSubmenu.style.maxHeight = null;
+                  otherToggleIcon.textContent = "▼";
+                }
+              }
+            });
+          const submenu = this.querySelector("ul");
+          const toggleIcon = this.querySelector(".toggle-icon");
+          if (submenu) {
+            const isSubmenuVisible = submenu.classList.contains("open");
+            if (isSubmenuVisible) {
+              submenu.classList.remove("open");
+              submenu.style.maxHeight = null;
+              toggleIcon.textContent = "▼";
+            } else {
+              submenu.classList.add("open");
+              submenu.style.maxHeight = submenu.scrollHeight + "px";
+              toggleIcon.textContent = "▲";
+            }
+          }
+        });
+      });
+    </script>
+</body>
+
+</html>

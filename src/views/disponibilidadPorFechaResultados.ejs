@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+
+  <!-- Fontawesome v6.6.0 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+
+  <!-- Datatables CSS Local Installation-->
+  <link rel="stylesheet" href="../downloadButtons/datatables.css" />
+  <link href="../downloadButtons/datatables.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
+  <link rel="stylesheet" href="../css/disponibilidadPorFechaResultados.css" />
+  <title>Habitaciones Disponibles | Fechas</title>
+</head>
+
+<body>
+  <!-- <%#- include('../../public/components/header.html') %> -->
+
+  <div class="container mt-4">
+    <h1 class="title">Habitaciones Sin Reservas</h1>
+
+    <% if (disponibilidad.length> 0) { %>
+      <div>
+        <strong>Fechas seleccionadas:</strong>
+        <%= fechaInicio.split('-').reverse().join('/') %> al <%= fechaFin.split('-').reverse().join('/') %>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-8">
+          <div class="table-responsive">
+            <table id="tablaDisponibilidad" class="table table-striped table-borderer table-hover" style="width: 100%">
+              <thead class="thead-bg">
+                <tr>
+                  <th class="text-center">Habitación</th>
+                  <th class="text-center">Tipo Habitación</th>
+                  <th class="text-center">Capacidad</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% disponibilidad.forEach(habitacion=> { %>
+                  <tr>
+                    <td class="text-center">
+                      <%= habitacion.id_habitacion %>
+                    </td>
+                    <td class="text-center">
+                      <%= habitacion.tipo_habitacion %>
+                    </td>
+                    <td class="text-center">
+                      <%= habitacion.capacidad %>
+                    </td>
+                  </tr>
+                  <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <% } else { %>
+        <div class="alert alert-warning">
+          No hay habitaciones disponibles en las fechas seleccionadas.
+        </div>
+        <% } %>
+
+          <a href="/disponibilidadPorFecha" class="btn btn-secondary">Volver</a>
+  </div>
+
+  <!--. Bootstrap v5.3.3 -->
+  <script src="../bootstrap/js/bootstrap.min.js"></script>
+
+  <!--. JQuery v3.7.1 -->
+  <script src="../jquery/js/jquery-3.7.1.min.js"></script>
+
+  <!--. Datatables JS Local Installation-->
+  <script src="../downloadButtons/datatables.js"></script>
+  <script src="../downloadButtons/datatables.min.js"></script>
+
+  <!--. Initialising DataTables -->
+  <script src="../js/tablaDisponibilidad.js"></script>
+
+  <!-- Sweetalert 2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+</body>
+
+</html>

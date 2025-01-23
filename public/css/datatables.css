@@ -1,0 +1,65 @@
+:root {
+  --color-text: #9d8d6c;
+  --color-bg: #29445a;
+  --color-white: whitesmoke;
+  --font-header: "Times New Roman", cursive;
+
+  --step--2: clamp(0.69rem, 0.65rem + 0.21vw, 0.8rem);
+  --step--1: clamp(0.83rem, 0.77rem + 0.33vw, 1rem);
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: var(--color-white);
+}
+
+header {
+  color: var(--color-text);
+  text-align: center;
+  padding: 5px 0;
+  box-shadow: 10px 10px 10px rgb(0, 0, 0, 0.5);
+}
+
+table.dataTable thead > tr > th.dt-orderable-asc,
+table.dataTable thead > tr > th.dt-orderable-desc,
+table.dataTable thead > tr > td.dt-orderable-asc,
+table.dataTable thead > tr > td.dt-orderable-desc {
+  background-color: var(--color-bg);
+  color: var(--color-white);
+}
+span.dt-column-order:after {
+  margin-top: 2px;
+}
+
+.btn-group {
+  gap: 5px;
+}
+
+.btn-group > .btn:nth-child(1),
+.btn-group > .btn:nth-child(2),
+.btn-group > .btn:nth-child(3) {
+  border-radius: 5px !important;
+}
+
+.btn-grup,
+.btn-group-vertical {
+  position: absolute !important;
+}
+
+div.dt-info {
+  margin: 20px 0;
+}
+
+button.page-link {
+  font-size: 0.8rem;
+}
+
+.table tr:nth-of-type(1n + 1) td:nth-child(7n),
+.table tr:nth-of-type(1n + 1) td:nth-child(8n),
+.table tr:nth-of-type(2n + 1) td:nth-child(7n),
+.table tr:nth-of-type(2n + 1) td:nth-child(8n) {
+  text-align: center;
+}

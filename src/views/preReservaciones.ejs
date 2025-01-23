@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>Posada | Pre-Reservación</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/datatables.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <!-- <link rel="stylesheet" href="../css/pre-reserva.css" /> -->
+    <link rel="stylesheet" href="../css/reservas.css" />
+    <link rel="stylesheet" href="../css/copyright.css" />
+    <!-- Sweetalert 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="topheader" id="topheader">
+      <div class="topnav">
+        <div class="logo"></div>    
+        <!-- <h1 class="title">Pre-Reservación de Clientes</h1> -->
+        <%- include('../../public/components/navbar.html') %>
+      </div>
+    </header>
+
+    <!-- Pre-Reservación -->
+    <section class="contact" id="contact">
+      <div class="contact-container">
+        <div class="contactInfo"></div>
+        <form
+          action="/preReservaciones"
+          method="POST"
+          onsubmit="return validarFormulario();"
+        >
+          <div class="contactForm">
+            <h2>Pre-Reservación de Clientes</h2>
+            <div class="formBox">
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="nombre"
+                  title="Solo acepta letras, espacios en blanco, acentos y puntos"
+                  pattern="^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ. ]{1,15}$"
+                  required
+                  id="nombre"
+                />
+                <span>Nombre</span>
+              </div>
+
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="apellido"
+                  title="Solo acepta letras, espacios en blanco, acentos y puntos"
+                  pattern="^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ. ]{1,15}$"
+                  required
+                  id="apellido"
+                />
+                <span>Apellido</span>
+              </div>
+
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="cedula"
+                  title="Solo acepta números y hasta un máximo de 8 caracteres"
+                  pattern="^[0-9]{1,8}$"
+                  required
+                  id="cedula"
+                />
+                <span>Cédula</span>
+              </div>
+
+              <div class="inputBox w50">
+                <input
+                  type="email"
+                  name="correo"
+                  title="Email incorrecto"
+                  pattern="^[\w\.+-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,15}$"
+                  required
+                  id="correo"
+                />
+                <span>Correo Electrónico</span>
+              </div>
+
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="telefono"
+                  title="Solo acepta números y hasta un máximo de 11 caracteres"
+                  pattern="^[0-9]{1,11}$"
+                  required
+                  id="telefono"
+                />
+                <span>Número de teléfono</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="procedencia"
+                  title="Solo acepta letras, espacios en blanco, acentos y puntos"
+                  pattern="^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ. ]{1,15}$"
+                  required
+                  id="procedencia"
+                />
+                <span>Procedencia</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="number"
+                  name="personas"
+                  title="Solo acepta números y hasta un máximo de 2 carácteres"
+                  pattern="^[0-9]{1,2}$"
+                  required
+                  id="personas"
+                />
+                <span>Número de Personas</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="number"
+                  name="habitacion"
+                  title="Solo acepta números y hasta un máximo de 2 caracteres"
+                  pattern="^[0-9]{1,2}$"
+                  required
+                  id="habitacion"
+                />
+                <span>Habitación Asignada</span>
+              </div>
+
+              <div class="inputBox w50">
+                <input
+                  type="date"
+                  name="fecha_entrada"
+                  required
+                  id="fechaEntrada"
+                />
+                <span>Fecha de Entrada</span>
+              </div>
+
+              <div class="inputBox w50">
+                <input
+                  type="date"
+                  name="fecha_salida"
+                  required
+                  id="fechaSalida"
+                />
+                <span>Fecha de Salida</span>
+              </div>
+
+              <div class="inputBox w50">
+                <input
+                  type="number"
+                  name="monto"
+                  step="0.01"
+                  required
+                  id="monto"
+                />
+                <span>Monto Abonado</span>
+              </div>
+
+              <div class="inputBox w50">
+                <input
+                  type="date"
+                  name="fecha_transaccion"
+                  required
+                  id="fechaTransaccion"
+                />
+                <span>Fecha de Transacción</span>
+              </div>
+
+              <fieldset>
+                <legend>Métodos de Pago:</legend>
+                <label
+                  ><input
+                    type="checkbox"
+                    name="metodos_pago"
+                    value="efectivo"
+                  />Efectivo</label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    name="metodos_pago"
+                    value="divisas"
+                  />Divisas</label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    name="metodos_pago"
+                    value="debito"
+                  />Débito</label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    name="metodos_pago"
+                    value="credito"
+                  />Crédito</label
+                >
+              </fieldset>
+
+              <div class="inputBox w50">
+                <input type="submit" value="Pre-Reservar" />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <%- include('../../public/components/footer.html') %>
+
+    <script src="https://use.fontawesome.com/698a367122.js"></script>
+    <script src="../js/formValidation.js"></script>
+    <script src="../js/validaFecha.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const success = urlParams.get("success");
+        const error = urlParams.get("error");
+
+        if (success) {
+          Swal.fire({
+            icon: "success",
+            title: "Éxito",
+            text: "Operación realizada con éxito.",
+          });
+        }
+
+        if (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: decodeURIComponent(error),
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

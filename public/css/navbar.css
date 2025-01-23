@@ -1,0 +1,248 @@
+/*: Desktop styles  */
+:root {
+  --navbar-color: #9d8d6c;
+  --login-color: #f6a700;
+  --white-color: #ffffff;
+}
+.topheader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9;  /* ¡Súper OJO! */
+  box-shadow: none;
+}
+
+.darkShadow {
+  box-shadow: 0 4px 5px black;
+}
+
+.topnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 10px 20px;
+  height: max-content;
+  z-index: 100;
+}
+
+.logo {
+  background-image: url(../img/posadaLogo.webp);
+  background-size: contain;
+  background-repeat: no-repeat;
+  /* width: 320px;
+  height: 180px;
+  margin-left: 10px; */
+  width: 240px;
+  height: 135px;
+  margin: 0;
+}
+
+.title {
+  flex-grow: 1;
+  text-align: center;
+  margin: 0;
+  color: var(--login-color);
+  font-weight: 500;
+  font-size: 3em;
+}
+
+.navbar {
+  margin-right: 10px;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar ul li {
+  display: inline-block;
+  margin-left: 15px;
+  padding: 0.3rem 0.5rem;
+  margin: 1.3rem;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  box-shadow: 2.5px 2.5px 2.5px 2.5px rgb(0, 0, 0, 0.2);
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.navbar ul li:hover {
+  transform: scale(1.2);
+  box-shadow: 5px 5px 5px 5px rgb(0, 0, 0, 0.2);
+}
+
+.navbar ul a {
+  color: var(--login-color);
+  font-weight: 500;
+}
+
+/* .navbar ul li a:hover {
+  color: var(--white-color);
+} */
+
+/*_ Nuevo estilos para la barra de navegación  */
+
+/* Estilos para activar la barra activa debajo del menu de navegación  */
+/* .menu a::after {
+  content: "";
+  background-color: var(--logotype-color);
+  position: absolute;
+  left: 0;
+  Para separar la línea del texto, se usa el parametro "calc", ya que CSS no soporta operaciones matemáticas directas (ejemplo: 100% + 6px)  
+  top: calc(100% + 6px);
+  width: 100%;
+  height: 4px;
+  opacity: 0;
+  transition: opacity 0.5s;
+} */
+
+/* Estilos para activar la barra activa debajo del menu de navegación  */
+
+/* Por defecto apagamos el rectangulo de todos los "li" (opacity:0;), excepto el "li" principal y cuando otro "li" sea seleccionado, prendemos su rectangulo (opacity:0.8); */
+/* .menu a.selected::after,
+.menu a:hover::after {
+  opacity: 0.8;
+} */
+
+/* .menu a:hover {  
+  background-color: rgba(128, 128, 128, 0.2);
+  padding: 4px;
+  border-radius: 3px;
+} */
+
+/* Barra debajo de cada elemento del menu de navegación */
+/* .opcion-menu {
+  padding: 10px;
+  cursor: pointer;
+  position: relative;
+} */
+
+/* .barra-activa {
+  height: 1px;
+  background-color: #888;
+  position: absolute; 
+  bottom: 3em;
+  left: 0;
+  transition: all 0.5s;
+} */
+
+/* Apagamos los botones, para prenderlos en la Media Queries  */
+
+.open-menu,
+.close-menu {
+  /* display: none; */
+  visibility: hidden;
+}
+
+/*: iPad portrait styles  */
+@media (max-width: 768px) {
+  .logo span {
+    font-size: 1em;
+  }
+  .menu {
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 94%;
+    align-items: center;
+    background-color: var(--menu-mobile-background-color);
+    height: 100%;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+  }
+
+  .menu li {
+    padding: 0;
+  }
+
+  .menu a {
+    color: var(--white-color);
+    line-height: 3.8em;
+    font-size: 1.3em;
+  }
+
+  .open-menu,
+  .close-menu {
+    display: block;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  /* Reubicación del icono hamburguesa */
+  .open-menu {
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+  }
+
+  .close-menu {
+    align-self: flex-start;
+    padding: 1.6em 1em;
+  }
+
+  /* Un programa de JavaScript (botonApp), adjuntará o quitará la clase "menu-opened" al tag UL con la clase "menu"; cuando detecte (addEventListener) un "click" sobre el icono "X" (clase close-menu) o sobre el icono hamburguesa (clase open-menu). */
+
+  .menu_opened {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Elimina el borde que se forma alrrededor de los iconos "X" y "hamburguesa" cuando el usuario solo se posiciona encima de ellos, sin llegar a darles "click" */
+
+  .open-menu:focus:not(:focus-visible),
+  .close-menu:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  .menu a::after {
+    content: none;
+  }
+
+  .menu a:hover,
+  .menu a.selected {
+    color: var(--secondary-color);
+  }
+  .lenguaje {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
+}
+
+/*: Smartphones styles */
+@media screen and (max-width: 500px) {
+  .lenguaje {
+    display: none;
+  }
+  .lenguaje.appears {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
+  .logo span {
+    font-size: 0.6em;
+  }
+  body {
+    overflow-x: hidden;
+  }
+  /* Dark Mode */
+  .themeIcon {
+    margin-right: 10em;
+    width: 1.4em;
+    height: 1.5em;
+  }
+}

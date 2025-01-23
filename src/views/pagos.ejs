@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pagos del Cliente</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/pagos.css" />
+</head>
+
+<body>
+    <%- include('../../public/components/volverPagos.html') %>
+        <!-- <h1>Pagos del Cliente</h1>
+
+        <h2>Buscar Cliente</h2>
+        <form action="/pagos" method="GET">
+            <label for="id">ID del Cliente, Número de Reserva o Cédula:</label>
+            <input type="text" id="id" name="id" required>
+            <button type="submit">Buscar</button>
+        </form> -->
+        <div class="container">
+            <div class="container-grid">
+                <h1 class="grid_item grid-title">Ficha del Cliente</h1>
+                <% if (cliente) { %>
+                    <p class="grid_item grid-item-1"><strong>Nombre:</strong>
+                        <%= cliente.nombre %>
+                            <%= cliente.apellido %>
+                    </p>
+                    <p class="grid_item grid-item-2"><strong>Cédula:</strong>
+                        <%= cliente.cedula %>
+                    </p>
+                    <p class="grid_item grid-item-3"><strong>Correo:</strong>
+                        <%= cliente.correo %>
+                    </p>
+                    <p class="grid_item grid-item-4"><strong>Teléfono:</strong>
+                        <%= cliente.telefono %>
+                    </p>
+                    <p class="grid_item grid-item-5"><strong>Procedencia:</strong>
+                        <%= cliente.procedencia %>
+                    </p>
+
+                    <p class="grid_item grid-item-9"><strong>Habitación:</strong>
+                        <%= cliente.id_habitacion %>
+                    </p>
+                    <p class="grid_item grid-item-6"><strong>Número de Personas:</strong>
+                        <%= cliente.personas %>
+                    </p>
+                    <p class="grid_item grid-item-7"><strong>Fecha de Entrada:</strong>
+                        <%= cliente.fecha_entrada %>
+                    </p>
+                    <p class="grid_item grid-item-8"><strong>Fecha de Salida:</strong>
+                        <%= cliente.fecha_salida %>
+                    </p>
+
+                    <!-- <p class="grid_item grid-item-10">Estado de Reserva: <%= cliente.estado_reserva %>
+                    </p> -->
+            </div>
+
+            <form action="/pagos/<%= cliente.id_cliente %>/agregar-pago" method="POST">
+                <h2 class="subtitle1">Agregar Nuevo Pago</h2>
+                <label for="monto">Monto:</label>
+                <input type="number" id="monto" name="monto" required>
+
+                <label for="fecha_transaccion">Fecha de Transacción:</label>
+                <input type="date" id="fecha_transaccion" name="fecha_transaccion" required>
+
+                <label for="metodos_pago">Métodos de Pago: <br /><small>(divisa, efectivo, debito y/o
+                        crédito)</small></label>
+                <input type="text" id="metodos_pago" name="metodos_pago" required>
+
+                <button type="submit" class="btn">Agregar Pago</button>
+            </form>
+
+            <h2 class="subtitle2">Historial de Pagos</h2>
+            <ul>
+                <% cliente.pagos.forEach(pago=> { %>
+                    <li>
+                        <strong>Monto:</strong> $<%= pago.monto %> |
+                            <strong>Fecha:</strong>
+                            <%= pago.fecha_pago %> |
+                                <strong>Método:</strong>
+                                <%= pago.metodo %>
+                    </li>
+                    <% }) %>
+            </ul>
+            <% } else { %>
+                <p>No se encontró ningún cliente con los datos proporcionados.</p>
+                <% } %>
+        </div>
+</body>
+
+</html>

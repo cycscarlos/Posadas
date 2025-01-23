@@ -1,0 +1,10 @@
+/node_modules
+/public/css/trash
+/public/img/trash
+/public/js/trash
+/src/controllers/trash
+/src/middlewares/trash
+/src/routes/trash
+/src/views/trash
+/src/views/cursor
+/trash

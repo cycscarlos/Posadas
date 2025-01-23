@@ -1,0 +1,81 @@
+.body {
+  padding-top: 170px;
+}
+
+.navbar ul li {
+  --login-color: #f6a700;
+  background-color: var(--login-color);
+}
+
+.navbar ul a {
+  --white-color: #ffffff;
+  color: var(--white-color);
+  font-weight: 500;
+}
+
+ul.pagination {
+  justify-content: center;
+  padding-top: 20px;
+}
+#dt-search-0 {
+  margin: 0px 0px 4px 7px;
+  cursor: pointer;
+}
+/* #myTable{  
+} */
+#myTable_info.dt-info {
+  margin: 0;
+  text-align: center;
+}
+.pre-reservada {
+  /* background-color: #fffacc;  */
+  background-color: lightgreen;
+}
+
+/* Tooltip de los botones editar y eliminar */
+[data-tooltip] {
+  text-decoration: none;
+  position: relative;
+  font-size: 1rem;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 0;
+  left: 285%;
+  transform: translateX(-285%);
+  width: max(100%, 4rem);
+  background: bisque;
+  color: black;
+  box-shadow: 10px 10px 10px rgb(0, 0, 0, 0.5);
+  text-align: center;
+  font-size: 0.85em;
+  padding: 0.25rem;
+  border-radius: 0.25em;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.2s;
+}
+
+.link1 {
+  margin: 0px 5px 0px 0px;
+}
+
+.link1[data-tooltip]:hover::after {
+  color: blue;
+}
+.link2[data-tooltip]:hover::after {
+  color: red;
+}
+
+[data-tooltip]:hover::after {
+  bottom: 50%;
+  opacity: 1;
+  visibility: visible;
+}
+
+.pre-reservada {
+  /* background-color: #fffacc;  */
+  background-color: lime;
+}

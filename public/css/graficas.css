@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+.topheader {
+  box-shadow: none;
+  padding: 0;
+}
+
+.topheader .topnav {
+  height: 6.5em;
+}
+
+.topheader .logo {
+  width: 240px;
+  height: 135px;
+}
+
+.navbar ul li {
+  --login-color: #f6a700;
+  background-color: var(--login-color);
+}
+
+.navbar ul a {
+  --white-color: #ffffff;
+  color: var(--white-color);
+  font-weight: 500;
+}
+
+/* Añadir espacio debajo del header */
+.container {
+  /* padding: 20px; /* Espaciado interno para la container */
+  flex: 1; /* Hacer que el contenedor use el espacio restante */
+  position: relative;
+}
+
+.row {
+  margin-top: 40px;
+}
+
+.title {
+  margin-bottom: 40px;
+  font-size: 3rem;
+}
+.row h2 {
+  font-size: 2rem;
+  color: var(--navbar-color);
+}
+
+/* Limitar la altura de los canvas para evitar que llenen todo el contenedor */
+canvas {
+  max-height: 400px; /* Ajusta este valor según tus necesidades */
+}

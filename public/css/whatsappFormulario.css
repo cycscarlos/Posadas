@@ -1,0 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  --primary-color: aliceblue;
+  --secondary-color: #9d8d6c;
+  --base-color: #ffffff;
+  --login-color: #f6a700;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+body,
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 600px;
+  /* width: 350px;
+  height: 400px; */
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 10px 10px 10px 10px rgb(0, 0, 0, 0.5);
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+
+.title-whatsapp {
+  margin-bottom: 2rem;
+  color: var(--login-color);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: 2.5rem;
+}
+.inputBx input,
+.inputBx textarea,
+.btn {
+  padding: 0.5rem;
+  margin: 1.5rem;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 5px 5px 5px 5px rgb(0, 0, 0, 0.2);
+  font-size: 1rem;
+  /* caret-color: rgba(145, 141, 141, 0.2); */
+}
+
+.inputBx textarea::placeholder {
+  opacity: 0.3;
+  font-size: 0.8rem;
+}
+
+.btn {
+  width: 50%;
+  background-color: var(--login-color);
+  color: white;
+  font-size: 1rem;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+  box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5);
+}
+.inputBx {
+  margin-bottom: 15px; /* Espaciado entre campos */
+}
+
+#telefonoSelect {
+  width: 100%; /* Asegúrate de que ocupe el ancho completo */
+  padding: 8px; /* Espaciado interno */
+  box-sizing: border-box; /* Para incluir el padding en el cálculo del ancho total */
+}
+
+#search {
+  width: 100%; /* También aseguramos que el campo de búsqueda ocupe el ancho completo */
+  padding: 8px; /* Espaciado interno */
+  margin-bottom: 10px; /* Espaciado entre el input de búsqueda y el select */
+  box-sizing: border-box; /* Para incluir el padding en el cálculo del ancho total */
+}

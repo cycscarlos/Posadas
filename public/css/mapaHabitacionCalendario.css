@@ -1,0 +1,218 @@
+:root {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  --login-color: #f6a700;
+  --color-fondoModal: rgb(41, 68, 90, 0.25);
+  --color-white: #ffffff;
+
+  --primary-color: aliceblue;
+  --secondary-color: #9d8d6c;
+  --white-color: #ffffff;
+  --base-color: #f6a700;
+  --errorMsg-color: red;
+}
+body {
+  overflow: scroll;
+  background-color: #f4f4f4;
+}
+
+.topheader {
+  position: relative;
+}
+
+.topnav {
+  padding: 0;
+  height: max-content;
+  align-items: flex-end;
+}
+
+.topnav .logo {
+  width: 112.5px;
+  height: 112.5px;
+  margin: 0;
+}
+
+.navbar ul li {
+  background-color: var(--login-color);
+}
+
+.navbar ul a {
+  color: var(--white-color);
+  font-weight: 500;
+}
+
+.container {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin: 0 0 20px 0;
+}
+
+.title span {
+  font-size: 2rem;
+  color: var(--text-color);
+}
+
+.habitacion {
+  margin-bottom: 40px;
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra para efecto de elevado */
+}
+
+.habitacion h2 {
+  margin: 0 auto;
+}
+
+.anio {
+  text-align: center;
+  margin: 10px 0;
+  font-weight: bold; /* Resalta el año */
+}
+
+.calendarios-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.calendario-mes {
+  margin: 24px;
+  border-radius: 5px;
+  background-color: #fff;
+
+  /* Ajustar el ancho de las tablas */
+  width: 250px;
+  text-align: center;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  width: 100%; /* Tablas ocupan el ancho completo de sus celdas */
+}
+
+.mes-nombre {
+  background-color: #f2f2f2;
+  padding: 5px;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc; /* Línea inferior para separar el título de la tabla */
+  width: 100%;
+  text-align: center; /* Centrado del nombre del mes */
+}
+
+th {
+  width: 38px; /* Ajustar el ancho de las tablas */
+  height: 38px; /* Mayor altura para mayor espacio visual */
+  text-align: center;
+  font-size: 1.2em; /* Aumento del tamaño de fuente para mejor lectura */
+
+  background-color: #f2f2f2;
+  font-weight: bold; /* Resalta los encabezados */
+}
+
+td {
+  width: 14.28%;
+  height: 38px; /* Mayor altura para mayor espacio visual */
+  padding: 8px;
+  text-align: center;
+  font-size: 1.2em; /* Aumento del tamaño de fuente para mejor lectura */
+  border: 1px solid #d4d2d2e1;
+}
+
+.acciones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Estilos de los modales */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+/* Estilos para el modal de la ficha del cliente */
+.modal-ficha {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-ficha .modal-content {
+  background-color: transparent;
+  margin: 5% auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 650px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  will-change: transform;
+}
+
+/* Estilos para el modal del formulario de registro */
+.modal-registro {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-registro .modal-content {
+  background-color: transparent;
+  margin: 0 auto;
+  padding: 0;
+  width: 90%;
+  max-width: 740px;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  will-change: transform;
+}
+
+.close {
+  color: transparent;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: transparent;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Estilos que vienen de la vista mapaHabitacionesCalendario.ejs*/
+.disponible {
+  background-color: none;
+  cursor: pointer;
+}
+.reservado {
+  background-color: #ff0000;
+  cursor: pointer;
+}
+.pre-reservado {
+  background-color: orange;
+  cursor: pointer;
+}
+.reservado:hover,
+.pre-reservado:hover {
+  transform: scale(1.1);
+  border: inset 1px;
+  border-radius: 5px;
+}

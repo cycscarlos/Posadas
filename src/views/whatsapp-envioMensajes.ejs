@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+    <title>Enviar Mensajes por WhatsApp</title>
+
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/whatsappFormulario.css" />
+    <link rel="stylesheet" href="../css/copyright.css" />
+
+    <!-- Función para enviar mensaje por WhatsApp -->
+    <!-- <script>
+      async function enviarMensaje(event) {
+        event.preventDefault(); // Evitar el envío por defecto del formulario
+
+        const mensaje = document.getElementById('mensaje').value;
+        const seleccioneTodos =
+          document.getElementById('seleccioneTodos').checked;
+        const numeroSeleccionado =
+          document.getElementById('telefonoSelect').value;
+
+        // Validación simple
+        if (!mensaje.trim()) {
+          alert('El campo mensaje no debe estar vacío.');
+          return;
+        }
+
+        try {
+          const response = await fetch('/api/whatsapp', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              mensaje: mensaje,
+              seleccioneTodos: seleccioneTodos,
+              numero: numeroSeleccionado, // Enviar el número seleccionado
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error('Error: ' + response.statusText);
+          }
+
+          const result = await response.json();
+          alert(result.message); // Mensaje de éxito
+        } catch (error) {
+          console.error('Error al enviar el mensaje:', error);
+          alert(
+            'Ocurrió un error al enviar los mensajes. Por favor, inténtalo de nuevo más tarde.'
+          );
+        }
+      }
+    </script> -->
+
+    <script>
+      async function enviarMensaje(event) {
+        event.preventDefault();
+        const mensaje = document.getElementById("mensaje").value;
+        const seleccioneTodos =
+          document.getElementById("seleccioneTodos").checked;
+
+        // Cambia a 'telefono'
+        const telefonoSeleccionado =
+          document.getElementById("telefonoSelect").value;
+
+        const response = await fetch("/whatsapp-envioMensajes", {
+          // Asegúrate de que la URL sea correcta
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            mensaje: mensaje,
+            seleccioneTodos: seleccioneTodos,
+            telefono: telefonoSeleccionado, // Cambiado para usar 'telefono'
+          }),
+        });
+
+        if (response.ok) {
+          // Lógica si el mensaje se envía correctamente
+          alert("Mensaje enviado con éxito");
+        } else {
+          // Manejo del error
+          alert("Error al enviar el mensaje");
+        }
+      }
+    </script>
+    <!-- Función para busqueda selectiva por nombre dentro de la BDD -->
+    <script>
+      function toggleSelect() {
+        const select = document.getElementById("telefonoSelect");
+        const search = document.getElementById("search");
+        const seleccioneTodos =
+          document.getElementById("seleccioneTodos").checked;
+
+        if (seleccioneTodos) {
+          // Limpiar el campo de búsqueda y el select
+          search.value = "";
+          select.selectedIndex = 0; // Reinicia a la opción por defecto
+          // Desactivar el campo de búsqueda
+          search.disabled = true;
+          select.disabled = true; // Desactiva el select
+        } else {
+          // Activar el campo de búsqueda y el select
+          search.disabled = false;
+          select.disabled = false;
+        }
+      }
+      function filterClientes() {
+        const input = document.getElementById("search").value.toLowerCase();
+        const select = document.getElementById("telefonoSelect");
+        const options = select.options;
+
+        let found = false;
+
+        for (let i = 0; i < options.length; i++) {
+          const option = options[i];
+          const nombreCompleto = `${option.getAttribute(
+            "data-nombre"
+          )} ${option.getAttribute("data-apellido")}`.toLowerCase();
+          option.style.display = nombreCompleto.includes(input)
+            ? "block"
+            : "none";
+          if (nombreCompleto.includes(input)) found = true;
+        }
+
+        // Si no se encontró, se puede manejar de alguna forma, como sugerir el nombre o limpiar el select
+        if (!found) {
+          select.selectedIndex = 0; // Reinicia la selección si no se encuentra
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <%- include('../../public/components/header.html') %>
+
+    <h1 class="title-whatsapp">Publicidad por WhatsApp</h1>
+    <form id="whatsappForm" onsubmit="enviarMensaje(event)" class="form">
+      <div class="inputBx">
+        <textarea
+          id="mensaje"
+          rows="4"
+          placeholder="Ingresa el mensaje..."
+          required
+        ></textarea>
+      </div>
+
+      <!-- search -->
+      <div class="inputBx">
+        <label for="search">Buscar Cliente:</label>
+        <input
+          type="text"
+          id="search"
+          placeholder="Buscar por nombre..."
+          onkeyup="filterClientes()"
+          class="input"
+        />
+      </div>
+
+      <!-- select -->
+      <div class="inputBx">
+        <label for="telefonoSelect">Seleccionar Cliente:</label>
+        <select id="telefonoSelect" class="input">
+          <option value="">-- Seleccionar --</option>
+          <% clientes.forEach(cliente => { %>
+          <option
+            value="<%= cliente.telefono %>"
+            data-nombre="<%= cliente.nombre %>"
+            data-apellido="<%= cliente.apellido %>"
+          >
+            <%= cliente.nombre %> <%= cliente.apellido %>
+          </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <!-- Checkbox -->
+      <div class="inputBx">
+        <label>
+          <input
+            type="checkbox"
+            id="seleccioneTodos"
+            class="input"
+            onclick="toggleSelect()"
+          />
+          Seleccionar todos los clientes
+        </label>
+      </div>
+
+      <!-- botón de enviar -->
+      <button type="submit" class="btn">Enviar Mensajes</button>
+    </form>
+
+    <!-- Footer -->
+
+    <%- include('../../public/components/footer.html') %>
+  </body>
+</html>

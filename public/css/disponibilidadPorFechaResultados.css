@@ -1,0 +1,65 @@
+body {
+  padding-top: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.topheader {
+  box-shadow: none;
+}
+
+.topnav {
+  display: flex;
+  justify-content: right;
+  align-self: center;
+}
+.container {
+  text-align: center;
+}
+
+.title {
+  color: var(--login-color);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.table-responsive {
+  width: 100%; /* Asegúrate de que ocupa el 100% del contenedor */
+}
+
+.table {
+  width: 100%; /* Asegúrate de que la tabla ocupe todo el espacio */
+  table-layout: fixed; /* Esto hará que todas las columnas tengan el mismo ancho */
+}
+
+.table th,
+.table td {
+  text-align: center; /* Centra el texto en las celdas */
+  vertical-align: middle; /* Centra el contenido verticalmente */
+}
+
+.acciones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  font-size: 20px;
+  margin-top: 32px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #f6a700;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+  background-color: #f6a700;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+  <title>Disponibilidad por Fecha</title>
+  <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
+  <link rel="stylesheet" href="../css/disponibilidadPorFecha.css" />
+</head>
+
+<body>
+  <%- include('../../public/components/header.html') %>
+
+    <div class="container">
+      <h1 class="title">
+        Disponibilidad de Habitaciones<br /><small> por Rango de Fechas</small>
+      </h1>
+      <form id="availabilityForm" method="POST">
+        <div class="form-group">
+          <label for="fechaInicio">Fecha de Entrada:</label>
+          <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required />
+        </div>
+        <div class="form-group">
+          <label for="fechaFin">Fecha de Salida:</label>
+          <input type="date" class="form-control" id="fechaFin" name="fechaFin" required />
+        </div>
+        <div class="view-options mt-4 acciones">
+          <button type="submit" class="btn btn-secondary" formaction="/disponibilidadPorFecha?view=grilla">Consultar en
+            Grilla</button>
+          <button type="submit" class="btn btn-primary" formaction="/disponibilidadPorFecha?view=tabla">Consultar en
+            Tabla</button>
+        </div>
+      </form>
+    </div>
+
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <!-- Sweetalert 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+</body>
+
+</html>

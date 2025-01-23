@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Status Habitación Calendario</title>
+  <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
+  <link rel="stylesheet" href="../css/mapaHabitacionCalendario.css" />
+  <link rel="stylesheet" href="../css/reservas.css" />
+</head>
+
+<body>
+  <%- include('../../public/components/mapaHabitacionesCalendario.html') %>
+
+    <div class="container">
+      <h1 class="title">
+        Status de Reservación<br /><span> Habitación <%= habitacion.id %></span>
+      </h1>
+
+      <div class="calendarios-container">
+        <!-- Mostrar meses del año actual -->
+        <% Object.keys(habitacion.calendarios).forEach(mes=> { %>
+          <% if (parseInt(mes) <=12) { %>
+            <div class="calendario-mes" data-mes="<%= mes %>">
+              <div class="mes-nombre">
+                <%= new Date(Date.parse(mes + " 1, " + new Date().getFullYear())).toLocaleString('es-ES', {
+                  month: 'long' }) %>
+              </div>
+              <table>
+                <tbody>
+                  <tr>
+                    <% const diasMes=habitacion.calendarios[mes].dias.length; %>
+                      <% for (let dia=0; dia < diasMes; dia++) { %>
+                        <td
+                          class="<%= habitacion.calendarios[mes].dias[dia].estado === 'ocupado' ? 'reservado' : (habitacion.calendarios[mes].dias[dia].estado === 'pre-reservado' ? 'pre-reservado' : 'disponible') %>"
+                          <% if (habitacion.calendarios[mes].dias[dia].cliente) { %>
+                          onclick="cargarModal('<%= habitacion.calendarios[mes].dias[dia].cliente.id %>')"
+                            <% } else { %>
+                              onclick="cargarFormularioRegistro('<%= habitacion.id %>', '<%= mes %>', <%= dia + 1 %>)"
+                                    <% } %>
+                                      >
+                                      <%= habitacion.calendarios[mes].dias[dia].dia %>
+                                        <% if (habitacion.calendarios[mes].dias[dia].pago) { %>
+                                          <div class="pago-info">
+                                            <p>Monto: <%= habitacion.calendarios[mes].dias[dia].pago.monto %>
+                                            </p>
+                                            <p>Fecha de Pago: <%= habitacion.calendarios[mes].dias[dia].pago.fecha_pago
+                                                %>
+                                            </p>
+                                            <p>Método: <%= habitacion.calendarios[mes].dias[dia].pago.metodo %>
+                                            </p>
+                                          </div>
+                                          <% } %>
+                        </td>
+                        <% if ((dia + 1) % 7===0) { %>
+                  </tr>
+                  <tr>
+                    <% } %>
+                      <% } %>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <% } %>
+              <% }); %>
+
+                <!-- Mostrar meses del próximo año con el año incluido -->
+                <% const nextYear=new Date().getFullYear() + 1; %>
+                  <% Object.keys(habitacion.calendarios).forEach(mes=> { %>
+                    <% if (parseInt(mes)> 12) { %>
+                      <div class="calendario-mes" data-mes="<%= mes %>">
+                        <div class="mes-nombre">
+                          <%= new Date(Date.parse((parseInt(mes) - 12) + " 1, " + nextYear)).toLocaleString('es-ES', {
+                            month: 'long' }) + ' ' + nextYear %>
+                        </div>
+                        <table>
+                          <tbody>
+                            <tr>
+                              <% const diasMes=habitacion.calendarios[mes].dias.length; %>
+                                <% for (let dia=0; dia < diasMes; dia++) { %>
+                                  <td
+                                    class="<%= habitacion.calendarios[mes].dias[dia].estado === 'ocupado' ? 'reservado' : (habitacion.calendarios[mes].dias[dia].estado === 'pre-reservado' ? 'pre-reservado' : 'disponible') %>"
+                                    <% if (habitacion.calendarios[mes].dias[dia].cliente) { %>
+                                    onclick="cargarModal('<%= habitacion.calendarios[mes].dias[dia].cliente.id %>')"
+                                      <% } else { %>
+                                        onclick="cargarFormularioRegistro('<%= habitacion.id %>', '<%= mes %>', <%= dia
+                                              + 1 %>)"
+                                              <% } %>
+                                                >
+                                                <%= habitacion.calendarios[mes].dias[dia].dia %>
+                                                  <% if (habitacion.calendarios[mes].dias[dia].pago) { %>
+                                                    <div class="pago-info">
+                                                      <p>Monto: <%= habitacion.calendarios[mes].dias[dia].pago.monto %>
+                                                      </p>
+                                                      <p>Fecha de Pago: <%=
+                                                          habitacion.calendarios[mes].dias[dia].pago.fecha_pago %>
+                                                      </p>
+                                                      <p>Método: <%= habitacion.calendarios[mes].dias[dia].pago.metodo
+                                                          %>
+                                                      </p>
+                                                    </div>
+                                                    <% } %>
+                                  </td>
+                                  <% if ((dia + 1) % 7===0) { %>
+                            </tr>
+                            <tr>
+                              <% } %>
+                                <% } %>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <% } %>
+                        <% }); %>
+      </div>
+    </div>
+
+    <!-- Modal para la ficha del cliente -->
+    <div id="clienteModal" class="modal modal-ficha">
+      <div class="modal-content" id="modalContent">
+        <span class="close">&times;</span>
+        <div id="modalBody"></div>
+      </div>
+    </div>
+
+    <!-- Modal para el formulario de registro -->
+    <div id="registroModal" class="modal modal-registro">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="registroModalBody"></div>
+      </div>
+    </div>
+
+    <script>
+      // Función para cargar el modal del cliente
+      async function cargarModal(clienteId) {
+        const modal = document.getElementById('clienteModal');
+        const modalBody = document.getElementById('modalBody');
+
+        try {
+          const response = await fetch(`/consulta-fichaModal/${clienteId}`);
+          const html = await response.text();
+          modalBody.innerHTML = html;
+          modal.style.display = "block";
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
+
+      // Función para cargar el formulario de registro
+      async function cargarFormularioRegistro(habitacion, mes, dia) {
+        const modal = document.getElementById('registroModal');
+        const modalBody = document.getElementById('registroModalBody');
+
+        try {
+          const response = await fetch(`/cargar-formulario-registro?habitacion=${habitacion}&mes=${mes}&dia=${dia}`);
+          const html = await response.text();
+          modalBody.innerHTML = html;
+          modal.style.display = "block";
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
+
+      // Cerrar modales cuando se hace clic en la X
+      document.querySelectorAll('.close').forEach(closeBtn => {
+        closeBtn.onclick = function () {
+          this.closest('.modal').style.display = "none";
+        }
+      });
+
+      // Cerrar modales cuando se hace clic fuera de ellos
+      window.onclick = function (event) {
+        if (event.target.classList.contains('modal')) {
+          event.target.style.display = "none";
+        }
+      }
+    </script>
+</body>
+
+</html>

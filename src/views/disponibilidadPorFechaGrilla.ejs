@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+    <title>Disponibilidad por Fecha - Vista Grilla</title>
+    <!-- <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" /> -->
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/disponibilidadPorFechaGrilla.css" />
+
+</head>
+
+<body>
+    <%- include('../../public/components/header.html') %>
+
+        <div class="container">
+            <!-- <h1 class="title">Habitaciones Disponibles</h1> -->
+            <h2 class="title">Habitaciones <strong>SIN RESERVAS</strong></h2>
+            <p><strong>Desde:</strong>
+                <%= fechaInicio.split('-').reverse().join('/') %> al <%= fechaFin.split('-').reverse().join('/') %>
+                        <!-- <%= fechaInicio %> <strong>Hasta:</strong>
+                    <%= fechaFin %> -->
+            </p>
+
+            <div class="grid-container">
+                <% if (disponibilidad.length> 0) { %>
+                    <% disponibilidad.forEach(habitacion=> { %>
+                        <div class="grid-item">
+                            <h4>
+                                <%= habitacion.id_habitacion %>
+                            </h4>
+                            <div class="tooltip">
+                                <%= habitacion.tipo_habitacion %>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% } else { %>
+                                <div class="alert alert-warning">
+                                    No hay habitaciones disponibles en las fechas seleccionadas.
+                                </div>
+                                <% } %>
+            </div>
+            <button onclick="window.history.back();" class="btn btn-secondary">Volver</button>
+        </div>
+
+
+        <!-- <script src="../bootstrap/js/bootstrap.min.js"></script> -->
+
+        <!-- Sweetalert 2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+</body>
+
+</html>

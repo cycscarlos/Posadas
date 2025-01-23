@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ficha del Cliente</title>
+  <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <link rel="stylesheet" href="../css/main.css" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+
+      --white-color: #ffffff;
+      --base-color: #f6a700;
+      --errorMsg-color: red;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .container-ficha {
+      width: 600px;
+      max-width: 800px;
+      max-height: 650px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(6, 4rem);
+      justify-content: center;
+      align-items: center;
+      background-color: var(--white-color);
+      box-shadow: 2.5px 2.5px 2.5px 2.5px rgb(0, 0, 0, 0.2);
+      border: none;
+      outline: none;
+      border-radius: 5px;
+      padding: 40px 0;
+    }
+
+    .container-ficha .grid-item {
+      font-size: 1.25rem;
+      justify-items: end;
+    }
+
+    .container-ficha .grid-title {
+      color: var(--base-color);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      font-size: 2.5rem;
+      margin: 5rem 0;
+      grid-column: 1/3;
+      text-align: center;
+    }
+
+    .container-ficha .grid-item-1,
+    .container-ficha .grid-item-2,
+    .container-ficha .grid-item-3,
+    .container-ficha .grid-item-4,
+    .container-ficha .grid-item-5,
+    .container-ficha .grid-item-6,
+    .container-ficha .grid-item-7,
+    .container-ficha .grid-item-8,
+    .container-ficha .grid-item-9,
+    .container-ficha .grid-item-10,
+    .container-ficha .grid-item-11 {
+      padding: 0 2.5rem;
+    }
+
+    .container-ficha p span {
+      background-color: rgba(128, 128, 128, 0.3);
+      padding: 0.4rem;
+      border-radius: 5px;
+    }
+
+    .btn {
+      padding: 0.5rem;
+      margin: 1.3rem;
+      border: none;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 5px 5px 5px 5px rgb(0, 0, 0, 0.2);
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .btn {
+      background-color: var(--base-color);
+      color: white;
+      font-size: 1rem;
+      padding: 1rem;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+      box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5);
+    }
+
+    .errorMsg {
+      position: absolute;
+      transform: translate(-36.5%, -50%);
+      top: 50%;
+      left: 36.5%;
+    }
+
+    .errorMsg p {
+      color: white;
+      background-color: var(--errorMsg-color);
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 8rem;
+      box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5);
+      font-size: 2.5rem;
+      width: 100%;
+      text-align: center;
+    }
+
+    .pagos-info {
+      grid-column: 1/3;
+      padding: 1rem 2.5rem;
+      margin-top: 1rem;
+      background-color: rgba(246, 167, 0, 0.1);
+      border-radius: 5px;
+    }
+
+    .pagos-info h4 {
+      color: var(--base-color);
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .pagos-info .grid_item {
+      font-size: 1.25rem;
+      margin: 0.5rem 0;
+    }
+
+    .historial-pagos {
+      grid-column: 1/3;
+      padding: 1rem 2.5rem;
+      margin-top: 1rem;
+    }
+
+    .historial-pagos h4 {
+      color: var(--base-color);
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .historial-pagos ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .historial-pagos li {
+      font-size: 1.25rem;
+      background-color: rgba(128, 128, 128, 0.1);
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border-radius: 5px;
+    }
+
+    .estado-pago {
+      grid-column: 1/3;
+      text-align: center;
+      padding: 1rem;
+      margin: 1rem 2.5rem;
+      background-color: rgba(246, 167, 0, 0.1);
+      border-radius: 5px;
+      font-size: 1.25rem;
+    }
+
+    .no-pagos {
+      grid-column: 1/3;
+      text-align: center;
+      padding: 1rem;
+      margin: 1rem 2.5rem;
+      background-color: rgba(128, 128, 128, 0.1);
+      border-radius: 5px;
+      font-size: 1.25rem;
+    }
+
+    /* Estilos de los modales */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+    }
+
+    .modal-ficha {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-ficha .modal-content {
+      background-color: transparent;
+      margin: 0 auto;
+      padding: 10px;
+      width: 90%;
+      max-width: 640px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      will-change: transform;
+    }
+  </style>
+</head>
+
+<body>
+  <% if (clienteNoExiste) { %>
+    <div class="errorMsg">
+      <p>El cliente no existe.</p>
+    </div>
+    <% } else if (cliente) { %>
+      <div class="container-ficha">
+        <h1 class="grid_item grid-title">Ficha Cliente</h1>
+
+        <p class="grid_item grid-item-1">
+          <strong>Nombre:</strong>
+          <%= cliente.nombre %>
+            <%= cliente.apellido %>
+        </p>
+
+        <p class="grid_item grid-item-2">
+          <strong>Correo:</strong>
+          <%= cliente.correo %>
+        </p>
+
+        <p class="grid_item grid-item-3">
+          <strong>Cédula:</strong>
+          <%= cliente.cedula %>
+        </p>
+
+        <p class="grid_item grid-item-4">
+          <strong>Teléfono:</strong>
+          <%= cliente.telefono %>
+        </p>
+
+        <p class="grid_item grid-item-5">
+          <strong>Fecha de Entrada:</strong>
+          <%= cliente.fecha_entrada %>
+        </p>
+
+        <p class="grid_item grid-item-6">
+          <strong>Fecha de Salida:</strong>
+          <%= cliente.fecha_salida %>
+        </p>
+
+        <p class="grid_item grid-item-7">
+          <strong>Habitación:</strong>
+          <%= cliente.id_habitacion %>
+        </p>
+
+        <p class="grid_item grid-item-8">
+          <strong>Estado de Reserva:</strong>
+          <%= cliente.estado_reserva %>
+        </p>
+
+        <% if (cliente.estado_reserva==='reservada' && (!cliente.monto || !cliente.fecha_pago || !cliente.metodo)) { %>
+          <div class="estado-pago">
+            <strong>Estado de Pago:</strong> Pendiente de pago (Reserva confirmada)
+          </div>
+          <% } else { %>
+            <p class="grid_item grid-item-9">
+              <strong>Fecha de pago:</strong>
+              <%= cliente.fecha_pago || 'No disponible' %>
+            </p>
+            <p class="grid_item grid-item-10">
+              <strong>Monto ($):</strong>
+              <%= cliente.monto || 'No disponible' %>
+            </p>
+            <p class="grid_item grid-item-11">
+              <strong>Método de Pago:</strong>
+              <span>
+                <%= cliente.metodo || 'No disponible' %>
+              </span>
+            </p>
+            <% } %>
+
+              <% if (cliente.pagos && cliente.pagos.length> 0) { %>
+                <div class="historial-pagos">
+                  <h4>Historial de Pagos</h4>
+                  <ul>
+                    <% cliente.pagos.forEach(pago=> { %>
+                      <li>
+                        <strong>Monto:</strong> $<%= pago.monto %> |
+                          <strong>Fecha:</strong>
+                          <%= pago.fecha_pago %> |
+                            <strong>Método:</strong>
+                            <%= pago.metodo %>
+                      </li>
+                      <% }) %>
+                  </ul>
+                </div>
+                <% } else { %>
+                  <p class="no-pagos">No hay pagos registrados para este cliente.</p>
+                  <% } %>
+      </div>
+      <% } %>
+</body>
+
+</html>

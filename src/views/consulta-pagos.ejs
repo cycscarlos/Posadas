@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pagos del Cliente</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/consulta-pagos.css" />
+</head>
+
+<body>
+    <%- include('../../public/components/volver.html') %>
+        <div class="container">
+
+            <h1 class="title">Pagos del Cliente</h1>
+
+            <!-- <h2 class="title">Buscar Cliente</h2> -->
+            <form action="/pagos" method="GET" class="form">
+                <div class="inputBx">
+                    <label for="id">Buscar por:<br /><br />Cédula, ID del Cliente o ID de reserva:</label>
+                    <input type="text" id="id" name="id" required>
+                    <button class="btn" type="submit">Buscar</button>
+                </div>
+            </form>
+        </div>
+
+</body>
+
+</html>

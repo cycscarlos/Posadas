@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&family=Open+Sans:wght@300;400;700&display=swap");
+
+/* Definición de aspectos generales y custom properties o variables   */
+
+:root {
+  --step--2: clamp(0.69rem, 0.65rem + 0.21vw, 0.8rem);
+  --step--1: clamp(0.83rem, 0.77rem + 0.33vw, 1rem);
+  --step-0: clamp(1rem, 0.9rem + 0.49vw, 1.25rem);
+  --step-1: clamp(1.2rem, 1.06rem + 0.71vw, 1.56rem);
+  --step-2: clamp(1.44rem, 1.24rem + 1vw, 1.95rem);
+  --step-3: clamp(1.73rem, 1.45rem + 1.39vw, 2.44rem);
+  --step-4: clamp(2.07rem, 1.69rem + 1.91vw, 3.05rem);
+  --step-5: clamp(2.49rem, 1.97rem + 2.59vw, 3.82rem);
+
+  --font-body: "Open Sans Condensed", sans-serif;
+  --login-color: #f6a700;
+  --white-color: #ffffff;
+  --text-color: #2a2a2a;
+  --logotype-color: #9d8d6c;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-size: var(--step-0);
+  font-family: var(--font-body);
+  font-weight: 300;
+  background-color: var(--white-color);
+  color: var(--text-color);
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/*: Smartphone typography size style */
+@media only screen and (min-width: 500px) {
+  body {
+    font-size: 14px;
+  }
+}
+/*: iPad portrait typography size style */
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+}
+/*: iPad landscape typography size style */
+@media only screen and (min-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
+}
+/*: Desktop typography size style */
+@media only screen and (min-width: 1200px) {
+  body {
+    font-size: 16px;
+  }
+}

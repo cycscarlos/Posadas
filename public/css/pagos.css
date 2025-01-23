@@ -1,0 +1,186 @@
+/* Estilos generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  --primary-color: aliceblue;
+  --secondary-color: #9d8d6c;
+  --base-color: #ffffff;
+  --login-color: #f6a700;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  background: url("../img/playa3.webp") repeat center center/cover;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.9) blur(0.1px);
+  /* height: 100vh; */
+  /* background-color: #f0f0f0; */
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.navbar ul li {
+  background-color: var(--login-color);
+}
+
+.navbar ul a {
+  color: var(--base-color);
+  font-weight: 500;
+}
+
+/* Estilos para el contenedor principal */
+.container {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  max-width: 60%;
+  width: 100%;
+  margin: 20px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Estilos para los formularios */
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+form label {
+  font-weight: bold;
+  text-align: right;
+}
+
+form input,
+form button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+form button {
+  background-color: #f6a700;
+  color: white;
+  cursor: pointer;
+  /* grid-column: span 2; */
+  grid-column: 2/3;
+}
+
+form button:hover {
+  opacity: 0.9;
+  transform: scale(1.1);
+}
+
+/* Estilos para la lista de pagos */
+h2 {
+  margin: 20px 0;
+}
+
+.subtitle1,
+.subtitle2 {
+  color: var(--login-color);
+}
+
+.subtitle1 {
+  grid-column: 2/3;
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  background-color: #e9ecef;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.container-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.container-grid .grid_item {
+  font-size: 1rem;
+  justify-items: end;
+  margin: 10px 0;
+}
+
+.container-grid .grid-title {
+  color: var(--login-color);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: 2.5rem;
+  margin: 2rem 0 2rem;
+  grid-column: 1/4;
+  text-align: center;
+}
+
+.container-grid .grid-item-1,
+.container-grid .grid-item-2,
+.container-grid .grid-item-3,
+.container-grid .grid-item-4,
+.container-grid .grid-item-5,
+.container-grid .grid-item-6,
+.container-grid .grid-item-7,
+.container-grid .grid-item-8,
+.container-grid .grid-item-9 {
+  /* padding: 0 2.5rem; */
+  padding: 0;
+  font-size: 0.85rem;
+}
+/* .container-grid .grid-item-11 {
+  padding: 2rem 2.5rem;
+}
+.container-grid p span {
+  background-color: rgba(128, 128, 128, 0.3);
+  padding: 0.4rem;
+  border-radius: 5px;
+} */
+
+.btn {
+  padding: 0.5rem;
+  margin: 1.3rem;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--login-color);
+  color: var(--base-color);
+  box-shadow: 5px 5px 5px 5px rgb(0, 0, 0, 0.2);
+  font-size: 1rem;
+  text-align: center;
+  /* caret-color: rgba(145, 141, 141, 0.2); */
+  cursor: pointer;
+  padding: 1rem;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+  box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5);
+  /* background-color: var(--base-color);
+  color: var(--login-color); */
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+  form {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/graficas.css" />
+    <title>Gráficas de Reservas</title>
+  </head>
+  <body>
+    <%- include('../../public/components/header.html') %>
+
+    <div class="container mt-4">
+      <div class="row">
+        <h1 class="title">Gráficas de Distribución</h1>
+        <div class="col-md-6">
+          <h2 class="title">Reservaciones por Mes</h2>
+          <canvas id="reservasPorMes"></canvas>
+        </div>
+        <div class="col-md-6">
+          <h2 class="title">Distribución Geográfica de Visitantes</h2>
+          <canvas id="procedencia"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cargar Chart.js y el plugin de datalabels -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="../jquery/js/jquery-3.7.1.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      // Definición de datos en JavaScript puro
+      const meses = <%- JSON.stringify(meses) %>;
+      const totalReservas = <%- JSON.stringify(totalReservas) %>;
+      const zonasProcedencia = <%- JSON.stringify(zonasProcedencia) %>;
+      const totalPorProcedencia = <%- JSON.stringify(totalPorProcedencia) %>;
+
+      // Mostrar los datos en consola para verificar
+      console.log("Meses:", meses);
+      console.log("Total Reservas:", totalReservas);
+      console.log("Zonas de Procedencia:", zonasProcedencia);
+      console.log("Total por Procedencia:", totalPorProcedencia);
+
+      document.addEventListener("DOMContentLoaded", function() {
+          // Gráfica de Reservaciones por Mes (Scatter)
+          const ctx1 = document.getElementById('reservasPorMes').getContext('2d');
+          const reservasPorMes = new Chart(ctx1, {
+              type: 'scatter', // Cambiamos a tipo scatter
+              data: {
+                  datasets: [{
+                      label: 'Cantidad Máxima de Reservaciones',
+                      data: meses.map((mes, i) => ({
+                          x: i + 1, // Eje X usando el índice
+                          y: totalReservas[i] // Eje Y con los valores reales
+                      })),
+                      backgroundColor: 'rgba(75, 192, 192, 1)',
+                      borderColor: 'rgba(75, 192, 192, 1)',
+                      borderWidth: 1,
+                      pointRadius: 5,
+                      showLine: true // Mostrar líneas entre puntos
+                  }]
+              },
+              options: {
+                  scales: {
+                      x: {
+                          type: 'linear',
+                          position: 'bottom',
+                          title: {
+                              display: true,
+                              text: 'Meses'
+                          },
+                          ticks: {
+                              callback: function(value, index) {
+                                  return meses[index]; // Llamar al nombre del mes
+                              }
+                          }
+                      },
+                      y: {
+                          beginAtZero: true,
+                          title: {
+                              display: true,
+                              text: 'Total Reservaciones'
+                          }
+                      }
+                  }
+              }
+          });
+
+          // Gráfica de Procedencia de los Visitantes (Torta)
+          const ctx2 = document.getElementById('procedencia').getContext('2d');
+          const procedenciaChart = new Chart(ctx2, {
+              type: 'pie',
+              data: {
+                  labels: zonasProcedencia, // Las zonas de procedencia
+                  datasets: [{
+                      label: 'Cantidad de Visitantes',
+                      data: totalPorProcedencia, // Valores reales
+                      backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)',
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(255, 206, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(153, 102, 255, 0.2)',
+                          'rgba(255, 159, 64, 0.2)'
+                      ],
+                      borderColor: [
+                          'rgba(255, 99, 132, 1)',
+                          'rgba(54, 162, 235, 1)',
+                          'rgba(255, 206, 86, 1)',
+                          'rgba(75, 192, 192, 1)',
+                          'rgba(153, 102, 255, 1)',
+                          'rgba(255, 159, 64, 1)'
+                      ],
+                      borderWidth: 1,
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  plugins: {
+                      legend: {
+                          position: 'top',
+                      },
+                      tooltip: {
+                          callbacks: {
+                              label: function(context) {
+                                  let label = context.label || '';
+                                  let value = context.raw || 0;
+                                  return `Cantidad de Visitantes: ${value}`;
+                              }
+                          }
+                      },
+                      title: {
+                          display: true,
+                          text: 'Distribución Geográfica de Visitantes'
+                      },
+                      datalabels: {
+                          formatter: (value, context) => {
+                              const total = context.chart.data.datasets[0].data.reduce((acc, val) => acc + val, 0);
+                              const percentage = ((value / total) * 100).toFixed(1) + '%'; // Calcular porcentaje
+                              return percentage; // Retornar el porcentaje
+                          },
+                          color: '#fff',
+                          anchor: 'end', // Posicionamiento del texto
+                          align: 'end' // Alinear el texto
+                      }
+                  }
+              }
+          });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,135 @@
+:root {
+  --color-bg: #29445a;
+  --color-fondo: rgb(41, 68, 90, 0.5);
+  --color-fondoModal: rgb(41, 68, 90, 0.25);
+  --color-celda: #344a5c;
+  --login-color: #f6a700;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background: url("../img/playa5.webp") no-repeat center center/cover;
+  background-size: cover;
+  background-position: center;
+}
+
+.container {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 40%;
+  margin: 50px auto;
+  padding: 30px;
+  border: none;
+  outline: none;
+  text-align: center;
+  background: var(--color-fondo);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  /* backdrop-filter: blur(20px); */
+  /* filter: brightness(0.5) blur(2.5px); */
+  z-index: 0;
+}
+
+.title {
+  font-size: 40px;
+  margin-bottom: 20px;
+  color: white;
+  position: relative; /* Para mantener el texto por encima del pseudo-elemento */
+  z-index: 1; /* Asegurar que el texto esté sobre el pseudo-elemento */
+}
+
+.title span {
+  font-size: 16px;
+  font-style: italic;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  position: relative; /* Para mantener la cuadrícula por encima del pseudo-elemento */
+  z-index: 1; /* Asegurar que las celdas estén sobre el pseudo-elemento */
+}
+
+.cell {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-celda);
+  /* color: red; */
+  color: var(--white-color);
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3),
+    /* Sombra exterior */ inset 2px 2px 5px rgba(255, 255, 255, 0.2),
+    /* Sombra interior para resaltar */ inset -2px -2px 5px rgba(0, 0, 0, 0.1); /* Brillo interno */
+  transition: transform 0.2s, background 0.3s;
+  cursor: pointer;
+  position: relative; /* Para el tooltip */
+}
+
+.cell:hover {
+  transform: scale(1.05); /* Un ligero aumento en el hover */
+  /*background-color: orange; /* Cambio de fondo en hover */
+  background-color: white; /* Cambio de fondo en hover */
+  color: #191919;
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  bottom: 90%; /* Ajuste de posición */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #3c6382;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.cell:hover .tooltip {
+  display: block;
+}
+
+/* .disponible {
+  background-color: #008000;
+}
+.ocupada {
+  background-color: #ff0000;
+}
+.pre-reservada {
+  background-color: orange;
+} */
+
+.navbar ul li {
+  background-color: var(--login-color);
+}
+
+.navbar ul a {
+  color: white;
+  font-weight: 500;
+}

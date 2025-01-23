@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ficha Cliente</title>
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/ficha-cliente.css" />
+</head>
+
+<body>
+    <%- include('../../public/components/consulta-cliente.html') %>
+        <div class="container">
+            <h1 class="grid_item grid-title">Ficha del Cliente</h1>
+            <% if (cliente) { %>
+                <p class="grid_item grid-item-1">
+                    <strong>Nombre:</strong>
+                    <%= cliente.nombre %>
+                </p>
+                <p class="grid_item grid-item-2">
+                    <strong>Apellido:</strong>
+                    <%= cliente.apellido %>
+                </p>
+                <p class="grid_item grid-item-3">
+                    <strong>Cédula:</strong>
+                    <%= cliente.cedula %>
+                </p>
+                <p class="grid_item grid-item-4">
+                    <strong>Email:</strong>
+                    <%= cliente.correo %>
+                </p>
+                <p class="grid_item grid-item-5">
+                    <strong>Teléfono:</strong>
+                    <%= cliente.telefono %>
+                </p>
+                <p class="grid_item grid-item-6">
+                    <strong>Procedencia:</strong>
+                    <%= cliente.procedencia %>
+                </p>
+                <p class="grid_item grid-item-7">
+                    <strong>Fecha Entrada:</strong>
+                    <%= cliente.fecha_entrada %>
+                </p>
+                <p class="grid_item grid-item-8">
+                    <strong>Fecha Salida:</strong>
+                    <%= cliente.fecha_salida %>
+                </p>
+                <p class="grid_item grid-item-9">
+                    <strong>Habitación:</strong>
+                    <%= cliente.id_habitacion %>
+                </p>
+                <% } else { %>
+                    <div class="errorMsg">
+                        <p>¡Cliente no registrado!</p>
+                    </div>
+                    <% } %>
+
+                        <% if (cliente) { %>
+                            <p class="grid_item grid-item-10">
+                                <strong>Estado de Reserva:</strong>
+                                <%= cliente.estado_reserva %>
+                            </p>
+
+                            <% if (cliente.estado_reserva==='reservada' && (!cliente.monto || !cliente.fecha_pago ||
+                                !cliente.metodo)) { %>
+                                <div class="estado-pago">
+                                    <strong>Estado de Pago:</strong> Pendiente de pago (Reserva confirmada)
+                                </div>
+                                <% } else { %>
+                                    <p class="grid_item grid-item-11">
+                                        <strong>Fecha de pago:</strong>
+                                        <%= cliente.fecha_pago || 'No disponible' %>
+                                    </p>
+                                    <p class="grid_item grid-item-12">
+                                        <strong>Monto ($):</strong>
+                                        <%= cliente.monto || 'No disponible' %>
+                                    </p>
+                                    <p class="grid_item grid-item-13">
+                                        <strong>Método de Pago:</strong>
+                                        <span>
+                                            <%= cliente.metodo || 'No disponible' %>
+                                        </span>
+                                    </p>
+                                    <% } %>
+
+                                        <% if (cliente.pagos && cliente.pagos.length> 0) { %>
+                                            <div class="historial-pagos">
+                                                <h4>Historial de Pagos</h4>
+                                                <ul>
+                                                    <% cliente.pagos.forEach(pago=> { %>
+                                                        <li>
+                                                            <strong>Monto:</strong> $<%= pago.monto %> |
+                                                                <strong>Fecha:</strong>
+                                                                <%= pago.fecha_pago %> |
+                                                                    <strong>Método:</strong>
+                                                                    <%= pago.metodo %>
+                                                        </li>
+                                                        <% }) %>
+                                                </ul>
+                                            </div>
+                                            <% } else { %>
+                                                <p class="no-pagos">No hay pagos registrados para este cliente.</p>
+                                                <% } %>
+                                                    <% } %>
+        </div>
+<!-- <button onclick="window.location.href='/consulta-cliente'" class="btn">Volver</button> -->
+        <!-- <div class="acciones">
+            <button class="btn" onclick="location.href='/preReservaciones'">
+                Pre-reserva
+            </button>
+            <button class="btn" onclick="location.href='/registro'">
+                Reservación
+            </button>
+          
+        </div> -->
+</body>
+
+</html>

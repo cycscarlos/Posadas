@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+    <title>Depuración de Registros</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/depuracion.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <header class="topheader" id="topheader">
+        <div class="topnav">
+            <div class="logo"></div>
+            <h1>Depuración de la BDD RESERVAS</h1>
+            <nav class="navbar">
+                <ul class="nav-links">
+                    <li>
+                        <a href="/menu" class="opcion-menu active">Menú</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <form action="/depuracion" method="POST">
+            <div class="options">
+                <label>
+                    <input type="radio" name="periodo" value="mes_anterior" required>
+                    Eliminar registros del mes anterior
+                </label>
+                <label>
+                    <input type="radio" name="periodo" value="seis_meses_anteriores" required>
+                    Eliminar registros de los últimos seis meses
+                </label>
+                <label>
+                    <input type="radio" name="periodo" value="un_ano_anterior" required>
+                    Eliminar registros del último año
+                </label>
+            </div>
+            <button type="submit" class="submit-btn">Depurar</button>
+        </form>
+    </div>
+
+    <% if (success) { %>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Depuración de la BDD exitosa!',
+                text: 'Los registros han sido eliminados correctamente.',
+                confirmButtonText: 'Aceptar'
+            });
+        </script>
+        <% } %>
+
+            <% if (error) { %>
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en la depuración de la BDD',
+                        text: 'Hubo un problema al eliminar los registros.',
+                        confirmButtonText: 'Aceptar'
+                    });
+                </script>
+                <% } %>
+</body>
+
+</html>
