@@ -103,3 +103,16 @@ html {
   margin-bottom: 10px; /* Espaciado entre el input de búsqueda y el select */
   box-sizing: border-box; /* Para incluir el padding en el cálculo del ancho total */
 }
+@media (max-width: 768px) {
+  .logo {
+    display: none;
+  }
+  .topnav {
+    justify-content: right;
+  }
+  .title-whatsapp {
+    font-size: var(--step-4);
+    margin-top: 6rem 0 2rem;
+    text-align: center;
+  }
+}

@@ -162,3 +162,15 @@ p {
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
   background-color: #f6a700;
 }
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+  }
+  .topnav {
+    justify-content: center;
+  }
+  .logo {
+    display: none;
+  }
+}

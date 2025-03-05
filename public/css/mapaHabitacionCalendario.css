@@ -216,3 +216,12 @@ td {
   border: inset 1px;
   border-radius: 5px;
 }
+
+@media (max-width: 768px) {
+  .title {
+    font-size: var(--step-4);
+  }
+  .topnav {
+    align-items: center;
+  }
+}

@@ -133,3 +133,19 @@ body {
   color: white;
   font-weight: 500;
 }
+
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    margin: 100px auto;
+    padding: 30px;
+  }
+
+  .cell {
+    width: 60px;
+    height: 60px;
+  }
+  .title {
+    font-size: var(--step-2);
+  }
+}

@@ -115,3 +115,12 @@ li form {
 .table td:nth-child(5) {
   width: 140px;
 }
+
+@media (max-width: 768px) {
+  .logo {
+    display: none;
+  }
+  .topnav {
+    justify-content: right;
+  }
+}

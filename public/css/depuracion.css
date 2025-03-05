@@ -90,3 +90,11 @@ h1 {
 .submit-btn:active {
   transform: translateY(0);
 }
+@media (max-width: 768px) {
+  .logo {
+    display: none;
+  }
+  .title {
+    font-size: var(--step-2);
+  }
+}

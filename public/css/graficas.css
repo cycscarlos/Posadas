@@ -53,3 +53,10 @@ body {
 canvas {
   max-height: 400px; /* Ajusta este valor según tus necesidades */
 }
+
+@media (max-width: 768px) {
+  .title {
+    margin: 4rem 0 0 0;
+    font-size: var(--step-4);
+  }
+}

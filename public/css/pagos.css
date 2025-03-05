@@ -184,3 +184,24 @@ ul li {
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 768px) {
+  body {
+    background: white;
+  }
+  .container {
+    width: 100%;
+    max-width: 100%;
+  }
+  .container-grid .grid-title {
+    font-size: var(--step-4);
+    margin: 6rem 0 2rem;
+    grid-column: 1/4;
+    text-align: center;
+  }
+  .container-grid .grid-item-1,
+  .container-grid .grid-item-4,
+  .container-grid .grid-item-7 {
+    padding-right: 1rem;
+  }
+}

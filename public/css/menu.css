@@ -220,9 +220,18 @@ body {
   }
   .content {
     grid-template-columns: 1fr;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 70%;
+    gap: 3rem;
   }
   .card {
     width: 100%;
     height: auto;
+  }
+  h2 {
+    font-size: var(--step-1);
   }
 }

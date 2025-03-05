@@ -93,3 +93,15 @@
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
   background-color: #f6a700;
 }
+
+@media (max-width: 768px) {
+  .title {
+    font-size: var(--step-4);
+  }
+  .container {
+    width: 100%;
+  }
+  .btn {
+    height: 100%;
+  }
+}

@@ -197,3 +197,31 @@ body {
   border-radius: 5px;
   font-size: 1.25rem;
 }
+
+@media (max-width: 768px) {
+  body {
+    background: white;
+  }
+  .topnav {
+    justify-content: center;
+    background: transparent;
+  }
+  .logo {
+    display: none;
+  }
+  .navbar {
+    margin: 0;
+  }
+  .navbar ul li {
+    display: inline-block;
+    margin-left: 1.5px;
+    margin: 0.8rem;
+    font-size: var(--step-0);
+    text-align: center;
+  }
+  .container {
+    width: 100%;
+    max-width: 80%;
+    margin: 6rem 0.5rem 2rem;
+  }
+}
