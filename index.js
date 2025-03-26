@@ -5,6 +5,7 @@ const session = require("express-session");
 const morgan = require("morgan");
 const flash = require("connect-flash");
 const dotenv = require("dotenv");
+const cron = require("node-cron");
 
 // Importaciones
 const { PORT } = require("./src/config.js");
@@ -49,41 +50,41 @@ app.use("/", homeRoute); // Ruta para la página principal (SEGUNDO)
 app.use("/", mainRouter); // Rutas principales de la aplicación (DESPUÉS)
 
 // Ejecutar la automatización al iniciar el servidor
-executeOnServerStart();
+app.listen(PORT, async () => {
+  console.log(`${green}El servidor local es http://localhost:${PORT}${reset}`);
 
-// Automatización periódica (cada hora)
-const ejecutarAutomatizacion = async () => {
-  try {
-    const now = new Date();
-    const diaYHora = now.toLocaleString();
+  // Ejecutar la automatización al iniciar el servidor
+  await executeOnServerStart();
 
-    console.log(
-      JSON.stringify({
-        level: "info",
-        message: `Ejecutando automatización de estados.. ${diaYHora}`, // Mensaje más conciso
-      })
-    );
+  // Programar la automatización para ejecutarse cada hora en punto
+  cron.schedule("0 * * * *", async () => {
+    try {
+      const now = new Date();
+      const diaYHora = now.toLocaleString("es-ES", {
+        timeZone: "America/Caracas", // Ajustar al huso horario correcto
+      });
 
-    await automatizacionEstados();
+      console.log(
+        JSON.stringify({
+          level: "info",
+          message: `Ejecutando automatización de estados.. ${diaYHora}`,
+        })
+      );
 
-    console.log(
-      JSON.stringify({
-        level: "info",
-        message: `Automatización de estados completada ${diaYHora}`, // Mensaje más conciso
-      })
-    );
-  } catch (error) {
-    console.error("Error en automatizacionEstados:", error);
-  }
-};
+      await automatizacionEstados();
 
-setInterval(ejecutarAutomatizacion, 3600000); // 3600000 ms = 1 hora
+      console.log(
+        JSON.stringify({
+          level: "info",
+          message: `Automatización de estados completada ${diaYHora}`,
+        })
+      );
+    } catch (error) {
+      console.error("Error en automatizacionEstados:", error);
+    }
+  });
+});
 
 // Colores para la consola
 const green = "\x1b[32m";
 const reset = "\x1b[0m";
-
-// Iniciar el servidor
-app.listen(PORT, () => {
-  console.log(`${green}El servidor local es http://localhost:${PORT}${reset}`);
-});

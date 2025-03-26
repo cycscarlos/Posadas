@@ -8,3 +8,9 @@
 /src/views/trash
 /src/views/cursor
 /trash
+
+# Archivos movidos a la estructura /tools
+/test-automatizacion.js
+/test-automatizacion-mejorado.js
+/optimizar-bd.sql
+/checkDependencias.js

@@ -35,3 +35,27 @@
 <li>Definitions of Google Analytics for Crowlers, and much more...</li>
 <li>Dark mode for the website</li>
 </ul>
+
+## Directorios y Estructura
+
+El proyecto está organizado en los siguientes directorios principales:
+
+- `/public`: Archivos estáticos (CSS, JavaScript, imágenes)
+- `/src`: Código fuente del servidor
+  - `/controllers`: Controladores para manejar las solicitudes
+  - `/middlewares`: Middlewares personalizados
+  - `/routes`: Definiciones de rutas API
+  - `/views`: Plantillas para la interfaz de usuario
+- `/env`: Archivos de configuración de entorno
+- `/tools`: Scripts y herramientas para desarrollo y pruebas
+  - Ver [documentación de herramientas](tools/README.md) para más detalles
+
+## Herramientas de Desarrollo
+
+El directorio `/tools` contiene scripts útiles para desarrollo, pruebas y mantenimiento del sistema:
+
+- Scripts de prueba para el middleware de automatización
+- Utilidades para optimización de base de datos
+- Verificadores de dependencias
+
+Consulte el [README de herramientas](tools/README.md) para obtener instrucciones detalladas.
