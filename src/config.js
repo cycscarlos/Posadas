@@ -8,35 +8,61 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 3000;
 
 // Configuración de la base de datos
-// Restaurando las credenciales originales para desarrollo
-const DB_HOST = process.env.DB_HOST || "localhost";
-const DB_USER = process.env.DB_USER || "cycscarlos";
-const DB_PASSWORD = process.env.DB_PASSWORD || "Best_001*";
-const DB_NAME = process.env.DB_NAME || "posada_db";
+const DB_HOST = process.env.DB_HOST;
+const DB_USER = process.env.DB_USER;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const DB_NAME = process.env.DB_NAME;
 const DB_PORT = process.env.DB_PORT || 3306;
 
-// Verificar configuración crítica en producción
-if (!isDevelopment) {
-  const missingEnvVars = [];
-  if (!process.env.DB_HOST) missingEnvVars.push("DB_HOST");
-  if (!process.env.DB_USER) missingEnvVars.push("DB_USER");
-  if (!process.env.DB_PASSWORD) missingEnvVars.push("DB_PASSWORD");
-  if (!process.env.DB_NAME) missingEnvVars.push("DB_NAME");
+// Secreto para las sesiones
+const SESSION_SECRET =
+  process.env.SESSION_SECRET ||
+  (isDevelopment ? "desarrollo_secreto_inseguro" : "");
 
-  if (missingEnvVars.length > 0) {
-    console.error(
-      `ADVERTENCIA: Las siguientes variables de entorno no están configuradas en producción: ${missingEnvVars.join(
+// Verificar configuración crítica
+if (!DB_HOST || !DB_USER || !DB_PASSWORD || !DB_NAME) {
+  const missingEnvVars = [];
+  if (!DB_HOST) missingEnvVars.push("DB_HOST");
+  if (!DB_USER) missingEnvVars.push("DB_USER");
+  if (!DB_PASSWORD) missingEnvVars.push("DB_PASSWORD");
+  if (!DB_NAME) missingEnvVars.push("DB_NAME");
+
+  if (isDevelopment) {
+    console.warn(
+      `ADVERTENCIA: Faltan variables de entorno importantes: ${missingEnvVars.join(
         ", "
       )}`
     );
+    console.warn(
+      "En desarrollo, se usarán valores predeterminados inseguros. Asegúrese de configurar estas variables en producción."
+    );
+  } else {
+    console.error(
+      `ERROR CRÍTICO: Faltan variables de entorno requeridas en producción: ${missingEnvVars.join(
+        ", "
+      )}`
+    );
+    process.exit(1); // Terminar la aplicación en producción si faltan variables críticas
   }
+}
+
+// En desarrollo, usar valores predeterminados si no están definidos
+if (isDevelopment) {
+  if (!DB_HOST) process.env.DB_HOST = "localhost";
+  if (!DB_USER) process.env.DB_USER = "root";
+  if (!DB_PASSWORD) process.env.DB_PASSWORD = "";
+  if (!DB_NAME) process.env.DB_NAME = "posada_db";
+
+  console.log("Variables de entorno para desarrollo configuradas.");
 }
 
 module.exports = {
   PORT,
-  DB_HOST,
-  DB_USER,
-  DB_PASSWORD,
-  DB_NAME,
+  DB_HOST: process.env.DB_HOST,
+  DB_USER: process.env.DB_USER,
+  DB_PASSWORD: process.env.DB_PASSWORD,
+  DB_NAME: process.env.DB_NAME,
   DB_PORT,
+  SESSION_SECRET,
+  isDevelopment,
 };

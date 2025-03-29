@@ -214,3 +214,59 @@ footer p a {
 footer p a:hover {
   color: var(--login-color);
 }
+
+/* Estilos para la funcionalidad de recuperación de contraseña */
+.instruccion {
+  font-size: 0.9rem;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  color: #666;
+  text-align: center;
+}
+
+.olvidaste-clave {
+  margin-bottom: 15px;
+  text-align: right;
+}
+
+.olvidaste-clave a {
+  font-size: 0.9rem;
+  color: #0e79b2;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.olvidaste-clave a:hover {
+  color: #0c5d88;
+  text-decoration: underline;
+}
+
+.volver {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.volver a {
+  font-size: 0.9rem;
+  color: #0e79b2;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.volver a:hover {
+  color: #0c5d88;
+  text-decoration: underline;
+}
+
+/* Ajustes responsive para los nuevos elementos */
+@media (max-width: 768px) {
+  .instruccion {
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+  }
+
+  .olvidaste-clave a,
+  .volver a {
+    font-size: 0.8rem;
+  }
+}
