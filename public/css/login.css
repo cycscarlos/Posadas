@@ -222,6 +222,7 @@ footer p a:hover {
   margin-bottom: 20px;
   color: #666;
   text-align: center;
+  padding: 1rem;
 }
 
 .olvidaste-clave {
@@ -231,7 +232,8 @@ footer p a:hover {
 
 .olvidaste-clave a {
   font-size: 0.9rem;
-  color: #0e79b2;
+  /* color: #0e79b2; */
+  color: #f1efef;
   text-decoration: none;
   transition: color 0.3s;
 }
