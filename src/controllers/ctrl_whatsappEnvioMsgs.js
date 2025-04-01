@@ -4,18 +4,25 @@ const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "../../env", ".env") });
 
 /**
- * Variable para controlar el modo de prueba
- * En modo de prueba, los mensajes no se envían realmente, se simulan respuestas
+ * Variables para controlar el modo de prueba
+ * TEST_MODE: Completamente de prueba, incluye datos simulados
+ * SEMI_TEST_MODE: Usa datos reales de la BD pero simula la API de WhatsApp
  */
-const TEST_MODE = true; // Cambiar a false cuando se tenga la configuración real de WhatsApp
+const TEST_MODE = false; // Cambiar a false para usar datos reales de clientes
+const SEMI_TEST_MODE = true; // Usa números reales pero simula el envío de mensajes
 
 /**
  * Función para mostrar el formulario de envío de mensajes WhatsApp
  */
 exports.mostrarFormulario = async (req, res) => {
   try {
+    // Consulta para obtener todos los clientes con teléfono válido
     const clientes = await query(
-      "SELECT id_cliente, nombre, apellido, telefono FROM `clientes` WHERE telefono IS NOT NULL AND telefono != ''"
+      "SELECT id_cliente, nombre, apellido, telefono FROM `clientes` WHERE telefono IS NOT NULL AND telefono != '' ORDER BY nombre ASC"
+    );
+
+    console.log(
+      `Se encontraron ${clientes.length} clientes con números de teléfono`
     );
 
     // Formatear los números de teléfono para asegurar que estén en formato internacional
@@ -30,21 +37,29 @@ exports.mostrarFormulario = async (req, res) => {
         }
       }
 
+      // Eliminar espacios, guiones u otros caracteres no numéricos
+      telefono = telefono.replace(/[^0-9+]/g, "");
+
       return {
         ...cliente,
         telefono: telefono,
       };
     });
 
-    // Si estamos en modo prueba, agregamos un mensaje
-    const testModeMessage = TEST_MODE
-      ? "MODO DE PRUEBA ACTIVADO: Los mensajes no se enviarán realmente a WhatsApp"
-      : "";
+    // Determinar el mensaje del modo de prueba
+    let testModeMessage = "";
+    if (TEST_MODE) {
+      testModeMessage =
+        "MODO DE PRUEBA COMPLETO: Se usarán datos simulados y no se enviarán mensajes";
+    } else if (SEMI_TEST_MODE) {
+      testModeMessage =
+        "MODO HÍBRIDO: Se usarán datos reales pero se simularán los envíos a WhatsApp";
+    }
 
-    // Volvemos a usar la vista original como lo solicitó el usuario
+    // Renderizar la vista
     res.render("whatsapp-envioMensajes", {
       clientes: clientesFormateados,
-      testMode: TEST_MODE,
+      testMode: TEST_MODE || SEMI_TEST_MODE, // El banner se muestra en ambos modos
       testModeMessage,
     });
   } catch (error) {
@@ -76,12 +91,28 @@ exports.whatsapp = async (req, res) => {
         "SELECT id_cliente, nombre, apellido, telefono FROM `clientes` WHERE telefono IS NOT NULL AND telefono != ''"
       );
     } else if (telefono) {
-      // Obtener solo el cliente seleccionado
-      const result = await query(
-        "SELECT id_cliente, nombre, apellido, telefono FROM `clientes` WHERE telefono = ?",
-        [telefono]
+      // El problema está aquí - el teléfono del formulario ya está en formato internacional
+      // pero en la base de datos puede estar en formato local
+      // Eliminar el prefijo internacional para buscar en la base de datos
+      let telefonoLimpio = telefono;
+
+      // Si el teléfono empieza con +58, eliminar el prefijo para buscar en la BD
+      if (telefonoLimpio.startsWith("+58")) {
+        telefonoLimpio = "0" + telefonoLimpio.substring(3); // Convertir +58414... a 0414...
+      }
+
+      console.log(
+        `Buscando cliente con teléfono original: ${telefono}, convertido a: ${telefonoLimpio}`
       );
+
+      // Buscar con LIKE para ser más flexibles con el formato
+      const result = await query(
+        "SELECT id_cliente, nombre, apellido, telefono FROM `clientes` WHERE telefono LIKE ? OR telefono LIKE ?",
+        [telefonoLimpio, telefono]
+      );
+
       clientes = result;
+      console.log(`Clientes encontrados: ${clientes.length}`);
     } else {
       return res.status(400).json({
         success: false,
@@ -95,6 +126,8 @@ exports.whatsapp = async (req, res) => {
         message: "No se encontraron clientes con números de teléfono válidos.",
       });
     }
+
+    console.log(`Preparando envío para ${clientes.length} clientes`);
 
     // Formatear los números y preparar los mensajes
     const mensajesParaEnviar = clientes.map((cliente) => {
@@ -120,11 +153,24 @@ exports.whatsapp = async (req, res) => {
       };
     });
 
-    // Si estamos en modo prueba, simular resultados variados para demostración
-    if (TEST_MODE) {
+    // Si estamos en modo de prueba completo o semi-prueba, simular resultados
+    if (TEST_MODE || SEMI_TEST_MODE) {
       const resultados = mensajesParaEnviar.map((destinatario, index) => {
-        // Simular algunos errores aleatorios (1 de cada 4 mensajes fallará)
-        const exito = index % 4 !== 0;
+        // Determinar si estamos procesando un solo cliente o varios
+        const esClienteIndividual = mensajesParaEnviar.length === 1;
+
+        // Para clientes individuales: siempre éxito
+        // Para colectivos: 75% probabilidad de éxito (fallará el 25%)
+        const probabilidadExito = esClienteIndividual ? 1.0 : 0.75;
+        const exito = Math.random() < probabilidadExito;
+
+        console.log(
+          `Simulando envío para ${
+            destinatario.nombre
+          }: esIndividual=${esClienteIndividual}, aleatorio=${Math.random().toFixed(
+            2
+          )}, resultado=${exito ? "ÉXITO" : "FALLO"}`
+        );
 
         if (exito) {
           return {
@@ -167,35 +213,51 @@ exports.whatsapp = async (req, res) => {
       const fallidos = resultados.filter((r) => !r.value.enviado).length;
       const detalles = resultados.map((r) => r.value);
 
+      // Verificación de seguridad para clientes individuales
+      const esClienteIndividual = mensajesParaEnviar.length === 1;
+      if (esClienteIndividual && exitosos === 0) {
+        console.log(
+          "ADVERTENCIA: El cliente individual debería tener éxito pero se marcó como fallido"
+        );
+        // Forzar éxito para cliente individual
+        detalles[0].enviado = true;
+        detalles[0].error = null;
+      }
+
+      // Recalcular después de la corrección de seguridad
+      const exitososCorregidos = detalles.filter((d) => d.enviado).length;
+      const fallidosCorregidos = detalles.filter((d) => !d.enviado).length;
+
       // Simular una pequeña demora para que parezca que está procesando
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // Respuesta simulada
-      if (fallidos === 0) {
+      const modoTexto = TEST_MODE ? "[MODO PRUEBA]" : "[MODO HÍBRIDO]";
+      if (fallidosCorregidos === 0) {
         return res.status(200).json({
           success: true,
-          message: `[SIMULADO] Todos los mensajes (${exitosos}) han sido enviados correctamente.`,
+          message: `${modoTexto} Todos los mensajes (${exitososCorregidos}) han sido enviados correctamente.`,
           detalles: detalles,
           testMode: true,
         });
-      } else if (exitosos === 0) {
+      } else if (exitososCorregidos === 0) {
         return res.status(500).json({
           success: false,
-          message: `[SIMULADO] No se pudo enviar ningún mensaje (${fallidos} fallidos).`,
+          message: `${modoTexto} No se pudo enviar ningún mensaje (${fallidosCorregidos} fallidos).`,
           detalles: detalles,
           testMode: true,
         });
       } else {
         return res.status(207).json({
           success: true,
-          message: `[SIMULADO] Se enviaron ${exitosos} mensajes, pero ${fallidos} fallaron.`,
+          message: `${modoTexto} Se enviaron ${exitososCorregidos} mensajes, pero ${fallidosCorregidos} fallaron.`,
           detalles: detalles,
           testMode: true,
         });
       }
     }
 
-    // Código para envío real a WhatsApp (se ejecuta solo si TEST_MODE es false)
+    // Código para envío real a WhatsApp (se ejecuta solo si ambos modos de test son false)
     const resultados = await Promise.allSettled(
       mensajesParaEnviar.map(async (destinatario) => {
         try {
@@ -269,17 +331,40 @@ exports.whatsapp = async (req, res) => {
  * @param {string} mensaje - Texto del mensaje a enviar
  */
 async function enviarWhatsApp(numero, mensaje) {
+  // Verificar la configuración de WhatsApp
   const version = process.env.WHATSAPP_API_VERSION || "v17.0";
   const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
   const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
 
-  if (!phoneNumberId || !accessToken) {
+  // Validación exhaustiva de la configuración
+  const erroresConfiguracion = [];
+  if (!phoneNumberId)
+    erroresConfiguracion.push("WHATSAPP_PHONE_NUMBER_ID no está configurado");
+  if (!accessToken)
+    erroresConfiguracion.push("WHATSAPP_ACCESS_TOKEN no está configurado");
+
+  if (erroresConfiguracion.length > 0) {
+    console.error(
+      "Errores de configuración de WhatsApp:",
+      erroresConfiguracion
+    );
     throw new Error(
-      "Configuración de WhatsApp incompleta. Verifique WHATSAPP_PHONE_NUMBER_ID y WHATSAPP_ACCESS_TOKEN en .env"
+      `Configuración de WhatsApp incompleta: ${erroresConfiguracion.join(", ")}`
+    );
+  }
+
+  // Validar el número de teléfono
+  if (!numero || !numero.match(/^\+[0-9]{10,15}$/)) {
+    throw new Error(
+      `Número de teléfono inválido: ${numero}. Debe tener formato internacional (+XXXXXXXXXX)`
     );
   }
 
   const url = `https://graph.facebook.com/${version}/${phoneNumberId}/messages`;
+
+  console.log(
+    `Enviando mensaje a ${numero} usando el ID de teléfono ${phoneNumberId}`
+  );
 
   try {
     // Enviamos el mensaje con formato text
@@ -309,21 +394,37 @@ async function enviarWhatsApp(numero, mensaje) {
       );
     }
 
-    console.log(
-      `Mensaje enviado a ${numero} con ID: ${
-        response.data?.messages?.[0]?.id || "desconocido"
-      }`
-    );
-    return response.data;
+    const mensajeId = response.data?.messages?.[0]?.id || "desconocido";
+    console.log(`Mensaje enviado a ${numero} con ID: ${mensajeId}`);
+
+    // Registrar en base de datos si se desea
+    // await query("INSERT INTO mensajes_whatsapp (telefono, mensaje, fecha_envio, status, mensaje_id) VALUES (?, ?, NOW(), ?, ?)",
+    //   [numero, mensaje, "enviado", mensajeId]);
+
+    return {
+      success: true,
+      messageId: mensajeId,
+      data: response.data,
+    };
   } catch (error) {
+    // Extraer información de error más detallada
+    const errorDetalle = error.response?.data?.error || {};
+    const errorCodigo = errorDetalle.code || error.code || "UNKNOWN";
+    const errorMensaje =
+      errorDetalle.message || error.message || "Error desconocido";
+
     console.error(
-      `Error en API de WhatsApp:`,
+      `Error en API de WhatsApp [${errorCodigo}]:`,
+      errorMensaje,
       error.response?.data || error.message
     );
+
+    // Registrar el error si se desea
+    // await query("INSERT INTO mensajes_whatsapp (telefono, mensaje, fecha_envio, status, error) VALUES (?, ?, NOW(), ?, ?)",
+    //   [numero, mensaje, "error", errorMensaje]);
+
     throw new Error(
-      error.response?.data?.error?.message ||
-        error.message ||
-        "Error en API de WhatsApp"
+      `Error al enviar mensaje por WhatsApp: ${errorMensaje} (Código: ${errorCodigo})`
     );
   }
 }
