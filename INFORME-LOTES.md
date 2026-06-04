@@ -88,6 +88,20 @@
 
 ---
 
-## Lote 5: Transacciones ⬜
+## Lote 5: Transacciones ✅
 
-**Pendiente**
+**Checkpoint:** `cbc4035`
+
+| Actividad | Cambio realizado |
+|---|---|
+| `db.js`: `transaction()` helper mejorado | ✅ Pasa `{ query: connQuery }` con promesas para que los controllers usen `q("SQL")` dentro de la conexión transaccional |
+| `ctrl_registro.js` | ✅ Envuelto: INSERT clientes → INSERT reservas → UPDATE habitaciones → INSERT pagos |
+| `ctrl_registroModal.js` | ✅ Ídem |
+| `ctrl_preReservaciones.js` (create/update/delete) | ✅ 3 endpoints envueltos (hasta 6 writes en update) |
+| `ctrl_eliminar.js` | ✅ Envuelto: SELECT habitacion → DELETE reservas → DELETE clientes → UPDATE habitaciones |
+| `ctrl_actualizar.js` | ✅ Envuelto: UPDATE clientes → UPDATE reservas → UPDATE habitaciones (×2) |
+| `ctrl_pagos.js` | ✅ Envuelto: loop INSERT metodos_pago + INSERT pagos |
+| `ctrl_passwordReset.js` (forgot/reset) | ✅ 2 endpoints envueltos: DELETE+INSERT tokens y UPDATE login+UPDATE tokens |
+| `ctrl_depuracion.js` | ✅ Refactorizado de manual `beginTransaction` a helper `transaction()` |
+
+**Pruebas realizadas (manuales vía HTTP):** Registro ✅ | Actualizar ✅ | Pagos ✅ | Eliminar ✅ | Pre-reserva create ✅ | Todos los datos de prueba limpiados ✅

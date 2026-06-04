@@ -46,7 +46,7 @@
 - ✅ Lote 3a: rate limit to env vars
 - ✅ Lote 3b: sanitization, CSRF, CSP, route auth
 - ✅ Lote 4: DB consistency
-- ⬜ Lote 5: transactions
+- ✅ Lote 5: transactions (8 controllers + db.js helper)
 
 ## Session Config (opencode.json)
 - `instructions` point to `config_session/rules.md` and `config_session/memory.md`

@@ -1,4 +1,4 @@
-const { query } = require("../database/db.js");
+const { query, transaction } = require("../database/db.js");
 const {
   formatCedula,
   formatTelefono,
@@ -41,32 +41,31 @@ exports.agregarPago = async (req, res) => {
       id_reserva = reservaResult[0].id_reserva;
     }
 
-    // Insertar datos en la tabla `pagos`
-    const metodos = metodos_pago.split(",");
-    for (let metodo of metodos) {
-      // Verificar si el método de pago existe en la tabla `metodos_pago`
-      const metodoResult = await query(
-        "SELECT id_metodo_pago FROM metodos_pago WHERE metodo = ?",
-        [metodo]
-      );
-
-      let id_metodo_pago = null;
-      if (metodoResult.length > 0) {
-        id_metodo_pago = metodoResult[0].id_metodo_pago;
-      } else {
-        // Insertar el nuevo método de pago en la tabla `metodos_pago`
-        const nuevoMetodoResult = await query(
-          "INSERT INTO metodos_pago (metodo) VALUES (?)",
+    await transaction(async ({ query: q }) => {
+      const metodos = metodos_pago.split(",");
+      for (let metodo of metodos) {
+        const metodoResult = await q(
+          "SELECT id_metodo_pago FROM metodos_pago WHERE metodo = ?",
           [metodo]
         );
-        id_metodo_pago = nuevoMetodoResult.insertId;
-      }
 
-      await query(
-        "INSERT INTO pagos (id_reserva, id_metodo_pago, monto, fecha_pago, id_cliente) VALUES (?, ?, ?, ?, ?)",
-        [id_reserva, id_metodo_pago, monto, fecha_transaccion, id_cliente]
-      );
-    }
+        let id_metodo_pago = null;
+        if (metodoResult.length > 0) {
+          id_metodo_pago = metodoResult[0].id_metodo_pago;
+        } else {
+          const nuevoMetodoResult = await q(
+            "INSERT INTO metodos_pago (metodo) VALUES (?)",
+            [metodo]
+          );
+          id_metodo_pago = nuevoMetodoResult.insertId;
+        }
+
+        await q(
+          "INSERT INTO pagos (id_reserva, id_metodo_pago, monto, fecha_pago, id_cliente) VALUES (?, ?, ?, ?, ?)",
+          [id_reserva, id_metodo_pago, monto, fecha_transaccion, id_cliente]
+        );
+      }
+    });
 
     // Redirigir con mensaje de éxito
     res.redirect(`/pagos?id=${id_cliente}&success=true`);

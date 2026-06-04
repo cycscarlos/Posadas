@@ -94,7 +94,16 @@ const transaction = async (callback) => {
       });
     });
 
-    const result = await callback(connection);
+    const connQuery = (sql, params) => {
+      return new Promise((resolve, reject) => {
+        connection.query(sql, params, (err, results) => {
+          if (err) return reject(err);
+          resolve(results);
+        });
+      });
+    };
+
+    const result = await callback({ query: connQuery });
 
     await new Promise((resolve, reject) => {
       connection.commit((err) => {

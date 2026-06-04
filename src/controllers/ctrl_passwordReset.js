@@ -1,4 +1,4 @@
-const { query } = require("../database/db.js");
+const { query, transaction } = require("../database/db.js");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const { hashPassword } = require("../utils/password.js");
@@ -89,16 +89,18 @@ exports.processForgotPassword = async (req, res) => {
     const now = new Date();
     const expiresAt = new Date(now.getTime() + 60 * 60 * 1000); // 1 hora desde ahora
 
-    // Eliminar tokens antiguos para este usuario
-    await query("DELETE FROM password_reset_tokens WHERE user_id = ?", [
-      user.id,
-    ]);
+    await transaction(async ({ query: q }) => {
+      // Eliminar tokens antiguos para este usuario
+      await q("DELETE FROM password_reset_tokens WHERE user_id = ?", [
+        user.id,
+      ]);
 
-    // Almacenar el nuevo token
-    await query(
-      "INSERT INTO password_reset_tokens (user_id, token, expires_at) VALUES (?, ?, ?)",
-      [user.id, token, expiresAt]
-    );
+      // Almacenar el nuevo token
+      await q(
+        "INSERT INTO password_reset_tokens (user_id, token, expires_at) VALUES (?, ?, ?)",
+        [user.id, token, expiresAt]
+      );
+    });
 
     // Construir la URL de restablecimiento
     const resetUrl = `${req.protocol}://${req.get(
@@ -271,16 +273,18 @@ exports.processResetPassword = async (req, res) => {
     // Hashear la nueva contraseña
     const hashedPassword = await hashPassword(password);
 
-    // Actualizar la contraseña del usuario
-    await query(
-      "UPDATE login SET clave = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
-      [hashedPassword, userToken.user_id]
-    );
+    await transaction(async ({ query: q }) => {
+      // Actualizar la contraseña del usuario
+      await q(
+        "UPDATE login SET clave = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+        [hashedPassword, userToken.user_id]
+      );
 
-    // Marcar el token como utilizado
-    await query("UPDATE password_reset_tokens SET used = 1 WHERE id = ?", [
-      userToken.id,
-    ]);
+      // Marcar el token como utilizado
+      await q("UPDATE password_reset_tokens SET used = 1 WHERE id = ?", [
+        userToken.id,
+      ]);
+    });
 
     // Responder con éxito
     return res.render("login", {

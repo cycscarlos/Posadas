@@ -1,4 +1,4 @@
-const { pool, query } = require("../database/db.js");
+const { transaction } = require("../database/db.js");
 
 const eliminarRegistros = async (periodo) => {
     const now = new Date();
@@ -20,33 +20,15 @@ const eliminarRegistros = async (periodo) => {
 
     const fechaLimiteStr = fechaLimite.toISOString().split('T')[0];
 
-    const connection = await new Promise((resolve, reject) => {
-        pool.getConnection((err, conn) => {
-            if (err) {
-                return reject(err);
-            }
-            resolve(conn);
-        });
-    });
-
-    try {
-        await new Promise((resolve, reject) => {
-            connection.beginTransaction((err) => {
-                if (err) {
-                    return reject(err);
-                }
-                resolve();
-            });
-        });
-
+    await transaction(async ({ query: q }) => {
         // Eliminar registros de pagos (primero, no tiene FK que apunten a ella)
-        await query(`
+        await q(`
             DELETE FROM pagos
             WHERE fecha_pago < ?
         `, [fechaLimiteStr]);
 
         // Eliminar metodos_pago que ya no tienen pagos asociados
-        await query(`
+        await q(`
             DELETE FROM metodos_pago
             WHERE id_metodo_pago NOT IN (
                 SELECT id_metodo_pago FROM pagos
@@ -54,29 +36,11 @@ const eliminarRegistros = async (periodo) => {
         `);
 
         // Eliminar registros de reservas
-        await query(`
+        await q(`
             DELETE FROM reservas
             WHERE fecha_salida < ?
         `, [fechaLimiteStr]);
-
-        await new Promise((resolve, reject) => {
-            connection.commit((err) => {
-                if (err) {
-                    return reject(err);
-                }
-                resolve();
-            });
-        });
-    } catch (err) {
-        await new Promise((resolve, reject) => {
-            connection.rollback(() => {
-                resolve();
-            });
-        });
-        throw err;
-    } finally {
-        connection.release();
-    }
+    });
 };
 
 module.exports = {
