@@ -8,12 +8,11 @@
 - Servidor Node: Corriendo en http://localhost:3000
 
 ## Logros
-- ✅ Hashes bcrypt reales para `admin` (admin) y `recepcion1` (recepcion1)
-- ✅ `req.session.regenerate()` agregado en ctrl_login.js (anti session fixation)
-- ✅ Verificación de login exitosa con ambos usuarios
+- ✅ Lote 1: Hashes bcrypt reales + regeneración de sesión
+- ✅ Lote 2: Limpieza de código (−928 líneas, 3 archivos eliminados, 9 limpiados)
+- ✅ Informe de actividades creado: `INFORME-LOTES.md`
 
 ## Pendientes
-- [ ] Lote 2: Limpieza de código
 - [ ] Lote 3: Configuración y seguridad
 - [ ] Lote 4: Consistencia de BD
 - [ ] Lote 5: Transacciones
