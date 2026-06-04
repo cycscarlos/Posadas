@@ -19,7 +19,7 @@ const authenticate = async (req, res, next) => {
   try {
     const [user] = await query("SELECT * FROM login WHERE id = ?", [userId]);
 
-    console.log(`Usuario encontrado: ${JSON.stringify(user)}`);
+    console.log(`Usuario encontrado: ID=${user.id}, username=${user.username}, role=${user.rol}`);
     if (!user) {
       return res.render('login', {
         alert: true,

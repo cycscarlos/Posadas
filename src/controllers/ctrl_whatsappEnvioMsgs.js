@@ -8,8 +8,8 @@ require("dotenv").config({ path: path.join(__dirname, "../../env", ".env") });
  * TEST_MODE: Completamente de prueba, incluye datos simulados
  * SEMI_TEST_MODE: Usa datos reales de la BD pero simula la API de WhatsApp
  */
-const TEST_MODE = false; // Cambiar a false para usar datos reales de clientes
-const SEMI_TEST_MODE = true; // Usa números reales pero simula el envío de mensajes
+const TEST_MODE = process.env.WHATSAPP_TEST_MODE === 'true';
+const SEMI_TEST_MODE = process.env.WHATSAPP_SEMI_TEST_MODE === 'true';
 
 /**
  * Función para mostrar el formulario de envío de mensajes WhatsApp

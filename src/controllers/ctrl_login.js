@@ -1,5 +1,4 @@
 const { query } = require("../database/db.js");
-const path = require("path");
 const { verifyPassword } = require("../utils/password.js");
 
 // Ruta para mostrar el formulario de login
