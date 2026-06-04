@@ -2,8 +2,8 @@
 
 ## Contexto de la sesión
 - Proyecto: Sistema de Gestión Hotelera — Posadas
-- Estado: Lote 1 completado (junio 2026)
-- Git: checkpoint `c3ee92c` — Lote 1 finalizado
+- Estado: Lote 3a completado (junio 2026)
+- Git: checkpoint `7bdf3d9` — Lote 3a finalizado
 - MySQL: Servicio WAMP MySQL 8.4.7 activo
 - Servidor Node: Corriendo en http://localhost:3000
 
@@ -11,9 +11,10 @@
 - ✅ Lote 1: Hashes bcrypt reales + regeneración de sesión
 - ✅ Lote 2: Limpieza de código (−928 líneas, 3 archivos eliminados, 9 limpiados)
 - ✅ Informe de actividades creado: `INFORME-LOTES.md`
+- ✅ Lote 3a: Rate limit movido a variables de entorno
 
 ## Pendientes
-- [ ] Lote 3: Configuración y seguridad
+- [ ] Lote 3b: Sanitización, CSRF, CSP, autenticación en rutas
 - [ ] Lote 4: Consistencia de BD
 - [ ] Lote 5: Transacciones
 
