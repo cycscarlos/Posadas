@@ -1,6 +1,4 @@
 {
-  "customPrompt": "",
-  "maxTokens": 8192,
-  "rules": "config_session/rules.md",
-  "memory": "config_session/memory.md"
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["config_session/rules.md", "config_session/memory.md"]
 }

@@ -1,0 +1,6 @@
+{
+  "customPrompt": "",
+  "maxTokens": 8192,
+  "rules": "config_session/rules.md",
+  "memory": "config_session/memory.md"
+}
