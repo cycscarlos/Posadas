@@ -68,20 +68,15 @@ exports.ingresar = async (req, res) => {
       req.loginSuccess(); // Notificar al limitador de tasa que el login fue exitoso
     }
 
-    if (!req.session) {
-      console.error("Session is undefined");
-      return res.render("login", {
-        alert: true,
-        alertTitle: "Error",
-        alertMessage: "Error de sesión. Por favor intente nuevamente.",
-        alertIcon: "error",
-        showConfirmButton: true,
-        timer: 3000,
-        ruta: "login",
+    // Regenerar la sesión para prevenir ataques de fijación de sesión
+    await new Promise((resolve, reject) => {
+      req.session.regenerate((err) => {
+        if (err) return reject(err);
+        resolve();
       });
-    }
+    });
 
-    // Configurar la sesión
+    // Configurar la sesión en la nueva sesión regenerada
     req.session.loggedin = true;
     req.session.name = user.fullname;
     req.session.userId = user.id;
