@@ -70,9 +70,11 @@
                                                     <input type="hidden" name="id_habitacion"
                                                         value="<%= room.id_habitacion %>">
                                                     <select name="estado">
-                                                        <option value="0" <%=room.estado==0 ? 'selected' : '' %>>0
+                                                        <option value="disponible" <%=room.estado=='disponible' ? 'selected' : '' %>>disponible
                                                         </option>
-                                                        <option value="1" <%=room.estado==1 ? 'selected' : '' %>>1
+                                                        <option value="ocupada" <%=room.estado=='ocupada' ? 'selected' : '' %>>ocupada
+                                                        </option>
+                                                        <option value="mantenimiento" <%=room.estado=='mantenimiento' ? 'selected' : '' %>>mantenimiento
                                                         </option>
                                                     </select>
                                             </td>

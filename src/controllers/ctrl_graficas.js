@@ -7,14 +7,14 @@ exports.graficas = async (req, res) => {
     const reservasPorMes = await query(`
       SELECT MONTH(fecha_entrada) AS mes, COUNT(*) AS total
       FROM reservas
-      WHERE fecha_entrada IS NOT NULL
+
       GROUP BY mes
       ORDER BY mes
     `);
 
     // Obtener las zonas de procedencia de los clientes
     const procedenciaData = await query(`
-      SELECT IFNULL(procedencia, 'pre-reservadas') AS procedencia, COUNT(*) AS total
+      SELECT IFNULL(procedencia, 'Sin procedencia') AS procedencia, COUNT(*) AS total
       FROM clientes
       GROUP BY procedencia
     `);

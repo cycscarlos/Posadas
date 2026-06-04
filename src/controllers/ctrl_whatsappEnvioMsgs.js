@@ -397,9 +397,8 @@ async function enviarWhatsApp(numero, mensaje) {
     const mensajeId = response.data?.messages?.[0]?.id || "desconocido";
     console.log(`Mensaje enviado a ${numero} con ID: ${mensajeId}`);
 
-    // Registrar en base de datos si se desea
-    // await query("INSERT INTO mensajes_whatsapp (telefono, mensaje, fecha_envio, status, mensaje_id) VALUES (?, ?, NOW(), ?, ?)",
-    //   [numero, mensaje, "enviado", mensajeId]);
+    await query("INSERT INTO mensajes_whatsapp (telefono, mensaje, fecha_envio, status, mensaje_id) VALUES (?, ?, NOW(), ?, ?)",
+      [numero, mensaje, "enviado", mensajeId]);
 
     return {
       success: true,
@@ -419,9 +418,8 @@ async function enviarWhatsApp(numero, mensaje) {
       error.response?.data || error.message
     );
 
-    // Registrar el error si se desea
-    // await query("INSERT INTO mensajes_whatsapp (telefono, mensaje, fecha_envio, status, error) VALUES (?, ?, NOW(), ?, ?)",
-    //   [numero, mensaje, "error", errorMensaje]);
+    await query("INSERT INTO mensajes_whatsapp (telefono, mensaje, fecha_envio, status, error) VALUES (?, ?, NOW(), ?, ?)",
+      [numero, mensaje, "error", errorMensaje]);
 
     throw new Error(
       `Error al enviar mensaje por WhatsApp: ${errorMensaje} (Código: ${errorCodigo})`

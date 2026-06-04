@@ -21,7 +21,7 @@ exports.eliminar = async (req, res) => {
     // Actualizar el estado de la habitación a disponible
     if (id_habitacion) {
       await query(
-        "UPDATE `habitaciones` SET estado = 1 WHERE id_habitacion = ?",
+        "UPDATE `habitaciones` SET estado = 'disponible' WHERE id_habitacion = ?",
         [id_habitacion]
       );
     }

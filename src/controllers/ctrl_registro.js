@@ -68,15 +68,15 @@ exports.registroCliente = [
           [id_reserva]
         );
 
-        // Actualizar el estado de la habitación a 0 (ocupada)
+        // Actualizar el estado de la habitación a ocupada
         await query(
-          "UPDATE habitaciones SET estado = 0 WHERE id_habitacion = ?",
+          "UPDATE habitaciones SET estado = 'ocupada' WHERE id_habitacion = ?",
           [habitacion]
         );
       } else {
-        // Actualizar el estado de la habitación a 1 (disponible)
+        // Actualizar el estado de la habitación a disponible
         await query(
-          "UPDATE habitaciones SET estado = 1 WHERE id_habitacion = ?",
+          "UPDATE habitaciones SET estado = 'disponible' WHERE id_habitacion = ?",
           [habitacion]
         );
       }

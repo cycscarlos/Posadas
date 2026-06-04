@@ -16,10 +16,10 @@ const updateRoomStatus = async (id_habitacion, estado) => {
       tipo_estado: typeof estado
     });
 
-    // Validar que el estado sea 0 o 1
-    const estadoNum = parseInt(estado);
-    if (estadoNum !== 0 && estadoNum !== 1) {
-      throw new Error(`Estado invÃ¡lido: ${estado}. Debe ser 0 o 1`);
+    // Validar que el estado sea uno de los valores permitidos
+    const estadosValidos = ['disponible', 'ocupada', 'mantenimiento'];
+    if (!estadosValidos.includes(estado)) {
+      throw new Error(`Estado invÃ¡lido: ${estado}. Debe ser: disponible, ocupada o mantenimiento`);
     }
 
     // Verificar estado actual de la habitaciÃ³n
@@ -37,7 +37,7 @@ const updateRoomStatus = async (id_habitacion, estado) => {
     // Realizar la actualizaciÃ³n
     const result = await query(
       'UPDATE habitaciones SET estado = ? WHERE id_habitacion = ?',
-      [estadoNum, id_habitacion]
+      [estado, id_habitacion]
     );
 
     console.log('Resultado de la actualizaciÃ³n:', result);

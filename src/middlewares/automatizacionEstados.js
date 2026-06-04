@@ -248,7 +248,7 @@ const updateReservationStates = async () => {
 
     if (!relevantReservation) {
       // Si no hay reservas para esta habitación, asegurarse de que esté disponible
-      await updateRoomStatus(id_habitacion, 1);
+      await updateRoomStatus(id_habitacion, 'disponible');
       continue;
     }
 
@@ -265,21 +265,21 @@ const updateReservationStates = async () => {
           id_reserva,
           "pre-reservada",
           id_habitacion,
-          1
+          'disponible'
         );
       } else if (today >= entradaDate && today <= salidaDate) {
         await updateReservationAndRoomStatus(
           id_reserva,
           "activa",
           id_habitacion,
-          0
+          'ocupada'
         );
       } else if (today > salidaDate) {
         await updateReservationAndRoomStatus(
           id_reserva,
           "finalizada",
           id_habitacion,
-          1
+          'disponible'
         );
       }
     } else if (estado === "reservada") {
@@ -288,21 +288,21 @@ const updateReservationStates = async () => {
           id_reserva,
           "reservada",
           id_habitacion,
-          1
+          'disponible'
         );
       } else if (today >= entradaDate && today <= salidaDate) {
         await updateReservationAndRoomStatus(
           id_reserva,
           "activa",
           id_habitacion,
-          0
+          'ocupada'
         );
       } else if (today > salidaDate) {
         await updateReservationAndRoomStatus(
           id_reserva,
           "finalizada",
           id_habitacion,
-          1
+          'disponible'
         );
       }
     } else if (estado === "activa") {
@@ -311,14 +311,14 @@ const updateReservationStates = async () => {
           id_reserva,
           "finalizada",
           id_habitacion,
-          1
+          'disponible'
         );
       } else if (today === salidaDate && currentHour >= 13) {
         await updateReservationAndRoomStatus(
           id_reserva,
           "en limpieza",
           id_habitacion,
-          0
+          'ocupada'
         );
       }
     } else if (estado === "en limpieza") {
@@ -327,7 +327,7 @@ const updateReservationStates = async () => {
           id_reserva,
           "disponible",
           id_habitacion,
-          1
+          'disponible'
         );
       }
     } else if (estado === "mantenimiento") {
@@ -336,7 +336,7 @@ const updateReservationStates = async () => {
           id_reserva,
           "disponible",
           id_habitacion,
-          1
+          'disponible'
         );
       }
     } else if (
@@ -344,7 +344,7 @@ const updateReservationStates = async () => {
       estado === "finalizada" ||
       estado === "disponible"
     ) {
-      await updateRoomStatus(id_habitacion, 1);
+      await updateRoomStatus(id_habitacion, 'disponible');
 
       // Si hay otra reserva pendiente para esta habitación, no cambiar su estado
       const nextReservation = await query(
@@ -479,7 +479,7 @@ const checkRoomAvailability = async (
 
     const roomStatus = await query(roomStatusQuery, [id_habitacion]);
 
-    if (roomStatus.length > 0 && roomStatus[0].estado === 0) {
+    if (roomStatus.length > 0 && roomStatus[0].estado === 'ocupada') {
       // La habitación está ocupada o en mantenimiento
       return true;
     }

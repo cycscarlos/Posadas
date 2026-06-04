@@ -63,7 +63,7 @@ exports.actualizar = [
       // Actualizar el estado de la habitación original a disponible si es diferente a la nueva
       if (originalHabitacion && originalHabitacion !== habitacion) {
         await query(
-          "UPDATE `habitaciones` SET estado = 1 WHERE id_habitacion = ?",
+          "UPDATE `habitaciones` SET estado = 'disponible' WHERE id_habitacion = ?",
           [originalHabitacion]
         );
       }
@@ -71,7 +71,7 @@ exports.actualizar = [
       // Actualizar el estado de la nueva habitación a ocupada
       if (habitacion) {
         await query(
-          "UPDATE `habitaciones` SET estado = 0 WHERE id_habitacion = ?",
+          "UPDATE `habitaciones` SET estado = 'ocupada' WHERE id_habitacion = ?",
           [habitacion]
         );
       }

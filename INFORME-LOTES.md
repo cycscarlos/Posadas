@@ -70,9 +70,21 @@
 
 ---
 
-## Lote 4: Consistencia de BD ⬜
+## Lote 4: Consistencia de BD ✅
 
-**Pendiente**
+**Checkpoint:** `dd1be70`
+
+| Actividad | Cambio realizado |
+|---|---|
+| C1: `habitaciones.estado` unificado a varchar descriptivo | ✅ 11 archivos actualizados (`0`→`'ocupada'`, `1`→`'disponible'`) |
+| C2: Orden DELETE en depuración | ✅ `ctrl_depuracion.js`: pagos → metodos_pago → reservas |
+| G1: JOIN inválido password reset | ✅ `ctrl_passwordReset.js`: eliminado JOIN login↔clientes |
+| G2: Restaurar estado al eliminar | ✅ Incluido en C1 |
+| M1: Unificar registro vs registroModal | ✅ `ctrl_registroModal.js`: agregado ELSE para fechas futuras |
+| M2: Comparación muerta en automatización | ✅ `automatizacionEstados.js`: `=== 0` → `=== 'ocupada'` |
+| M3: Tablas muertas | ✅ SQL migración en `tools/db/lote4-migracion.sql` |
+| B1-B4: Correcciones menores | ✅ `cedula` sin parseInt, etiqueta procedencia, redundancia IS NULL |
+| WhatsApp INSERTs activados | ✅ `ctrl_whatsappEnvioMsgs.js`: descomentados ambos INSERTs |
 
 ---
 

@@ -39,20 +39,19 @@ const eliminarRegistros = async (periodo) => {
             });
         });
 
-        // Eliminar registros de metodos_pago
-        await query(`
-            DELETE FROM metodos_pago
-            WHERE id_metodo_pago IN (
-                SELECT id_metodo_pago FROM pagos
-                WHERE fecha_pago < ?
-            )
-        `, [fechaLimiteStr]);
-
-        // Eliminar registros de pagos
+        // Eliminar registros de pagos (primero, no tiene FK que apunten a ella)
         await query(`
             DELETE FROM pagos
             WHERE fecha_pago < ?
         `, [fechaLimiteStr]);
+
+        // Eliminar metodos_pago que ya no tienen pagos asociados
+        await query(`
+            DELETE FROM metodos_pago
+            WHERE id_metodo_pago NOT IN (
+                SELECT id_metodo_pago FROM pagos
+            )
+        `);
 
         // Eliminar registros de reservas
         await query(`

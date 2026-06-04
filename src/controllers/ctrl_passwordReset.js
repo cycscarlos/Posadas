@@ -50,12 +50,11 @@ exports.processForgotPassword = async (req, res) => {
   try {
     // Buscar al usuario por nombre de usuario o correo
     const userQuery = `
-      SELECT l.id, l.username, l.fullname, l.correo AS email_login, c.correo AS email_cliente 
-      FROM login l 
-      LEFT JOIN clientes c ON l.id = c.id_cliente 
-      WHERE l.username = ? OR l.correo = ? OR c.correo = ?
+      SELECT id, username, fullname, correo AS email
+      FROM login
+      WHERE username = ? OR correo = ?
     `;
-    const users = await query(userQuery, [username, username, username]);
+    const users = await query(userQuery, [username, username]);
 
     if (users.length === 0) {
       return res.render("forgot-password", {
@@ -71,8 +70,7 @@ exports.processForgotPassword = async (req, res) => {
     }
 
     const user = users[0];
-    // Priorizar el correo de login sobre el de clientes
-    const userEmail = user.email_login || user.email_cliente;
+    const userEmail = user.email;
 
     if (!userEmail) {
       return res.render("forgot-password", {

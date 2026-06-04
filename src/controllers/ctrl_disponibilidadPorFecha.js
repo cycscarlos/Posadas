@@ -28,7 +28,7 @@ exports.consultarDisponibilidad = async (req, res) => {
                     WHERE (fecha_entrada < ? AND fecha_salida > ?)
                     AND estado IN ('confirmada', 'activa', 'pre-reservada')
                 )
-                AND estado = 1
+                AND estado = 'disponible'
             `,
       [fechaFin, fechaInicio]
     );

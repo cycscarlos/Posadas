@@ -12,7 +12,7 @@ const formatDate = (dateStr) => {
 exports.consultaCliente = async (req, res) => {
   const cedula = req.body.cedula;
 
-  if (!cedula || isNaN(parseInt(cedula)) || parseInt(cedula) <= 0) {
+  if (!cedula || cedula.trim() === '') {
     return res.status(400).send("Número de cédula es inválido");
   }
 
@@ -27,7 +27,7 @@ exports.consultaCliente = async (req, res) => {
        LEFT JOIN pagos p ON r.id_reserva = p.id_reserva
        LEFT JOIN metodos_pago mp ON p.id_metodo_pago = mp.id_metodo_pago
        WHERE c.cedula = ?`,
-      [parseInt(cedula)]
+      [cedula.trim()]
     );
 
     if (clienteResults.length > 0) {

@@ -35,7 +35,7 @@
 - **3 dead deps:** `winston`, `winston-daily-rotate-file`, `date-fns` — installed, never imported
 - **morgan:** in `devDependencies` but used in production (`index.js:90`)
 - **No tests:** no Jest/Mocha — manual testing only
-- **`habitaciones.estado`:** DB stores varchar, code sometimes treats as int (0/1)
+- **Dead tables:** `rate_limit_attempts`, `sessions` — eliminadas vía migración SQL (ver `tools/db/lote4-migracion.sql`)
 
 ## DB Schema (10 tables)
 `clientes`, `habitaciones`, `login`, `reservas`, `pagos`, `metodos_pago`, `mensajes_whatsapp`, `password_reset_tokens`, `rate_limit_attempts`, `sessions`
@@ -45,7 +45,7 @@
 - ✅ Lote 2: cleanup (−928 lines, 12 files)
 - ✅ Lote 3a: rate limit to env vars
 - ✅ Lote 3b: sanitization, CSRF, CSP, route auth
-- ⬜ Lote 4: DB consistency
+- ✅ Lote 4: DB consistency
 - ⬜ Lote 5: transactions
 
 ## Session Config (opencode.json)

@@ -63,7 +63,7 @@ const createPreReservacion = async (req, res) => {
     await query(
       `
       UPDATE habitaciones
-      SET estado = 0
+      SET estado = 'ocupada'
       WHERE id_habitacion = ?
     `,
       [habitacion]
@@ -161,7 +161,7 @@ const updatePreReservacion = async (req, res) => {
     await query(
       `
       UPDATE habitaciones
-      SET estado = 0
+      SET estado = 'ocupada'
       WHERE id_habitacion = ?
     `,
       [habitacion]
@@ -254,7 +254,7 @@ const deletePreReservacion = async (req, res) => {
       await query(
         `
         UPDATE habitaciones
-        SET estado = 1
+        SET estado = 'disponible'
         WHERE id_habitacion = ?
       `,
         [habitacion]
