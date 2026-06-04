@@ -8,10 +8,10 @@ const { isDevelopment } = require("../config");
 // En producción, considerar usar Redis u otro almacenamiento persistente
 const loginAttempts = new Map();
 
-// Configuración de límites
-const MAX_ATTEMPTS = 5; // Número máximo de intentos permitidos
-const WINDOW_MS = 15 * 60 * 1000; // Ventana de tiempo (15 minutos)
-const BLOCK_DURATION_MS = 30 * 60 * 1000; // Duración del bloqueo (30 minutos)
+// Configuración de límites (desde variables de entorno con valores por defecto)
+const MAX_ATTEMPTS = parseInt(process.env.RATE_LIMIT_MAX_ATTEMPTS) || 5;
+const WINDOW_MS = parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 900000; // 15 min
+const BLOCK_DURATION_MS = parseInt(process.env.RATE_LIMIT_BLOCK_DURATION_MS) || 1800000; // 30 min
 
 /**
  * Middleware para limitar los intentos de inicio de sesión
