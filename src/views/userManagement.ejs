@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/userManagement.css" />
+    <meta name="csrf-token" content="<%= csrfToken %>">
 </head>
 
 <body class="body">
@@ -293,6 +294,7 @@
                 });
         });  
     </script>
+    <script src="../js/csrf-injector.js"></script>
 </body>
 
 </html>

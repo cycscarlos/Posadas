@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/pagos.css" />
+    <meta name="csrf-token" content="<%= csrfToken %>">
 </head>
 
 <body>
@@ -89,6 +90,7 @@
                 <p>No se encontró ningún cliente con los datos proporcionados.</p>
                 <% } %>
         </div>
+    <script src="../js/csrf-injector.js"></script>
 </body>
 
 </html>

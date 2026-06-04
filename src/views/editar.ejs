@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/editar.css" />
     <link rel="stylesheet" href="../css/copyright.css" />
-  </head>
+      <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
   <body>
     <header class="topheader" id="topheader">
       <div class="topnav">
@@ -168,5 +169,6 @@
     <script src="https://use.fontawesome.com/698a367122.js"></script>
     <script src="../js/formValidation.js"></script>
     <script src="../js/validaFecha.js"></script>
-  </body>
+      <script src="../js/csrf-injector.js"></script>
+</body>
 </html>

@@ -27,7 +27,8 @@
         display: none;
       }
     </style>
-  </head>
+      <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
   <body>
     <div id="preloader"></div>
     <section class="video-background">
@@ -70,5 +71,6 @@
         video.style.display = "block";
       };
     </script>
-  </body>
+      <script src="../js/csrf-injector.js"></script>
+</body>
 </html>

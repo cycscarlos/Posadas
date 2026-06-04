@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/graficas.css" />
     <title>Gráficas de Reservas</title>
-  </head>
+      <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
   <body>
     <%- include('../../public/components/header.html') %>
 
@@ -152,5 +153,6 @@
           });
       });
     </script>
-  </body>
+      <script src="../js/csrf-injector.js"></script>
+</body>
 </html>

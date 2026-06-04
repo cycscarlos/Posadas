@@ -217,6 +217,7 @@
       will-change: transform;
     }
   </style>
+    <meta name="csrf-token" content="<%= csrfToken %>">
 </head>
 
 <body>
@@ -310,6 +311,7 @@
                   <% } %>
       </div>
       <% } %>
+    <script src="../js/csrf-injector.js"></script>
 </body>
 
 </html>

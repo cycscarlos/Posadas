@@ -188,7 +188,8 @@
         font-size: 1.25rem;
       }
     </style>
-  </head>
+      <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
   <body>
     <% if (clienteNoExiste) { %>
     <div class="errorMsg">
@@ -289,5 +290,6 @@
       <% } %>
     </div>
     <% } %>
-  </body>
+      <script src="../js/csrf-injector.js"></script>
+</body>
 </html>

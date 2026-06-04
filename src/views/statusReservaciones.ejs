@@ -24,7 +24,8 @@
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/reservaciones.css" />
     <title>Status de Reservaciones</title>
-  </head>
+      <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
   <body>
     <%- include('../../public/components/header.html') %>
 
@@ -80,5 +81,6 @@
 
     <!-- Sweetalert 2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
-  </body>
+      <script src="../js/csrf-injector.js"></script>
+</body>
 </html>

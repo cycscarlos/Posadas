@@ -50,7 +50,8 @@
 
 ## Lote 3: Configuración y Seguridad 🔄 (en progreso)
 
-**Checkpoint actual:** `7bdf3d9` (Lote 3a)
+**Checkpoint Lote 3a:** `7bdf3d9`
+**Checkpoint Lote 3b:** `6c4aefb`
 
 ### 3a — Completado ✅ (riesgo bajo)
 | Actividad | Estado |
@@ -59,13 +60,13 @@
 | `loginRateLimiter.js` ahora lee de `process.env` con fallback a valores por defecto | ✅ |
 | Verificación de autenticación en rutas (solo análisis, sin modificar) | ✅ |
 
-### 3b — Pendiente (riesgo medio/alto)
-| Actividad | Riesgo |
+### 3b — Completado ✅ (riesgo medio/alto)
+| Actividad | Cambio realizado |
 |---|---|
-| Sanitización de inputs (XSS) | Medio |
-| CSRF tokens | Medio |
-| Helmet/CSP (re-habilitar) | Alto |
-| Autenticación en rutas no protegidas | Masivo |
+| Sanitización de inputs (XSS) | ✅ `src/middlewares/sanitizeInput.js` — elimina tags HTML de req.body |
+| CSRF tokens | ✅ `src/middlewares/csrfProtection.js` + inyector JS en todas las vistas |
+| Helmet/CSP (re-habilitar) | ✅ CSP configurado con directivas para CDNs, Google Fonts, Font Awesome |
+| Autenticación en rutas no protegidas | ✅ `router.js` reestructurado: rutas públicas primero, `authenticate` después |
 
 ---
 

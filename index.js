@@ -48,11 +48,26 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "./public")));
 
+// Sanitización de inputs (anti-XSS)
+const sanitizeInput = require("./src/middlewares/sanitizeInput");
+app.use(sanitizeInput);
+
 // Middlewares de seguridad
 // Helmet ayuda a proteger contra vulnerabilidades web configurando cabeceras HTTP
 app.use(
   helmet({
-    contentSecurityPolicy: false, // Deshabilitado por ahora para no romper scripts existentes
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://unpkg.com", "https://use.fontawesome.com"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com", "https://use.fontawesome.com", "https://cdnjs.cloudflare.com", "data:"],
+        imgSrc: ["'self'", "data:"],
+        connectSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        baseUri: ["'self'"],
+      },
+    },
   })
 );
 
@@ -70,6 +85,11 @@ app.use(
     },
   })
 );
+
+// Protección CSRF
+const { generateToken, validateToken } = require("./src/middlewares/csrfProtection");
+app.use(generateToken);
+app.use(validateToken);
 
 // Limitador de tasa para intentos de inicio de sesión
 const loginLimiter = require("./src/middlewares/loginRateLimiter");

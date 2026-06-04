@@ -23,6 +23,7 @@
             width: 100px;
         }
     </style>
+    <meta name="csrf-token" content="<%= csrfToken %>">
 </head>
 
 <body>
@@ -172,6 +173,7 @@
                                 });
                             }  
                         </script>
+    <script src="../js/csrf-injector.js"></script>
 </body>
 
 </html>

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../css/copyright.css" />
   <link rel="stylesheet" href="../css/password-toggle.css" />
   <link rel="preload" href="../img/posadaLobby.webp" as="image" />
+  <meta name="csrf-token" content="<%= csrfToken %>">
   <title>Inicio | Posada</title>
 </head>
 
@@ -20,6 +21,7 @@
       <div class="contenedor-form login">
         <h2>Iniciar Sesión</h2>
         <form action="/login" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="contenedor-input">
             <span class="icono"><i class="fa-solid fa-user"></i></span>
             <input type="text" required name="username" autocomplete="off" id="username" value="" />
@@ -81,6 +83,8 @@
         }, 100);
       });
     </script>
+
+    <script src="../js/csrf-injector.js"></script>
 </body>
 
 </html>

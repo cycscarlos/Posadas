@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/depuracion.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="csrf-token" content="<%= csrfToken %>">
 </head>
 
 <body>
@@ -69,6 +70,7 @@
                     });
                 </script>
                 <% } %>
+    <script src="../js/csrf-injector.js"></script>
 </body>
 
 </html>

@@ -108,7 +108,8 @@
         }
       }
     </script>
-  </head>
+      <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
   <body>
     <%- include('../../public/components/header.html') %>
 
@@ -185,5 +186,6 @@
 
     <!-- footer -->
     <%- include('../../public/components/footer.html') %>
-  </body>
+      <script src="../js/csrf-injector.js"></script>
+</body>
 </html>

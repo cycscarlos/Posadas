@@ -27,6 +27,7 @@
             background-color: blue;
         }
     </style>
+    <meta name="csrf-token" content="<%= csrfToken %>">
 </head>
 
 <body>
@@ -46,6 +47,7 @@
                     <% }) %>
             </div>
         </div>
+    <script src="../js/csrf-injector.js"></script>
 </body>
 
 </html>

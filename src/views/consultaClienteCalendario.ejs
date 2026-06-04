@@ -22,6 +22,7 @@
             background-color: none;  
         }  
     </style>  
+    <meta name="csrf-token" content="<%= csrfToken %>">
 </head>  
 <body>  
     <%- include('../../public/components/mapaCalendario.html') %>  
@@ -106,5 +107,6 @@
             window.location.href = `/consulta-ClienteCalendario/${clienteId}`;  
         }  
     </script>  
+    <script src="../js/csrf-injector.js"></script>
 </body>  
 </html>

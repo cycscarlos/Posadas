@@ -247,6 +247,7 @@
       }
     }
   </script>
+    <meta name="csrf-token" content="<%= csrfToken %>">
 </head>
 
 <body>
@@ -318,6 +319,7 @@
 
     <!-- Footer -->
     <%- include('../../public/components/footer.html') %>
+    <script src="../js/csrf-injector.js"></script>
 </body>
 
 </html>
