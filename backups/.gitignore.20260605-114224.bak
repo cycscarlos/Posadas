@@ -1,0 +1,64 @@
+# ========================
+# Dependencias Node.js
+# ========================
+/node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# ========================
+# Variables de Entorno (¡CRÍTICO!)
+# ========================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ========================
+# Archivos de SO
+# ========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ========================
+# Editores y Entornos Integrados (IDE)
+# ========================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ========================
+# Exclusiones específicas de Posadas
+# ========================
+/public/css/trash
+/public/img/trash
+/public/js/trash
+/src/controllers/trash
+/src/middlewares/trash
+/src/routes/trash
+/src/views/trash
+/src/views/cursor
+/trash
+docs/
+env/
+
+# Archivos movidos a la estructura /tools
+/test-automatizacion.js
+/test-automatizacion-mejorado.js
+/optimizar-bd.sql
+/checkDependencias.js
