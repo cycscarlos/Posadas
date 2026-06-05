@@ -57,6 +57,9 @@ Thumbs.db
 docs/
 env/
 
+# Scripts auxiliares de desarrollo
+/scratch
+
 # Archivos movidos a la estructura /tools
 /test-automatizacion.js
 /test-automatizacion-mejorado.js
