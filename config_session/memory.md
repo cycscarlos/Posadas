@@ -2,21 +2,27 @@
 
 ## Contexto de la sesión
 - Proyecto: Sistema de Gestión Hotelera — Posadas
-- Estado: Lote 3a completado (junio 2026)
-- Git: checkpoint `7bdf3d9` — Lote 3a finalizado
+- Estado: Lotes 1-5 completados + Opción A (autenticación redundante limpia)
+- Git: `efe4ce1` — Opción A: Limpiar authenticate redundante
 - MySQL: Servicio WAMP MySQL 8.4.7 activo
-- Servidor Node: Corriendo en http://localhost:3000
+- Servidor Node: nodemon activo en http://localhost:3000
 
 ## Logros
 - ✅ Lote 1: Hashes bcrypt reales + regeneración de sesión
-- ✅ Lote 2: Limpieza de código (−928 líneas, 3 archivos eliminados, 9 limpiados)
-- ✅ Informe de actividades creado: `INFORME-LOTES.md`
-- ✅ Lote 3a: Rate limit movido a variables de entorno
+- ✅ Lote 2: Limpieza de código (−928 líneas)
+- ✅ Lote 3a: Rate limit a variables de entorno
+- ✅ Lote 3b: Sanitización, CSRF, CSP, autenticación en rutas
+- ✅ Lote 4: Consistencia de BD
+- ✅ Lote 5: Transacciones (8 controladores + db.js helper)
+- ✅ Opción A: `authenticate` redundante removido de 4 archivos (9 rutas)
+- ✅ Reporte de auditoría: `tools/reportes/auditoria-autenticacion.md`
 
-## Pendientes
-- [ ] Lote 3b: Sanitización, CSRF, CSP, autenticación en rutas
-- [ ] Lote 4: Consistencia de BD
-- [ ] Lote 5: Transacciones
+## Pendientes para próxima sesión
+- [ ] **Opción B**: Agregar `authorize` a rutas sensibles (usar reporte en `tools/reportes/auditoria-autenticacion.md`)
+- [ ] Bug `:id:url` en `consultaClienteCalendario.js`
+- [ ] Doble mount `checkServerDB.js` en `router.js`
+- [ ] Dead deps: `winston`, `winston-daily-rotate-file`, `date-fns`
+- [ ] `morgan` en devDependencies pero usado en producción
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita
