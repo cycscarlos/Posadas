@@ -2,8 +2,8 @@
 
 ## Contexto de la sesión
 - Proyecto: Sistema de Gestión Hotelera — Posadas
-- Estado: Lotes 1-5 completados + Opción A (autenticación redundante limpia)
-- Git: `60da96d` — fix: data entry tambien accede a consultaGral
+- Estado: Todos los lotes completados (1-5) + Opción A + Opción B + Items 2-5
+- Git: `280b3ed` — Agrega /scratch a .gitignore
 - MySQL: Servicio WAMP MySQL 8.4.7 activo
 - Servidor Node: nodemon activo en http://localhost:3000
 
@@ -22,6 +22,7 @@
 - ✅ Item 5: `morgan` movido de devDependencies a dependencies
 - ✅ **Opción B**: `authorize(["admin"])` agregado a 13 rutas en 9 archivos
 - ✅ Opción B ajuste: `consultaGral` permite admin + data entry
+- ✅ `scratch/` agregado a `.gitignore`
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita
