@@ -36,7 +36,6 @@ const pagos = require("./routes/pagos");
 const preReservaciones = require("./routes/preReservaciones");
 const registro = require("./routes/registro");
 const statusReservaciones = require("./routes/statusReservaciones");
-const checkServerDB = require("./routes/checkServerDB");
 const userManagement = require("./routes/userManagement");
 const whatsappEnvioMsgs = require("./routes/whatsappEnvioMsgs");
 
@@ -60,7 +59,6 @@ router.use(pagos);
 router.use("/preReservaciones", preReservaciones);
 router.use(registro);
 router.use(statusReservaciones);
-router.use(checkServerDB);
 router.use(userManagement);
 router.use(whatsappEnvioMsgs);
 

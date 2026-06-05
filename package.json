@@ -15,7 +15,6 @@
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.6",
     "connect-flash": "^0.1.1",
-    "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
@@ -25,11 +24,9 @@
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.16",
     "sweetalert2": "^11.14.5",
-    "winston": "^3.17.0",
-    "winston-daily-rotate-file": "^5.0.0"
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "morgan": "^1.10.0",
     "nodemon": "^3.1.7"
   }
 }

@@ -4,7 +4,7 @@ const ctrlConsultaClienteCalendario = require("../controllers/ctrl_consultaClien
 
 // Ruta para consultar al cliente desde el calendario
 router.get(
-  "/consulta-clienteCalendario/:id:url",
+  "/consulta-clienteCalendario/:id",
   ctrlConsultaClienteCalendario.consultaClienteCalendario
 );
 
