@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ctrl_historialHabitaciones = require("../controllers/ctrl_historialHabitaciones");
 const ctrl_registroModal = require("../controllers/ctrl_registroModal"); // Importar el nuevo controlador
+const authorize = require("../middlewares/authorize");
 
 // Ruta para mostrar disponibilidad en formato de calendario
 router.get(
@@ -28,7 +29,7 @@ router.get(
 );
 
 // Nueva ruta para manejar el registro de clientes desde el modal
-router.post("/registro-modal", ctrl_registroModal.registroClienteModal);
+router.post("/registro-modal", authorize(["admin"]), ctrl_registroModal.registroClienteModal);
 
 // Ruta para mostrar el formulario de registro
 router.get("/registro-modal", (req, res) => res.render("registro-modal.ejs"));
