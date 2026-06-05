@@ -105,3 +105,40 @@
 | `ctrl_depuracion.js` | ✅ Refactorizado de manual `beginTransaction` a helper `transaction()` |
 
 **Pruebas realizadas (manuales vía HTTP):** Registro ✅ | Actualizar ✅ | Pagos ✅ | Eliminar ✅ | Pre-reserva create ✅ | Todos los datos de prueba limpiados ✅
+
+---
+
+## Items 2–5: Correcciones y limpieza ✅
+
+**Checkpoint:** `ec78028`
+**Commit final:** `66120e6`
+
+| Item | Actividad | Cambio |
+|------|-----------|--------|
+| 2 | Bug `:id:url` en consultaClienteCalendario | `:id:url` → `:id` (Express no separa params concatenados) |
+| 3 | Doble mount checkServerDB.js | Eliminado `require` + `router.use` de `src/router.js` (ya montado en `index.js`) |
+| 4 | Dead deps | Eliminados `winston`, `winston-daily-rotate-file`, `date-fns` de `package.json` |
+| 5 | morgan mal ubicado | Movido de `devDependencies` → `dependencies` |
+
+---
+
+## Opción B: Autorización por roles ✅
+
+**Checkpoint:** `259ad17`
+**Commit final:** `60da96d`
+
+| Archivo | Rutas protegidas con `authorize(["admin"])` |
+|---------|---------------------------------------------|
+| `routes/registro.js` | POST /registro |
+| `routes/historialHabitaciones.js` | POST /registro-modal |
+| `routes/actualizar.js` | POST /actualizar/:id |
+| `routes/pagos.js` | POST /pagos/:id/agregar-pago, GET /pagos |
+| `routes/preReservaciones.js` | POST /, PUT /:id, DELETE /:id |
+| `routes/envioEmails.js` | POST /enviar-correo |
+| `routes/whatsappEnvioMsgs.js` | POST /whatsapp-envioMensajes |
+| `routes/consultaGral.js` | GET /consultaGral — **admin + data entry** |
+| `routes/editar.js` | GET /editar/:id |
+
+**Modelo de roles resultante:**
+- `admin` → acceso completo (CRUD + gestión usuarios + depuración)
+- `data entry` → operaciones diarias (registro, pagos, consultas básicas, whatsapp, email)

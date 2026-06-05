@@ -3,7 +3,7 @@
 ## Contexto de la sesión
 - Proyecto: Sistema de Gestión Hotelera — Posadas
 - Estado: Lotes 1-5 completados + Opción A (autenticación redundante limpia)
-- Git: `ec78028` — Checkpoint items 2-5
+- Git: `60da96d` — fix: data entry tambien accede a consultaGral
 - MySQL: Servicio WAMP MySQL 8.4.7 activo
 - Servidor Node: nodemon activo en http://localhost:3000
 
@@ -20,9 +20,8 @@
 - ✅ Item 3: Doble mount `checkServerDB.js` eliminado de `router.js`
 - ✅ Item 4: Dead deps `winston`, `winston-daily-rotate-file`, `date-fns` eliminadas de `package.json`
 - ✅ Item 5: `morgan` movido de devDependencies a dependencies
-
-## Pendientes para próxima sesión
-- [ ] **Opción B**: Agregar `authorize` a rutas sensibles (usar reporte en `tools/reportes/auditoria-autenticacion.md`)
+- ✅ **Opción B**: `authorize(["admin"])` agregado a 13 rutas en 9 archivos
+- ✅ Opción B ajuste: `consultaGral` permite admin + data entry
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita
