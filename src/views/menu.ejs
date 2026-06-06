@@ -7,6 +7,7 @@
   <title>Posada | Menú</title>
   <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/responsive-base.css" />
   <link rel="stylesheet" href="../css/navbar.css" />
   <link rel="stylesheet" href="../css/menu.css" />
   <link rel="preload" href="../img/playa1.webp" as="image" />
@@ -16,8 +17,11 @@
 <body>
   <%- include('../../public/components/menu.html') %>
 
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Menú">☰</button>
+
     <div class="container">
-      <div class="sidebar">
+      <div class="sidebar" id="sidebar">
         <div class="logo"></div>
         <h2>Menú</h2>
         <ul>
@@ -133,6 +137,37 @@
           }
         });
       });
+    </script>
+    <script>
+      (function() {
+        var toggle = document.getElementById('sidebarToggle');
+        var sidebar = document.getElementById('sidebar');
+        var overlay = document.getElementById('sidebarOverlay');
+        if (toggle && sidebar && overlay) {
+          function openSidebar() {
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+          }
+          function closeSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+          }
+          toggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (sidebar.classList.contains('open')) {
+              closeSidebar();
+            } else {
+              openSidebar();
+            }
+          });
+          overlay.addEventListener('click', closeSidebar);
+          document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+              closeSidebar();
+            }
+          });
+        }
+      })();
     </script>
     <script src="../js/csrf-injector.js"></script>
 </body>

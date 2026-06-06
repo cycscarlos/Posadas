@@ -7,6 +7,7 @@
 
     <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />  
     <link rel="stylesheet" href="../css/main.css" />  
+    <link rel="stylesheet" href="../css/responsive-base.css" />
     <link rel="stylesheet" href="../css/navbar.css" />  
     <link rel="stylesheet" href="../css/mapaHabitacionCalendario_join.css">
     <style>  
@@ -47,7 +48,7 @@
                                     <% for (let dia = 0; dia < diasMes; dia++) { %>  
                                         <td class="<%= habitacion.calendarios[mes].dias[dia].estado === 'ocupado' ? 'reservado' : (habitacion.calendarios[mes].dias[dia].estado === 'pre-reservado' ? 'pre-reservado' : '') %>"  
                                             <% if (habitacion.calendarios[mes].dias[dia].cliente) { %>  
-                                                onclick="consultarCliente('<%= habitacion.calendarios[mes].dias[dia].cliente.id %>')" <% } %>  
+                                                data-cliente-id="<%= habitacion.calendarios[mes].dias[dia].cliente.id %>" <% } %>  
                                         > <%= habitacion.calendarios[mes].dias[dia].dia %>  
                                         </td>  
                                         <% if ((dia + 1) % 7 === 0) { %>  
@@ -59,7 +60,6 @@
                         </table>  
                     </div>  
                 <% } %>   
-            <% }); %>  
 
             <!-- Mostrar meses del próximo año con el año incluido -->  
             <% const nextYear = new Date().getFullYear() + 1; %>   
@@ -76,7 +76,7 @@
                                     <% for (let dia = 0; dia < diasMes; dia++) { %>  
                                         <td class="<%= habitacion.calendarios[mes].dias[dia].estado === 'ocupado' ? 'reservado' : (habitacion.calendarios[mes].dias[dia].estado === 'pre-reservado' ? 'pre-reservado' : '') %>"  
                                             <% if (habitacion.calendarios[mes].dias[dia].cliente) { %>  
-                                                onclick="consultarCliente('<%= habitacion.calendarios[mes].dias[dia].cliente.id %>')" <% } %>  
+                                                data-cliente-id="<%= habitacion.calendarios[mes].dias[dia].cliente.id %>" <% } %>  
                                         > <%= habitacion.calendarios[mes].dias[dia].dia %>  
                                         </td>  
                                         <% if ((dia + 1) % 7 === 0) { %>  
@@ -103,9 +103,12 @@
  -->
 
     <script>  
-        function consultarCliente(clienteId) {  
-            window.location.href = `/consulta-ClienteCalendario/${clienteId}`;  
-        }  
+        document.addEventListener('click', function(e) {
+            var td = e.target.closest('td[data-cliente-id]');
+            if (td) {
+                window.location.href = '/consulta-ClienteCalendario/' + td.getAttribute('data-cliente-id');
+            }
+        });
     </script>  
     <script src="../js/csrf-injector.js"></script>
 </body>  

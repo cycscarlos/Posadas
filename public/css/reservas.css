@@ -186,4 +186,20 @@ body {
     max-width: 100%;
     padding: 0.1em;
   }
+  .contact-container .contactForm .formBox .inputBox.w50 {
+    width: 100%;
+  }
+  .contact-container {
+    width: 100%;
+    padding: 0 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-container .contactForm h2 {
+    font-size: 1.4em;
+  }
+  .contact-container .contactForm .formBox .inputBox input[type="submit"] {
+    font-size: var(--step-1);
+  }
 }

@@ -214,9 +214,55 @@ body {
   color: #7ad7f3;
 }
 
+.sidebar-toggle {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .sidebar {
-    width: 200px;
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 260px;
+    height: 100vh;
+    background-color: rgba(44, 62, 80, 0.95);
+    z-index: 1000;
+    transition: left 0.3s ease;
+    padding-top: 60px;
+  }
+  .sidebar.open {
+    left: 0;
+  }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  .sidebar-overlay.show {
+    display: block;
+  }
+  .sidebar-toggle {
+    display: block;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+    background: var(--login-color);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 1.5em;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  }
+  .sidebar-toggle:focus {
+    outline: none;
   }
   .content {
     grid-template-columns: 1fr;
@@ -226,6 +272,8 @@ body {
     flex-direction: column;
     height: 70%;
     gap: 3rem;
+    margin-left: 0;
+    padding: 20px 15px;
   }
   .card {
     width: 100%;
@@ -233,5 +281,11 @@ body {
   }
   h2 {
     font-size: var(--step-1);
+  }
+  .sidebar .logo {
+    display: none;
+  }
+  .sidebar h2 {
+    margin-top: 20px;
   }
 }

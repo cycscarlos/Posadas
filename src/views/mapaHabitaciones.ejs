@@ -7,6 +7,7 @@
     <title>Habitaciones</title>
     <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
     <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/responsive-base.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/mapaHabitaciones.css" />
     <link rel="preload" href="../img/playa3.webp" as="image" />
@@ -38,7 +39,7 @@
             <div class="grid">
                 <% habitaciones.forEach(habitacion=> { %>
                     <div class="cell <%= habitacion.colorClass %>"
-                        onclick="location.href='/mapaHabitacionCalendario/<%= habitacion.id_habitacion %>'">
+                        data-href="/mapaHabitacionCalendario/<%= habitacion.id_habitacion %>">
                         <%= habitacion.id_habitacion %>
                             <div class="tooltip">
                                 <%= habitacion.tipo_habitacion %>
@@ -47,6 +48,14 @@
                     <% }) %>
             </div>
         </div>
+    <script>
+      document.querySelector('.grid').addEventListener('click', function(e) {
+        var cell = e.target.closest('.cell');
+        if (cell && cell.hasAttribute('data-href')) {
+          location.href = cell.getAttribute('data-href');
+        }
+      });
+    </script>
     <script src="../js/csrf-injector.js"></script>
 </body>
 

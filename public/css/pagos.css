@@ -183,6 +183,15 @@ ul li {
   form {
     grid-template-columns: 1fr;
   }
+  form label {
+    text-align: left;
+  }
+  form button {
+    grid-column: 1;
+  }
+  .subtitle1 {
+    grid-column: 1;
+  }
 }
 
 @media (max-width: 768px) {
@@ -192,16 +201,29 @@ ul li {
   .container {
     width: 100%;
     max-width: 100%;
+    padding: 15px;
+  }
+  .container-grid {
+    grid-template-columns: 1fr 1fr;
   }
   .container-grid .grid-title {
     font-size: var(--step-4);
     margin: 6rem 0 2rem;
-    grid-column: 1/4;
+    grid-column: 1/3;
     text-align: center;
   }
   .container-grid .grid-item-1,
   .container-grid .grid-item-4,
   .container-grid .grid-item-7 {
-    padding-right: 1rem;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container-grid {
+    grid-template-columns: 1fr;
+  }
+  .container-grid .grid-title {
+    grid-column: 1;
   }
 }

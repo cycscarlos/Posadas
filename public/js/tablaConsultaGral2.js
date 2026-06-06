@@ -1,6 +1,6 @@
 // Using JavaScript class constructor
 new DataTable("#tablaConsultaGral", {
-  scrollY: 250,
+  scrollY: window.innerWidth < 768 ? false : 250,
   paging: true,
   lengthMenu: [5, 10, 25, 50],
   pageLength: 5,

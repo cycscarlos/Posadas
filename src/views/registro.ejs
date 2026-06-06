@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
     <link rel="stylesheet" href="../css/datatables.css" />
     <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/responsive-base.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/reservas.css" />
     <link rel="stylesheet" href="../css/copyright.css" />
@@ -31,7 +32,7 @@
         <form
           action="/registro"
           method="POST"
-          onsubmit="return validarFormulario();"
+
         >
           <div class="contactForm">
             <h2>Reservación de Clientes</h2>
@@ -224,6 +225,11 @@
         }
       });
     </script>
+      <script>
+        document.querySelector('.contactForm form').addEventListener('submit', function(e) {
+          if (!validarFormulario()) e.preventDefault();
+        });
+      </script>
       <script src="../js/csrf-injector.js"></script>
 </body>
 </html>

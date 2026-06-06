@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>Posada | Editar Clientes</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/editar.css" />
+    <link rel="stylesheet" href="../css/copyright.css" />
+      <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
+  <body>
+    <header class="topheader" id="topheader">
+      <div class="topnav">
+        <div class="logo"></div>
+        <h1 class="title-edicion">Edición de Registros</h1>
+      </div>
+    </header>
+
+    <% if (user) { %> <%# console.log(user) %>
+    <!-- <pre><%#JSON.stringify(user, null, 2) %></pre> -->
+
+    <section class="contact" id="contact">
+      <div class="contact-container">
+        <div class="contactInfo"></div>
+        <!-- onsubmit="return validarFormulario();" -->
+        <form action="/actualizar/<%= user.id_cliente %>" method="POST">
+          <div class="contactForm">
+            <!-- <h2>Editar Registro de Clientes</h2> -->
+            <div class="formBox">
+              <!-- definimos un input oculto para capturar el ID -->
+              <input
+                type="hidden"
+                id="id"
+                name="id"
+                value="<%= user.id_cliente %>"
+              />
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="nombre"
+                  title="Solo acepta letras y espacios en blanco"
+                  pattern="^[a-zA-Z ]{1,15}$"
+                  required
+                  id="nombre"
+                  value="<%= user.nombre %>"
+                />
+                <span>Nombre</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="apellido"
+                  title="Solo acepta letras y espacios en blanco"
+                  pattern="^[a-zA-Z ]{1,15}$"
+                  required
+                  id="apellido"
+                  value="<%= user.apellido %>"
+                />
+                <span>Apellido</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="cedula"
+                  title="Solo acepta números y hasta un máximo de 8 caracteres"
+                  pattern="^[0-9]{1,8}$"
+                  required
+                  id="cedula"
+                  value="<%= user.cedula %>"
+                />
+                <span>Cédula</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="email"
+                  name="correo"
+                  title="Email incorrecto"
+                  pattern="^[\w.+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,15}$"
+                  required
+                  id="correo"
+                  value="<%= user.correo %>"
+                />
+                <span>Correo Electrónico</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="telefono"
+                  title="Solo acepta números y hasta un máximo de 11 caracteres"
+                  pattern="^[0-9]{1,11}$"
+                  required
+                  id="telefono"
+                  value="<%= user.telefono %>"
+                />
+                <span>Número de teléfono</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="procedencia"
+                  title="Solo acepta letras y espacios en blanco"
+                  pattern="^[a-zA-Z ]{1,15}$"
+                  required
+                  id="procedencia"
+                  value="<%= user.procedencia %>"
+                />
+                <span>Procedencia</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="number"
+                  name="habitacion"
+                  title="Solo acepta números y hasta un máximo de 2 caracteres"
+                  pattern="^[0-9]{1,2}$"
+                  required
+                  id="habitacion"
+                  value="<%= user.id_habitacion %>"
+                />
+                <span>Habitación Asignada</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="number"
+                  name="personas"
+                  title="Solo acepta números y hasta un máximo de 2 caracteres"
+                  pattern="^[0-9]{1,2}$"
+                  required
+                  id="personas"
+                  value="<%= user.personas %>"
+                />
+                <span>Número de Personas</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="date"
+                  name="entrada"
+                  id="fechaEntrada"
+                  value="<%= user.fecha_entrada %>"
+                />
+                <span>Fecha de Entrada</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="date"
+                  name="salida"
+                  id="fechaSalida"
+                  value="<%= user.fecha_salida %>"
+                />
+                <span>Fecha de Salida</span>
+              </div>
+              <div class="botones">
+                <div class="inputBox w50">
+                  <input type="submit" value="Actualizar" />
+                </div>
+                <div class="inputBox w50">
+                  <a href="/consultaGral" class="cancelar-boton">Cancelar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+    <!-- <% } %> <%- include('../../public/components/footer.html') %> -->
+    <script src="https://use.fontawesome.com/698a367122.js"></script>
+    <script src="../js/formValidation.js"></script>
+    <script src="../js/validaFecha.js"></script>
+      <script src="../js/csrf-injector.js"></script>
+</body>
+</html>

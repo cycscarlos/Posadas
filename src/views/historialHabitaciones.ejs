@@ -7,6 +7,7 @@
     <title>Historial Habitaciones</title>
     <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
     <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/responsive-base.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/historialHabitaciones.css" />
     <link rel="stylesheet" href="../css/reservas.css" />
@@ -17,7 +18,7 @@
     <%- include('../../public/components/historialHabitaciones.html') %>
         <div class="container-calendarios">
             <h1 class="title"><small>Historial de Habitaciones</small></h1>
-            <form class="searchForm" id="searchForm" onsubmit="return false;">
+            <form class="searchForm" id="searchForm">
                 <input type="text" name="habitacion" id="habitacionSearch" placeholder="Buscar habitación" />
                 <input type="text" name="mes" id="mesSearch" placeholder="Buscar mes (ej. enero)" />
                 <button id="searchButton">Buscar</button>
@@ -44,16 +45,14 @@
                                             <% const diasMes=habitacion.calendarios[mes].dias.length; %>
                                                 <% for (let dia=0; dia < diasMes; dia++) { %>
                                                     <% const diaActual=habitacion.calendarios[mes].dias[dia]; %>
-                                                        <% let onclickValue='' ; %>
-                                                            <% if (diaActual.cliente) { %>
-                                                                <% onclickValue=`cargarModal('${diaActual.cliente.id}')`;
-                                                                    %>
-                                                                    <% } else { %>
-                                                                        <% onclickValue=`cargarFormularioRegistro('${habitacion.id}', '${mes}'
-                                                                            , ${dia + 1})`; %>
-                                                                            <% } %>
-                                                                                <td class="<%= diaActual.estado === 'ocupado' ? 'reservado' : (diaActual.estado === 'pre-reservado' ? 'pre-reservado' : 'disponible') %>"
-                                                                                    onclick="<%= onclickValue %>">
+                                                     <td class="<%= diaActual.estado === 'ocupado' ? 'reservado' : (diaActual.estado === 'pre-reservado' ? 'pre-reservado' : 'disponible') %>"
+                                                                                         <% if (diaActual.cliente) { %>
+                                                                                             data-cliente-id="<%= diaActual.cliente.id %>"
+                                                                                         <% } else { %>
+                                                                                             data-habitacion-id="<%= habitacion.id %>"
+                                                                                             data-mes="<%= mes %>"
+                                                                                             data-dia="<%= dia + 1 %>"
+                                                                                         <% } %>>
                                                                                     <%= diaActual.dia %>
                                                                                         <% if (diaActual.pago) { %>
                                                                                             <div class="pago-info">
@@ -103,6 +102,21 @@
         <!-- Botón de volver al inicio -->
         <button id="backToTop">&#8617; Inicio</button>
         <script>
+            document.getElementById('searchForm').addEventListener('submit', function(e) { e.preventDefault(); });
+            document.querySelector('.container-calendarios').addEventListener('click', function(e) {
+                var td = e.target.closest('td[data-cliente-id], td[data-habitacion-id]');
+                if (!td) return;
+                var clienteId = td.getAttribute('data-cliente-id');
+                if (clienteId) {
+                    cargarModal(clienteId);
+                } else {
+                    cargarFormularioRegistro(
+                        td.getAttribute('data-habitacion-id'),
+                        td.getAttribute('data-mes'),
+                        parseInt(td.getAttribute('data-dia'))
+                    );
+                }
+            });
             // Mostrar el botón al hacer scroll
             window.onscroll = function () {
                 const backToTopButton = document.getElementById("backToTop");

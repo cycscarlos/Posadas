@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>Posada | Reservación</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Sweetalert 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="../css/reservas.css">
+    <link rel="stylesheet" href="../css/responsive-base.css" />
+      <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
+  <body>
+   
+    <!-- Contact -->
+    <section class="contact" id="contact">
+      <div class="contact-container">
+        <form
+          id="registroForm"
+          action="/registro-modal"
+          method="POST"
+          onsubmit="return validarFormulario();"
+        >
+          <div class="contactForm">
+            <h2 class="title">Registrar Reservación</h2>
+            <div class="formBox">
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="nombre"
+                  title="Solo acepta letras, espacios en blanco, acentos y puntos"
+                  pattern="^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ. ]{1,15}$"
+                  required
+                  id="nombre"
+                />
+                <span>Nombre</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="apellido"
+                  title="Solo acepta letras, espacios en blanco, acentos y puntos"
+                  pattern="^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ. ]{1,15}$"
+                  required
+                  id="apellido"
+                />
+                <span>Apellido</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="cedula"
+                  title="Solo acepta números y hasta un máximo de 8 caracteres"
+                  pattern="^[0-9]{1,8}$"
+                  required
+                  id="cedula"
+                />
+                <span>Cédula</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="email"
+                  name="correo"
+                  title="Email incorrecto"
+                  pattern="^[\w.+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,15}$"
+                  required
+                  id="correo"
+                />
+                <span>Correo Electrónico</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="telefono"
+                  title="Solo acepta números y hasta un máximo de 11 caracteres"
+                  pattern="^[0-9]{1,11}$"
+                  required
+                  id="telefono"
+                />
+                <span>Número de teléfono</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="text"
+                  name="procedencia"
+                  title="Solo acepta letras, espacios en blanco, acentos y puntos"
+                  pattern="^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ. ]{1,15}$"
+                  required
+                  id="procedencia"
+                />
+                <span>Procedencia</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="number"
+                  name="personas"
+                  title="Solo acepta números y hasta un máximo de 2 caracteres"
+                  pattern="^[0-9]{1,2}$"
+                  required
+                  id="personas"
+                />
+                <span>Número de Personas</span>
+              </div>
+              <div class="inputBox w50">
+                <input
+                  type="number"
+                  name="habitacion"
+                  title="Solo acepta números y hasta un máximo de 2 caracteres"
+                  pattern="^[0-9]{1,2}$"
+                  required
+                  id="habitacion"
+                />
+                <span>Habitación Asignada</span>
+              </div>
+              <div class="inputBox w50">
+                <input type="date" name="entrada" required id="fechaEntrada" />
+                <span>Fecha de Entrada</span>
+              </div>
+              <div class="inputBox w50">
+                <input type="date" name="salida" required id="fechaSalida" />
+                <span>Fecha de Salida</span>
+              </div>
+
+                            <div class="inputBox w50">
+                <input
+                  type="number"
+                  name="monto"
+                  step="0.01"
+                  required
+                  id="monto"
+                />
+                <span>Monto Abonado</span>
+              </div>
+
+              <div class="inputBox w50">
+                <input
+                  type="date"
+                  name="fecha_transaccion"
+                  required
+                  id="fechaTransaccion"
+                />
+                <span>Fecha de Transacción</span>
+              </div>
+
+              <fieldset>
+                <legend>Métodos de Pago:</legend>
+                <label
+                  ><input
+                    type="checkbox"
+                    name="metodos_pago"
+                    value="efectivo"
+                  />Efectivo</label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    name="metodos_pago"
+                    value="divisas"
+                  />Divisas</label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    name="metodos_pago"
+                    value="debito"
+                  />Débito</label
+                >
+                <label
+                  ><input
+                    type="checkbox"
+                    name="metodos_pago"
+                    value="credito"
+                  />Crédito</label
+                >
+              </fieldset>
+
+
+              <div class="inputBox w50">
+                <input type="submit" value="Enviar" />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <script src="https://use.fontawesome.com/698a367122.js"></script>
+    <script src="../js/formValidation.js"></script>
+    <script src="../js/validaFecha.js"></script>
+    <script>
+      // Mostrar alertas de éxito o error
+      document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const success = urlParams.get("success");
+        const error = urlParams.get("error");
+
+        if (success) {
+          Swal.fire({
+            title: "¡Éxito!",
+            text: "Cliente registrado exitosamente!",
+            icon: "success",
+            confirmButtonText: "OK",
+          }).then(() => {
+            window.location.href = "/mapaHabitacionesCalendario";
+          });
+        } else if (error) {
+          Swal.fire({
+            title: "¡Error!",
+            text: decodeURIComponent(error),
+            icon: "error",
+            confirmButtonText: "OK",
+          }).then(() => {
+            window.location.href = "/mapaHabitacionesCalendario";
+          });
+        }
+      });
+    </script>
+
+    <script>
+      document
+        .getElementById("registroForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevenir el envío del formulario por defecto
+
+          const form = event.target;
+          const formData = new FormData(form);
+
+          fetch(form.action, {
+            method: form.method,
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                // Mostrar mensaje de éxito
+                Swal.fire({
+                  title: "¡Éxito!",
+                  text: "Cliente registrado exitosamente!",
+                  icon: "success",
+                  confirmButtonText: "OK",
+                }).then(() => {
+                  // Cerrar el modal y redirigir a la vista original
+                  document.getElementById("registroModal").style.display =
+                    "none";
+                  window.location.href = "/historialHabitaciones";
+                });
+              } else {
+                // Mostrar mensaje de error
+                Swal.fire({
+                  title: "¡Error!",
+                  text: data.error,
+                  icon: "error",
+                  confirmButtonText: "OK",
+                }).then(() => {
+                  // Cerrar el modal y redirigir a la vista original
+                  document.getElementById("registroModal").style.display =
+                    "none";
+                  window.location.href = "/historialHabitaciones";
+                });
+              }
+            })
+            .catch((error) => {
+              console.error("Error al enviar el formulario:", error);
+              Swal.fire({
+                title: "¡Error!",
+                text: "Error al enviar el formulario. Por favor, inténtalo de nuevo.",
+                icon: "error",
+                confirmButtonText: "OK",
+              }).then(() => {
+                // Cerrar el modal y redirigir a la vista original
+                document.getElementById("registroModal").style.display = "none";
+                window.location.href = "/historialHabitaciones";
+              });
+            });
+        });
+    </script>
+      <script src="../js/csrf-injector.js"></script>
+</body>
+</html>

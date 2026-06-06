@@ -99,9 +99,28 @@
     font-size: var(--step-4);
   }
   .container {
-    width: 100%;
+    width: 90%;
+    padding: 20px;
+    margin-top: 80px;
+  }
+  .acciones {
+    flex-direction: column;
+    gap: 10px;
   }
   .btn {
-    height: 100%;
+    height: auto;
+    width: 100%;
+    font-size: 1em;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
+    padding: 15px;
+  }
+  .title small {
+    font-size: 1.2rem;
   }
 }

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error de Conexión a la Base de Datos</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
+
+<body>
+  <script>
+    const mensaje = "<%= message %>";
+
+    function showErrorAlert(message) {
+      Swal.fire({
+        icon: "error",
+        title: "Error de conexión",
+        html: `${message}<br /><br/><small><span style="color:red">Una vez actives el servidor, recarga la página &nbsp;<i class="fas fa-sync-alt"></i></span></small>`,
+        showCancelButton: true,
+        confirmButtonText: "Reintentar",
+        cancelButtonText: "Cerrar sesión",
+        allowOutsideClick: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        } else {
+          Swal.fire({
+            icon: "info",
+            title: "Cerrando sesión",
+            text: "Cerrando sesión y saliendo. La pestaña se cerrará.",
+            showCloseButton: false,
+            showConfirmButton: false,
+            timer: 2000,
+          }).then(() => {
+            window.close();
+          });
+        }
+      });
+    }
+
+    if (mensaje) {
+      showErrorAlert(mensaje);
+    }
+  </script>
+    <script src="../js/csrf-injector.js"></script>
+</body>
+
+</html>

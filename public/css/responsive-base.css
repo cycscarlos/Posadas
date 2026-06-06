@@ -1,0 +1,41 @@
+:root {
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+}
+
+@media (max-width: 480px) {
+  .hidden-xs { display: none !important; }
+}
+
+@media (max-width: 576px) {
+  .hidden-sm { display: none !important; }
+}
+
+@media (max-width: 768px) {
+  .hidden-md { display: none !important; }
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+table {
+  max-width: 100%;
+}
+
+input, select, textarea, button {
+  max-width: 100%;
+}

@@ -22,6 +22,7 @@
     <!-- CSS personalizado -->
     <link rel="stylesheet" href="../css/datatables.css" />
     <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/responsive-base.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/userManagement.css" />
     <meta name="csrf-token" content="<%= csrfToken %>">
@@ -96,11 +97,13 @@
                                 <%= user.rol %>
                             </td>
                             <td class="text-center">
-                                <a onclick="editar('<%= user.id %>', '<%= user.username %>', '<%= user.fullname %>', '<%= user.correo %>', '<%= user.rol %>')"
-                                    class="btn btn-outline-info link1" data-tooltip="Editar">
+                                <a data-id="<%= user.id %>" data-username="<%= user.username %>"
+                                    data-fullname="<%= user.fullname %>" data-correo="<%= user.correo %>"
+                                    data-rol="<%= user.rol %>" class="btn btn-outline-info link1 btn-editar-usuario"
+                                    data-tooltip="Editar">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a onclick="confirmar('<%= user.id %>')" class="btn btn-outline-danger link2"
+                                <a data-id="<%= user.id %>" class="btn btn-outline-danger link2 btn-eliminar-usuario"
                                     data-tooltip="Eliminar">
                                     <i class="fas fa-trash"></i>
                                 </a>
@@ -132,53 +135,47 @@
             $("#tablaUsuarios").DataTable();
         });
 
-        function confirmar(id) {
-            Swal.fire({
-                title: "¿Confirmas eliminar el registro?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Confirmar",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch(`/delete/${id}`, {
-                        method: 'POST'
-                    })
-                        .then(response => response.json())
-                        .then(result => {
-                            if (result.success) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Usuario eliminado exitosamente',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                });
-                                $(`#tablaUsuarios tr[data-id="${id}"]`).remove();
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error al eliminar usuario',
-                                    text: result.message,
-                                    confirmButtonText: 'Aceptar'
-                                });
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error al eliminar usuario',
-                                text: 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.',
-                                confirmButtonText: 'Aceptar'
+        document.addEventListener('click', function (e) {
+            var btn = e.target.closest('.btn-eliminar-usuario');
+            if (btn) {
+                var id = btn.getAttribute('data-id');
+                Swal.fire({
+                    title: "¿Confirmas eliminar el registro?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Confirmar",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/delete/${id}`, { method: 'POST' })
+                            .then(response => response.json())
+                            .then(result => {
+                                if (result.success) {
+                                    Swal.fire({ icon: 'success', title: 'Usuario eliminado exitosamente', showConfirmButton: false, timer: 1500 });
+                                    $(`#tablaUsuarios tr[data-id="${id}"]`).remove();
+                                } else {
+                                    Swal.fire({ icon: 'error', title: 'Error al eliminar usuario', text: result.message, confirmButtonText: 'Aceptar' });
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire({ icon: 'error', title: 'Error al eliminar usuario', text: 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.', confirmButtonText: 'Aceptar' });
                             });
-                        });
-                }
-            });
-        }
+                    }
+                });
+            }
+        });
 
-        function editar(id, username, fullname, correo, rol) {
-            Swal.fire({
+        document.addEventListener('click', function (e) {
+            var btn = e.target.closest('.btn-editar-usuario');
+            if (btn) {
+                var id = btn.getAttribute('data-id');
+                var username = btn.getAttribute('data-username');
+                var fullname = btn.getAttribute('data-fullname');
+                var correo = btn.getAttribute('data-correo');
+                var rol = btn.getAttribute('data-rol');
+                Swal.fire({
                 title: 'Editar Usuario',
                 html: `  
                     <input id="swal-input1" class="swal2-input" value="${username}" placeholder="Nombre de Usuario">  
@@ -247,7 +244,7 @@
                         });
                 }
             });
-        }
+        });
 
         document.getElementById('registerForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevenir el envío del formulario  

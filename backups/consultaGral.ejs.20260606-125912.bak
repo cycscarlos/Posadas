@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Posada | Consulta Clientes</title>
+
+  <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+
+  <!-- Fontawesome v6.6.0 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+
+  <!-- Datatables CSS Local Installation -->
+  <link rel="stylesheet" href="../downloadButtons/datatables.css" />
+  <link href="../downloadButtons/datatables.min.css" rel="stylesheet" />
+
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="../css/datatables.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
+  <link rel="stylesheet" href="../css/consultaGral.css" />
+    <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
+
+<body class="body">
+  <header class="topheader" id="topheader">
+    <div class="topnav">
+      <div class="logo"></div>
+
+
+      <%- include('../../public/components/navbar.html') %>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="title">Base de Datos de Clientes</h1>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="table-responsive">
+          <table id="tablaConsultaGral" class="table table-striped table-bordered table-hover" style="width: 100%">
+            <thead class="thead-bg">
+              <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Apellido</th>
+                <th class="text-center">Cédula</th>
+                <th class="text-center">Correo</th>
+                <th class="text-center">Teléfono</th>
+                <th class="text-center">Procedencia</th>
+                <th class="text-center">Personas</th>
+                <th class="text-center">Habitación</th>
+                <th class="text-center">Entrada</th>
+                <th class="text-center">Salida</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% results.forEach(cliente=> { %>
+                <tr>
+                  <td class="text-center">
+                    <%= cliente.id_cliente %>
+                  </td>
+                  <td class="text-center">
+                    <%= cliente.nombre %>
+                  </td>
+                  <td class="text-center">
+                    <%= cliente.apellido %>
+                  </td>
+                  <td class="text-center">
+                    <%= cliente.cedula %>
+                  </td>
+                  <td class="text-center">
+                    <%= cliente.correo %>
+                  </td>
+                  <td class="text-center">
+                    <%= cliente.telefono %>
+                  </td>
+                  <td class="text-center">
+                    <%= cliente.procedencia %>
+                  </td>
+                  <td class="text-center">
+                    <%= cliente.personas %>
+                  </td>
+                  <td class="text-center">
+                    <%= cliente.id_habitacion %>
+                  </td>
+                  <td class="text-center">
+                    <%= cliente.fecha_entrada %>
+                  </td>
+                  <td class="text-center">
+                    <%= cliente.fecha_salida %>
+                  </td>
+                  <td class="text-center">
+                    <a href="/editar/<%= cliente.id_cliente %>" class="btn btn-outline-info link1"
+                      data-tooltip="Editar">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                    <a onclick="confirmar('<%= cliente.id_cliente %>')" class="btn btn-outline-danger link2"
+                      data-tooltip="Eliminar">
+                      <i class="fas fa-trash"></i>
+                    </a>
+                  </td>
+                </tr>
+                <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap v5.3.3 -->
+  <script src="../bootstrap/js/bootstrap.min.js"></script>
+
+  <!-- JQuery v3.7.1 -->
+  <script src="../jquery/js/jquery-3.7.1.min.js"></script>
+
+  <!-- Datatables JS Local Installation -->
+  <script src="../downloadButtons/datatables.js"></script>
+  <script src="../downloadButtons/datatables.min.js"></script>
+
+  <!--. Initialising DataTables -->
+  <script src="../js/tablaConsultaGral2.js"></script>
+
+  <!-- Sweetalert 2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+  <script>
+    function confirmar(id) {
+      Swal.fire({
+        title: "Confirmas eliminar el registro?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Confirmar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location = "/eliminar/" + id;
+        }
+      });
+    }
+  </script>
+    <script src="../js/csrf-injector.js"></script>
+</body>
+
+</html>

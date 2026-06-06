@@ -123,4 +123,25 @@ li form {
   .topnav {
     justify-content: right;
   }
+  .container {
+    max-width: 95%;
+    padding: 15px;
+  }
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: var(--step-3);
+  }
+  h2 {
+    font-size: var(--step-1);
+  }
+  button {
+    width: 100%;
+  }
 }

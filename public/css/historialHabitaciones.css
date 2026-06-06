@@ -244,3 +244,46 @@ th {
   text-decoration: none;
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  .container-calendarios {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+  .searchForm {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .searchForm input {
+    width: 45%;
+    min-width: 120px;
+  }
+  .calendario-mes {
+    width: 100%;
+    max-width: 300px;
+    margin: 12px auto;
+  }
+  .modal-ficha .modal-content,
+  .modal-registro .modal-content {
+    width: 95%;
+    margin: 10% auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendario-mes {
+    max-width: 100%;
+    margin: 8px 0;
+  }
+  th, td {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9em;
+  }
+  .habitacion h2 {
+    font-size: 1.2em;
+  }
+  .anio h3 {
+    font-size: 1em;
+  }
+}

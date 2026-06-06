@@ -1,6 +1,6 @@
 // Using JavaScript class constructor
 new DataTable("#myTable", {
-  scrollY: 300,
+  scrollY: window.innerWidth < 768 ? false : 300,
   paging: true,
   lengthMenu: [5,10, 25, 50],
   pageLength: 5,

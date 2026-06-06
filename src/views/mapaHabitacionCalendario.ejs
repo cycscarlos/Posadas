@@ -7,6 +7,7 @@
   <title>Status Habitación Calendario</title>
   <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/responsive-base.css" />
   <link rel="stylesheet" href="../css/navbar.css" />
   <link rel="stylesheet" href="../css/mapaHabitacionCalendario.css" />
   <link rel="stylesheet" href="../css/reservas.css" />
@@ -35,40 +36,41 @@
                   <tr>
                     <% const diasMes=habitacion.calendarios[mes].dias.length; %>
                       <% for (let dia=0; dia < diasMes; dia++) { %>
-                        <td
-                          class="<%= habitacion.calendarios[mes].dias[dia].estado === 'ocupado' ? 'reservado' : (habitacion.calendarios[mes].dias[dia].estado === 'pre-reservado' ? 'pre-reservado' : 'disponible') %>"
-                          <% if (habitacion.calendarios[mes].dias[dia].cliente) { %>
-                          onclick="cargarModal('<%= habitacion.calendarios[mes].dias[dia].cliente.id %>')"
-                            <% } else { %>
-                              onclick="cargarFormularioRegistro('<%= habitacion.id %>', '<%= mes %>', <%= dia + 1 %>)"
-                                    <% } %>
-                                      >
-                                      <%= habitacion.calendarios[mes].dias[dia].dia %>
-                                        <% if (habitacion.calendarios[mes].dias[dia].pago) { %>
-                                          <div class="pago-info">
-                                            <p>Monto: <%= habitacion.calendarios[mes].dias[dia].pago.monto %>
-                                            </p>
-                                            <p>Fecha de Pago: <%= habitacion.calendarios[mes].dias[dia].pago.fecha_pago
-                                                %>
-                                            </p>
-                                            <p>Método: <%= habitacion.calendarios[mes].dias[dia].pago.metodo %>
-                                            </p>
-                                          </div>
-                                          <% } %>
-                        </td>
-                        <% if ((dia + 1) % 7===0) { %>
-                  </tr>
-                  <tr>
-                    <% } %>
-                      <% } %>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <% } %>
-              <% }); %>
+                         <td
+                           class="<%= habitacion.calendarios[mes].dias[dia].estado === 'ocupado' ? 'reservado' : (habitacion.calendarios[mes].dias[dia].estado === 'pre-reservado' ? 'pre-reservado' : 'disponible') %>"
+                           <% if (habitacion.calendarios[mes].dias[dia].cliente) { %>
+                             data-cliente-id="<%= habitacion.calendarios[mes].dias[dia].cliente.id %>"
+                           <% } else { %>
+                             data-habitacion-id="<%= habitacion.id %>"
+                             data-mes="<%= mes %>"
+                             data-dia="<%= dia + 1 %>"
+                           <% } %>
+                         > <%= habitacion.calendarios[mes].dias[dia].dia %>
+                         <% if (habitacion.calendarios[mes].dias[dia].pago) { %>
+                           <div class="pago-info">
+                             <p>Monto: <%= habitacion.calendarios[mes].dias[dia].pago.monto %>
+                             </p>
+                             <p>Fecha de Pago: <%= habitacion.calendarios[mes].dias[dia].pago.fecha_pago
+                                 %>
+                             </p>
+                             <p>Método: <%= habitacion.calendarios[mes].dias[dia].pago.metodo %>
+                             </p>
+                           </div>
+                           <% } %>
+                         </td>
+                         <% if ((dia + 1) % 7===0) { %>
+                   </tr>
+                   <tr>
+                     <% } %>
+                       <% } %>
+                   </tr>
+                 </tbody>
+               </table>
+             </div>
+             <% } %>
+               <% }); %>
 
-                <!-- Mostrar meses del próximo año con el año incluido -->
+                 <!-- Mostrar meses del próximo año con el año incluido -->
                 <% const nextYear=new Date().getFullYear() + 1; %>
                   <% Object.keys(habitacion.calendarios).forEach(mes=> { %>
                     <% if (parseInt(mes)> 12) { %>
@@ -82,16 +84,16 @@
                             <tr>
                               <% const diasMes=habitacion.calendarios[mes].dias.length; %>
                                 <% for (let dia=0; dia < diasMes; dia++) { %>
-                                  <td
-                                    class="<%= habitacion.calendarios[mes].dias[dia].estado === 'ocupado' ? 'reservado' : (habitacion.calendarios[mes].dias[dia].estado === 'pre-reservado' ? 'pre-reservado' : 'disponible') %>"
-                                    <% if (habitacion.calendarios[mes].dias[dia].cliente) { %>
-                                    onclick="cargarModal('<%= habitacion.calendarios[mes].dias[dia].cliente.id %>')"
-                                      <% } else { %>
-                                        onclick="cargarFormularioRegistro('<%= habitacion.id %>', '<%= mes %>', <%= dia
-                                              + 1 %>)"
-                                              <% } %>
-                                                >
-                                                <%= habitacion.calendarios[mes].dias[dia].dia %>
+                                   <td
+                                     class="<%= habitacion.calendarios[mes].dias[dia].estado === 'ocupado' ? 'reservado' : (habitacion.calendarios[mes].dias[dia].estado === 'pre-reservado' ? 'pre-reservado' : 'disponible') %>"
+                                     <% if (habitacion.calendarios[mes].dias[dia].cliente) { %>
+                                       data-cliente-id="<%= habitacion.calendarios[mes].dias[dia].cliente.id %>"
+                                     <% } else { %>
+                                       data-habitacion-id="<%= habitacion.id %>"
+                                       data-mes="<%= mes %>"
+                                       data-dia="<%= dia + 1 %>"
+                                     <% } %>
+                                   > <%= habitacion.calendarios[mes].dias[dia].dia %>
                                                   <% if (habitacion.calendarios[mes].dias[dia].pago) { %>
                                                     <div class="pago-info">
                                                       <p>Monto: <%= habitacion.calendarios[mes].dias[dia].pago.monto %>
@@ -136,6 +138,20 @@
     </div>
 
     <script>
+      document.querySelector('.calendarios-container').addEventListener('click', function(e) {
+        var td = e.target.closest('td[data-cliente-id], td[data-habitacion-id]');
+        if (!td) return;
+        var clienteId = td.getAttribute('data-cliente-id');
+        if (clienteId) {
+          cargarModal(clienteId);
+        } else {
+          cargarFormularioRegistro(
+            td.getAttribute('data-habitacion-id'),
+            td.getAttribute('data-mes'),
+            parseInt(td.getAttribute('data-dia'))
+          );
+        }
+      });
       // Función para cargar el modal del cliente
       async function cargarModal(clienteId) {
         const modal = document.getElementById('clienteModal');

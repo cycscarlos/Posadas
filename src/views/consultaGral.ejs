@@ -23,6 +23,7 @@
   <!-- CSS personalizado -->
   <link rel="stylesheet" href="../css/datatables.css" />
   <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/responsive-base.css" />
   <link rel="stylesheet" href="../css/navbar.css" />
   <link rel="stylesheet" href="../css/consultaGral.css" />
     <meta name="csrf-token" content="<%= csrfToken %>">
@@ -101,7 +102,7 @@
                       data-tooltip="Editar">
                       <i class="fas fa-edit"></i>
                     </a>
-                    <a onclick="confirmar('<%= cliente.id_cliente %>')" class="btn btn-outline-danger link2"
+                    <a data-id="<%= cliente.id_cliente %>" class="btn btn-outline-danger link2 btn-eliminar"
                       data-tooltip="Eliminar">
                       <i class="fas fa-trash"></i>
                     </a>
@@ -131,20 +132,24 @@
   <!-- Sweetalert 2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
   <script>
-    function confirmar(id) {
-      Swal.fire({
-        title: "Confirmas eliminar el registro?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Confirmar",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location = "/eliminar/" + id;
-        }
-      });
-    }
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.btn-eliminar');
+      if (btn) {
+        var id = btn.getAttribute('data-id');
+        Swal.fire({
+          title: "Confirmas eliminar el registro?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Confirmar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location = "/eliminar/" + id;
+          }
+        });
+      }
+    });
   </script>
     <script src="../js/csrf-injector.js"></script>
 </body>

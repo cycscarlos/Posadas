@@ -23,6 +23,7 @@
 - ✅ **Opción B**: `authorize(["admin"])` agregado a 13 rutas en 9 archivos
 - ✅ Opción B ajuste: `consultaGral` permite admin + data entry
 - ✅ `scratch/` agregado a `.gitignore`
+- ✅ **Sesión 06/06/2026**: Eliminación de inline event handlers (`onclick`/`onsubmit`) en 4 vistas EJS que violaban CSP → reemplazados por `data-*` + event delegation. Vistas afectadas: `administracionManualEstados.ejs`, `consultaClienteCalendario.ejs`, `historialHabitaciones.ejs`, `mapaHabitacionCalendario.ejs`. Server probado — todos los endpoints 200 OK.
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita

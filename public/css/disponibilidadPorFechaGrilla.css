@@ -166,6 +166,10 @@ p {
 @media (max-width: 768px) {
   .container {
     width: 100%;
+    height: auto;
+    min-height: auto;
+    padding: 20px;
+    margin: 80px auto;
   }
   .topnav {
     justify-content: center;
@@ -173,4 +177,42 @@ p {
   .logo {
     display: none;
   }
+  .grid-container {
+    gap: 6px;
+  }
+  .grid-item {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    width: 95%;
+    padding: 15px;
+  }
+  .grid-container {
+    gap: 5px;
+  }
+  .grid-item {
+    width: 50px;
+    height: 50px;
+    font-size: 0.85em;
+  }
+}
+
+@media (max-width: 400px) {
+  .grid-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .grid-item {
+    width: auto;
+    height: 45px;
+  }
+}
+
+.acciones .btn {
+  width: auto;
+  min-width: 120px;
+  padding: 0.5em 1em;
 }

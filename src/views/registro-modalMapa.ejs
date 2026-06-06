@@ -8,6 +8,7 @@
     <!-- Sweetalert 2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="../css/reservas.css">
+    <link rel="stylesheet" href="../css/responsive-base.css" />
       <meta name="csrf-token" content="<%= csrfToken %>">
 </head>
   <body>
@@ -19,7 +20,7 @@
           id="registroForm"
           action="/registro-modal"
           method="POST"
-          onsubmit="return validarFormulario();"
+
         >
           <div class="contactForm">
             <h2 class="title">Registrar Reservación</h2>
@@ -274,6 +275,11 @@
             });
         });
     </script>
+      <script>
+        document.getElementById('registroForm').addEventListener('submit', function(e) {
+          if (!validarFormulario()) e.preventDefault();
+        });
+      </script>
       <script src="../js/csrf-injector.js"></script>
 </body>
 </html>

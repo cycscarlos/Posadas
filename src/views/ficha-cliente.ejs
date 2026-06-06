@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/responsive-base.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/ficha-cliente.css" />
     <meta name="csrf-token" content="<%= csrfToken %>">
@@ -108,12 +109,12 @@
                                                 <% } %>
                                                     <% } %>
         </div>
-<!-- <button onclick="window.location.href='/consulta-cliente'" class="btn">Volver</button> -->
+<!-- <button class="btn" data-href="/consulta-cliente">Volver</button> -->
         <!-- <div class="acciones">
-            <button class="btn" onclick="location.href='/preReservaciones'">
+            <button class="btn" data-href="/preReservaciones">
                 Pre-reserva
             </button>
-            <button class="btn" onclick="location.href='/registro'">
+            <button class="btn" data-href="/registro">
                 Reservación
             </button>
           

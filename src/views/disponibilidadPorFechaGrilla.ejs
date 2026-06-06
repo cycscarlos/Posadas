@@ -8,6 +8,7 @@
     <title>Disponibilidad por Fecha - Vista Grilla</title>
     <!-- <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" /> -->
     <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/responsive-base.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/disponibilidadPorFechaGrilla.css" />
 
@@ -44,12 +45,17 @@
                                 </div>
                                 <% } %>
             </div>
-            <button onclick="window.history.back();" class="btn btn-secondary">Volver</button>
+            <button id="btnVolver" class="btn btn-secondary">Volver</button>
         </div>
 
 
         <!-- <script src="../bootstrap/js/bootstrap.min.js"></script> -->
 
+        <script>
+          document.getElementById('btnVolver').addEventListener('click', function() {
+            window.history.back();
+          });
+        </script>
         <!-- Sweetalert 2 -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
     <script src="../js/csrf-injector.js"></script>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Historial Habitaciones</title>
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/responsive-base.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/historialHabitaciones.css" />
+    <link rel="stylesheet" href="../css/reservas.css" />
+    <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
+
+<body>
+    <%- include('../../public/components/historialHabitaciones.html') %>
+        <div class="container-calendarios">
+            <h1 class="title"><small>Historial de Habitaciones</small></h1>
+            <form class="searchForm" id="searchForm" onsubmit="return false;">
+                <input type="text" name="habitacion" id="habitacionSearch" placeholder="Buscar habitación" />
+                <input type="text" name="mes" id="mesSearch" placeholder="Buscar mes (ej. enero)" />
+                <button id="searchButton">Buscar</button>
+                <button id="resetButton">Refresh</button>
+            </form>
+            <% disponibilidad.forEach(habitacion=> { %>
+                <div class="habitacion" data-habitacion-id="<%= habitacion.id %>">
+                    <h2>Habitación: <%= habitacion.id %>
+                    </h2>
+                    <div class="anio">
+                        <h3>Año: <%= new Date().getFullYear() %>
+                        </h3>
+                    </div>
+                    <div class="calendarios-container">
+                        <% Object.keys(habitacion.calendarios).forEach(mes=> { %>
+                            <div class="calendario-mes" data-mes="<%= mes %>">
+                                <div class="mes-nombre">
+                                    <%= new Date(Date.parse(mes + " 1, " + new
+                                        Date().getFullYear())).toLocaleString('es-ES', { month: 'long' }) %>
+                                </div>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <% const diasMes=habitacion.calendarios[mes].dias.length; %>
+                                                <% for (let dia=0; dia < diasMes; dia++) { %>
+                                                    <% const diaActual=habitacion.calendarios[mes].dias[dia]; %>
+                                                        <% let onclickValue='' ; %>
+                                                            <% if (diaActual.cliente) { %>
+                                                                <% onclickValue=`cargarModal('${diaActual.cliente.id}')`;
+                                                                    %>
+                                                                    <% } else { %>
+                                                                        <% onclickValue=`cargarFormularioRegistro('${habitacion.id}', '${mes}'
+                                                                            , ${dia + 1})`; %>
+                                                                            <% } %>
+                                                                                <td class="<%= diaActual.estado === 'ocupado' ? 'reservado' : (diaActual.estado === 'pre-reservado' ? 'pre-reservado' : 'disponible') %>"
+                                                                                    onclick="<%= onclickValue %>">
+                                                                                    <%= diaActual.dia %>
+                                                                                        <% if (diaActual.pago) { %>
+                                                                                            <div class="pago-info">
+                                                                                                <p>Monto: <%=
+                                                                                                        diaActual.pago.monto
+                                                                                                        %>
+                                                                                                </p>
+                                                                                                <p>Fecha de Pago: <%=
+                                                                                                        diaActual.pago.fecha_pago
+                                                                                                        %>
+                                                                                                </p>
+                                                                                                <p>Método: <%=
+                                                                                                        diaActual.pago.metodo
+                                                                                                        %>
+                                                                                                </p>
+                                                                                            </div>
+                                                                                            <% } %>
+                                                                                </td>
+                                                                                <% if ((dia + 1) % 7===0) { %>
+                                        </tr>
+                                        <tr>
+                                            <% } %>
+                                                <% } %>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <% }); %>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+        <!-- Modal para la ficha del cliente -->
+        <div id="clienteModal" class="modal modal-ficha">
+            <div class="modal-content" id="modalContent">
+                <span class="close">&times;</span>
+                <h2>Detalles del Cliente</h2>
+            </div>
+        </div>
+        <!-- Modal para el formulario de registro -->
+        <div id="registroModal" class="modal modal-registro">
+            <div class="modal-content" id="modalContentRegistro">
+                <span class="close">&times;</span>
+                <h2>Registro de Cliente</h2>
+            </div>
+        </div>
+        <!-- Botón de volver al inicio -->
+        <button id="backToTop">&#8617; Inicio</button>
+        <script>
+            // Mostrar el botón al hacer scroll
+            window.onscroll = function () {
+                const backToTopButton = document.getElementById("backToTop");
+                if (
+                    document.body.scrollTop > 100 ||
+                    document.documentElement.scrollTop > 100
+                ) {
+                    backToTopButton.style.display = "block";
+                } else {
+                    backToTopButton.style.display = "none";
+                }
+            };
+            // Función para desplazarse hacia arriba
+            document.getElementById("backToTop").addEventListener("click", function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+            });
+            document.getElementById("searchButton").addEventListener("click", function () {
+                const habitacionSearch = document.getElementById("habitacionSearch").value.toLowerCase();
+                const mesSearch = document.getElementById("mesSearch").value.toLowerCase();
+                const habitaciones = document.querySelectorAll(".habitacion");
+                habitaciones.forEach((habitacion) => {
+                    const habitacionId = habitacion.getAttribute("data-habitacion-id").toLowerCase();
+                    let habitacionVisible = false;
+                    if (
+                        habitacionId.includes(habitacionSearch) ||
+                        habitacionSearch === ""
+                    ) {
+                        habitacionVisible = true;
+                        habitacion.style.display = "block";
+                    } else {
+                        habitacion.style.display = "none";
+                    }
+                    const calendarios = habitacion.querySelectorAll(".calendario-mes");
+                    calendarios.forEach((calendario) => {
+                        const mes = calendario.getAttribute("data-mes");
+                        const mesNombre = new Date(
+                            Date.parse(mes + " 1, " + new Date().getFullYear())
+                        ).toLocaleString("es-ES", { month: 'long' }).toLowerCase();
+                        if (mesNombre.includes(mesSearch) || mesSearch === "") {
+                            calendario.style.display = "block";
+                        } else {
+                            calendario.style.display = "none";
+                        }
+                    });
+                });
+            });
+            // Manejador del botón de restablecer
+            document.getElementById("resetButton").addEventListener("click", function () {
+                document.getElementById("habitacionSearch").value = "";
+                document.getElementById("mesSearch").value = "";
+                const habitaciones = document.querySelectorAll(".habitacion");
+                habitaciones.forEach((habitacion) => {
+                    habitacion.style.display = "block";
+                    const calendarios = habitacion.querySelectorAll(".calendario-mes");
+                    calendarios.forEach((calendario) => {
+                        calendario.style.display = "block";
+                    });
+                });
+            });
+            // Función para cargar el modal del cliente
+            function cargarModal(clienteId) {
+                fetch(`/consulta-fichaModal/${clienteId}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById("modalContent").innerHTML = data;
+                        document.getElementById("clienteModal").style.display = "block";
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar los datos:', error);
+                    });
+            }
+            // Función para cargar el modal del formulario de registro
+            function cargarFormularioRegistro(habitacionId, mes, dia) {
+                fetch(`/cargar-formulario-registro?habitacion=${habitacionId}&mes=${mes}&dia=${dia}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById("modalContentRegistro").innerHTML = data;
+                        document.getElementById("registroModal").style.display = "block";
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar el formulario de registro:', error);
+                    });
+            }
+            // Obtener el elemento del modal
+            var modal = document.getElementById("clienteModal");
+            var registroModal = document.getElementById("registroModal");
+            // Obtener el elemento <span> que cierra el modal
+            var span = document.getElementsByClassName("close")[0];
+            var spanRegistro = document.getElementsByClassName("close")[1];
+            // Cuando el usuario hace clic en <span> (x), cerrar el modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            };
+            spanRegistro.onclick = function () {
+                registroModal.style.display = "none";
+            };
+            // Cuando el usuario hace clic en cualquier lugar fuera del modal, cerrarlo
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+                if (event.target == registroModal) {
+                    registroModal.style.display = "none";
+                }
+            };
+        </script>
+    <script src="../js/csrf-injector.js"></script>
+</body>
+
+</html>

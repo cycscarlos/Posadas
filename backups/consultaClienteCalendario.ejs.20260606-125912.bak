@@ -1,0 +1,112 @@
+<!DOCTYPE html>  
+<html lang="es">  
+<head>  
+    <meta charset="UTF-8" />  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+    <title>Status Habitación Calendario</title>  
+
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />  
+    <link rel="stylesheet" href="../css/main.css" />  
+    <link rel="stylesheet" href="../css/navbar.css" />  
+    <link rel="stylesheet" href="../css/mapaHabitacionCalendario_join.css">
+    <style>  
+        .reservado {  
+            background-color: #ff0000;  
+            cursor: pointer;  
+        }  
+        .pre-reservado {  
+            background-color: orange;  
+            cursor: pointer;  
+        }  
+        .disponible {  
+            background-color: none;  
+        }  
+    </style>  
+    <meta name="csrf-token" content="<%= csrfToken %>">
+</head>  
+<body>  
+    <%- include('../../public/components/mapaCalendario.html') %>  
+
+    <div class="container">  
+        <h1 class="title">  
+            Status de Reservación<br /><span> Habitación <%= habitacion.id %></span>  
+        </h1>  
+
+        <div class="calendarios-container">  
+            <!-- Mostrar meses del año actual -->  
+            <% Object.keys(habitacion.calendarios).forEach(mes => { %>   
+                <% if (parseInt(mes) <= 12) { %>  
+                    <div class="calendario-mes" data-mes="<%= mes %>">  
+                        <div class="mes-nombre">  
+                            <%= new Date(Date.parse(mes + " 1, " + new Date().getFullYear())).toLocaleString('es-ES', { month: 'long' }) %>  
+                        </div>  
+                        <table>  
+                            <tbody>  
+                                <tr>  
+                                    <% const diasMes = habitacion.calendarios[mes].dias.length; %>  
+                                    <% for (let dia = 0; dia < diasMes; dia++) { %>  
+                                        <td class="<%= habitacion.calendarios[mes].dias[dia].estado === 'ocupado' ? 'reservado' : (habitacion.calendarios[mes].dias[dia].estado === 'pre-reservado' ? 'pre-reservado' : '') %>"  
+                                            <% if (habitacion.calendarios[mes].dias[dia].cliente) { %>  
+                                                onclick="consultarCliente('<%= habitacion.calendarios[mes].dias[dia].cliente.id %>')" <% } %>  
+                                        > <%= habitacion.calendarios[mes].dias[dia].dia %>  
+                                        </td>  
+                                        <% if ((dia + 1) % 7 === 0) { %>  
+                                    </tr><tr>  
+                                        <% } %>   
+                                    <% } %>  
+                                </tr>  
+                            </tbody>  
+                        </table>  
+                    </div>  
+                <% } %>   
+            <% }); %>  
+
+            <!-- Mostrar meses del próximo año con el año incluido -->  
+            <% const nextYear = new Date().getFullYear() + 1; %>   
+            <% Object.keys(habitacion.calendarios).forEach(mes => { %>   
+                <% if (parseInt(mes) > 12) { %>  
+                    <div class="calendario-mes" data-mes="<%= mes %>">  
+                        <div class="mes-nombre">  
+                            <%= new Date(Date.parse((parseInt(mes) - 12) + " 1, " + nextYear)).toLocaleString('es-ES', { month: 'long' }) + ' ' + nextYear %>  
+                        </div>  
+                        <table>  
+                            <tbody>  
+                                <tr>  
+                                    <% const diasMes = habitacion.calendarios[mes].dias.length; %>  
+                                    <% for (let dia = 0; dia < diasMes; dia++) { %>  
+                                        <td class="<%= habitacion.calendarios[mes].dias[dia].estado === 'ocupado' ? 'reservado' : (habitacion.calendarios[mes].dias[dia].estado === 'pre-reservado' ? 'pre-reservado' : '') %>"  
+                                            <% if (habitacion.calendarios[mes].dias[dia].cliente) { %>  
+                                                onclick="consultarCliente('<%= habitacion.calendarios[mes].dias[dia].cliente.id %>')" <% } %>  
+                                        > <%= habitacion.calendarios[mes].dias[dia].dia %>  
+                                        </td>  
+                                        <% if ((dia + 1) % 7 === 0) { %>  
+                                    </tr><tr>  
+                                        <% } %>   
+                                    <% } %>  
+                                </tr>  
+                            </tbody>  
+                        </table>  
+                    </div>  
+                <% } %>   
+            <% }); %>  
+        </div>   
+<!-- 
+      
+    <div class="acciones">
+      <button
+        class="btn"
+        onclick="location.href='<%#= url %>'"
+      >
+        Volver
+      </button>
+    </div>
+ -->
+
+    <script>  
+        function consultarCliente(clienteId) {  
+            window.location.href = `/consulta-ClienteCalendario/${clienteId}`;  
+        }  
+    </script>  
+    <script src="../js/csrf-injector.js"></script>
+</body>  
+</html>

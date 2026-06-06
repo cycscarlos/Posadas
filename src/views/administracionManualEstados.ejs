@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
     <title>Administración Manual de Estados</title>
     <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/responsive-base.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/administracionManualEstados.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -65,8 +66,8 @@
                                             </td>
                                             <td>
                                                 <form action="/updateRoomState" method="POST"
-                                                    id="form-room-<%= room.id_habitacion %>"
-                                                    onsubmit="return confirmSingleRoomUpdate(event, '<%= room.id_habitacion %>');">
+                                                    class="form-room-update"
+                                                    data-room-id="<%= room.id_habitacion %>">
                                                     <input type="hidden" name="id_habitacion"
                                                         value="<%= room.id_habitacion %>">
                                                     <select name="estado">
@@ -110,8 +111,8 @@
                                             </td>
                                             <td>
                                                 <form action="/updateReservationState" method="POST"
-                                                    id="form-reservation-<%= reservation.id_reserva %>"
-                                                    onsubmit="return confirmSingleReservationUpdate(event, '<%= reservation.id_reserva %>');">
+                                                    class="form-reservation-update"
+                                                    data-reservation-id="<%= reservation.id_reserva %>">
                                                     <select name="estado" required>
                                                         <option value="" disabled selected>Seleccione un estado</option>
                                                         <option value="activa" <%=reservation.estado=='activa'
@@ -143,37 +144,43 @@
                         </div>
 
                         <script>
-                            function confirmSingleRoomUpdate(event, roomId) {
-                                event.preventDefault();
-                                Swal.fire({
-                                    title: 'Confirmar',
-                                    text: '¿Estás seguro de querer modificar el estado de la habitación #' + roomId + '?',
-                                    icon: 'warning',
-                                    showCancelButton: true,
-                                    confirmButtonText: 'Sí, actualizar',
-                                    cancelButtonText: 'No, cancelar'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        document.getElementById('form-room-' + roomId).submit();
-                                    }
-                                });
-                            }
-
-                            function confirmSingleReservationUpdate(event, reservationId) {
-                                event.preventDefault();
-                                Swal.fire({
-                                    title: 'Confirmar',
-                                    text: '¿Estás seguro de querer modificar el estado de la reserva #' + reservationId + '?',
-                                    icon: 'warning',
-                                    showCancelButton: true,
-                                    confirmButtonText: 'Sí, actualizar',
-                                    cancelButtonText: 'No, cancelar'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        document.getElementById('form-reservation-' + reservationId).submit();
-                                    }
-                                });
-                            }  
+                            document.addEventListener('submit', function(e) {
+                                var form = e.target.closest('.form-room-update');
+                                if (form) {
+                                    e.preventDefault();
+                                    var roomId = form.getAttribute('data-room-id');
+                                    Swal.fire({
+                                        title: 'Confirmar',
+                                        text: '¿Estás seguro de querer modificar el estado de la habitación #' + roomId + '?',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'Sí, actualizar',
+                                        cancelButtonText: 'No, cancelar'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            form.submit();
+                                        }
+                                    });
+                                    return;
+                                }
+                                form = e.target.closest('.form-reservation-update');
+                                if (form) {
+                                    e.preventDefault();
+                                    var reservationId = form.getAttribute('data-reservation-id');
+                                    Swal.fire({
+                                        title: 'Confirmar',
+                                        text: '¿Estás seguro de querer modificar el estado de la reserva #' + reservationId + '?',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'Sí, actualizar',
+                                        cancelButtonText: 'No, cancelar'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            form.submit();
+                                        }
+                                    });
+                                }
+                            });
                         </script>
     <script src="../js/csrf-injector.js"></script>
 </body>

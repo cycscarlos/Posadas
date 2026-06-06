@@ -1,0 +1,189 @@
+/*: Estilos del formulario identicos a los usados en los Modales */
+:root {
+  --step--1: clamp(0.83rem, 0.77rem + 0.33vw, 1rem);
+  --font-body: "Open Sans Condensed", sans-serif;
+  --login-color: #f6a700;
+  --white-color: #ffffff;
+  --text-color: #2a2a2a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgba(0, 255, 255, 0.027);
+}
+
+.navbar ul li {
+  --login-color: #f6a700;
+  background-color: var(--login-color);
+}
+
+.navbar ul a {
+  --white-color: #ffffff;
+  color: var(--white-color);
+  font-weight: 500;
+}
+
+.contact {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.contact-container {
+  position: relative;
+  width: 700px;
+  height: auto;
+  display: flex;
+  z-index: 10;
+  margin: 0 auto;
+}
+
+/*: Formulario */
+.contact-container .contactForm {
+  position: relative;
+  padding: 0 1.5em;
+  height: 100%;
+  background-color: var(--white-color);
+  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.contact-container .contactForm h2 {
+  color: var(--text-color);
+  text-align: center;
+  font-size: 1.9em;
+  font-weight: 500;
+  margin: 0;
+  padding: 1rem 0 0 0;
+}
+.contact-container .contactForm .formBox {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-top: 1em;
+  font-size: 18px;
+}
+
+.contact-container .contactForm .formBox .inputBox {
+  position: relative;
+  margin-bottom: 2.2em;
+}
+.contact-container .contactForm .formBox .inputBox.w50 {
+  width: 47%;
+}
+.contact-container .contactForm .formBox .inputBox.w100 {
+  width: 100%;
+  margin: 0 30%;
+}
+.contact-container .contactForm .formBox .inputBox input {
+  width: 100%;
+  resize: none;
+  padding: 0.3em 0;
+  font-size: var(--step--1);
+  font-weight: 300;
+  color: #333;
+  border: none;
+  outline: none;
+  background: transparent;
+  border-bottom: 1px solid rgba(15, 57, 87, 0.25);
+}
+.contact-container .contactForm .formBox .inputBox span {
+  position: absolute;
+  left: 0;
+  pointer-events: none;
+  font-size: var(--step--1);
+  font-weight: 300;
+  color: var(--text-color);
+  transition: 0.3s;
+}
+.contact-container .contactForm .formBox .inputBox input:focus ~ span,
+.contact-container .contactForm .formBox .inputBox input:valid ~ span,
+.contact-container .contactForm .formBox .inputBox textarea:focus ~ span,
+.contact-container .contactForm .formBox .inputBox textarea:valid ~ span {
+  transform: translateY(-20px);
+  font-size: 0.8em;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: var(--green-color);
+  -webkit-transform: translateY(-20px);
+  -moz-transform: translateY(-20px);
+  -ms-transform: translateY(-20px);
+  -o-transform: translateY(-20px);
+}
+.contact-container .contactForm .formBox .inputBox input[type="date"] {
+  font-family: var(--font-body);
+  font-size: var(--step--1);
+  text-align: right;
+}
+
+.contact-container .contactForm .formBox .inputBox input[type="submit"] {
+  position: relative;
+  cursor: pointer;
+  background: var(--login-color);
+  color: var(--white-color);
+  border: none;
+  font-size: 1.5em;
+  max-width: 80%;
+  padding: 0.1em;
+  border-radius: 5px;
+}
+.contact-container .contactForm .formBox .inputBox input[type="submit"]:hover {
+  border-radius: 6px;
+  box-shadow: 10px 10px 10px rgb(0, 0, 0, 0.5);
+  transform: scale(1.1);
+}
+.contact-container .contactForm fieldset {
+  border: 2px solid var(--green-color);
+  border-radius: 5px;
+  padding: 1.5em;
+  /* margin-top: 1em; */
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.contact-container .contactForm fieldset label {
+  padding: 0 0.5em 0 0;
+}
+
+.contact-container .contactForm legend {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: black;
+  padding: 0 10px;
+}
+
+.contact-container .contactForm label {
+  display: inline-block; /* Muestra cada opción en una nueva línea */
+  margin-bottom: 0.8em;
+  cursor: pointer; /* Indica que el label es clicable */
+  font-size: 1em; /* Tamaño de fuente */
+  color: black; /* Color del texto */
+}
+
+.contact-container .contactForm input[type="checkbox"] {
+  margin-right: 0.5em; /* Espacio entre checkbox y texto */
+  transform: scale(1.2); /* Aumenta el tamaño del checkbox */
+  cursor: pointer; /* Indica que es clicable */
+}
+
+.contact-container .contactForm input[type="checkbox"]:focus {
+  outline: 2px solid var(--green-color); /* Efecto de enfoque */
+}
+
+@media (max-width: 768px) {
+  .contact-container .contactForm .formBox .inputBox input[type="submit"] {
+    font-size: var(--step-2);
+    max-width: 100%;
+    padding: 0.1em;
+  }
+}

@@ -198,4 +198,26 @@ section::before {
   .contact-container .contactForm .formBox .inputBox.w50 {
     width: 100%;
   }
+  .contact-container .contactForm .formBox .inputBox.w100 {
+    width: 100%;
+    margin: 0;
+  }
+  .botones {
+    flex-direction: column;
+    align-items: center;
+  }
+  .contact-container .contactForm .formBox .inputBox input[type="submit"],
+  .contact-container .contactForm .formBox .inputBox .cancelar-boton {
+    max-width: 100%;
+    width: 100%;
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-edicion {
+    font-size: 1.8em;
+    padding: 0;
+    text-align: center;
+  }
 }

@@ -115,4 +115,24 @@ html {
     margin-top: 6rem 0 2rem;
     text-align: center;
   }
+  .form {
+    width: 90%;
+    max-width: 600px;
+  }
+  .inputBx input, .inputBx textarea {
+    width: 100%;
+    margin: 1rem 0;
+  }
+  .btn {
+    width: 80%;
+  }
+}
+
+@media (max-width: 480px) {
+  .form {
+    width: 95%;
+  }
+  .btn {
+    width: 100%;
+  }
 }

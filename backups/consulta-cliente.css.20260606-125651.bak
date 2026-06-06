@@ -1,0 +1,169 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  --primary-color: aliceblue;
+  --secondary-color: #9d8d6c;
+  --base-color: #ffffff;
+  --login-color: #f6a700;
+}
+
+.navbar ul li {
+  background-color: var(--login-color);
+}
+
+.navbar ul a {
+  color: var(--base-color);
+  font-weight: 500;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  position: relative; /* Necesario para el posicionamiento del pseudo-elemento */
+  overflow: hidden; /* Para que no se salga el efecto difuminado */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: none;
+  outline: none;
+  text-align: center;
+  font-family: var(--font-body);
+}
+
+/* Pseudo-elemento para el fondo con desenfoque y oscurecimiento */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("../img/playa3.webp") repeat center center/cover;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.9) blur(0.1px); /* Oscurecimiento y desenfoque 
+  /*filter: brightness(0.5) blur(1.5px); /* Oscurecimiento y desenfoque */
+  border: none;
+  outline: none;
+  z-index: 0; /* Enfocar más en el fondo */
+}
+
+/* .background-image {
+  height: 100vh;
+  width: 100%;
+  background: url('../img/playa1.jpg') no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+} */
+
+/* .overlay {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+} */
+
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 350px;
+  height: 400px;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.7
+  ); /* Cambia la opacidad según sea necesario */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  z-index: 1; /* Asegúrate de que el formulario esté encima */
+}
+
+.title {
+  color: var(--login-color);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: 2.5rem;
+  margin-top: 2rem;
+}
+
+.inputBx {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.inputBx label {
+  font-size: 1.2rem;
+  color: var(--login-color);
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.inputBx input,
+.btn {
+  padding: 0.5rem;
+  margin: 1.5rem;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* Cambia la opacidad para los inputs */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font-size: 1rem;
+}
+
+.btn {
+  width: 50%;
+  background-color: var(--login-color);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.inputBx {
+  margin-bottom: 15px; /* Espaciado entre campos */
+}
+
+/* .navbar .dropdown-menu a {
+  display: block;
+  color: var(--base-color);
+  text-transform: none;
+  font-size: var(--step--1);
+  margin: 10px;
+}
+
+.navbar .dropdown-menu a:hover {
+  background: transparent;
+  color: var(--login-color);
+  box-shadow: 10px 10px 10px 1px rgba(0, 0, 0, 0.2);
+} */

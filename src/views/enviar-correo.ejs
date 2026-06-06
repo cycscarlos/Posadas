@@ -6,6 +6,7 @@
     <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
     <title>Enviar Correos</title>
     <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/responsive-base.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/enviar-correo.css" />
     <link rel="stylesheet" href="../css/copyright.css" />
@@ -114,7 +115,7 @@
     <%- include('../../public/components/header.html') %>
 
     <h1 class="title-whatsapp">Publicidad por Correo Electrónico</h1>
-    <form id="correoForm" onsubmit="enviarCorreo(event)" class="form">
+    <form id="correoForm" class="form">
       <!-- Textarea -->
       <div class="inputBx">
         <textarea
@@ -131,7 +132,6 @@
           type="text"
           id="search"
           placeholder="Buscar por nombre..."
-          onkeyup="filterClientes()"
           class="input"
         />
       </div>
@@ -161,7 +161,7 @@
             type="checkbox"
             id="seleccioneTodos"
             class="input"
-            onclick="toggleEmailSelect()"
+
           />
           Seleccionar todos los destinatarios
         </label>
@@ -186,6 +186,11 @@
 
     <!-- footer -->
     <%- include('../../public/components/footer.html') %>
+      <script>
+        document.getElementById('correoForm').addEventListener('submit', enviarCorreo);
+        document.getElementById('seleccioneTodos').addEventListener('click', toggleEmailSelect);
+        document.getElementById('search').addEventListener('keyup', filterClientes);
+      </script>
       <script src="../js/csrf-injector.js"></script>
 </body>
 </html>

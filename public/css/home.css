@@ -140,6 +140,33 @@ footer p a {
 
 footer p a:hover {   
   color: var(--login-color);
-   
+}
+
+@media (max-width: 768px) {
+  main h1 {
+    font-size: 2rem;
+  }
+  main p {
+    font-size: 1.1rem;
+  }
+  header nav ul {
+    justify-content: center;
+    padding: 0.5rem;
+  }
+  header nav ul li {
+    margin: 0 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  main h1 {
+    font-size: 1.5rem;
+  }
+  main p {
+    font-size: 0.95rem;
+  }
+  .overlay-content {
+    padding: 0.5rem;
+  }
 }
 

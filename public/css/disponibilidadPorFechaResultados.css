@@ -68,4 +68,8 @@ body {
   .title {
     font-size: var(--step-4);
   }
+  .btn {
+    width: 100%;
+    font-size: 1em;
+  }
 }

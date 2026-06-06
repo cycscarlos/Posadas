@@ -260,7 +260,7 @@ footer p a:hover {
   text-decoration: underline;
 }
 
-/* Ajustes responsive para los nuevos elementos */
+/* Ajustes responsive */
 @media (max-width: 768px) {
   .instruccion {
     font-size: 0.8rem;
@@ -270,5 +270,39 @@ footer p a:hover {
   .olvidaste-clave a,
   .volver a {
     font-size: 0.8rem;
+  }
+
+  .fondo {
+    width: 90%;
+    max-width: 400px;
+    height: auto;
+    min-height: 380px;
+  }
+
+  .fondo .contenedor-form {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fondo {
+    width: 92%;
+    min-height: 350px;
+  }
+
+  .fondo .contenedor-form {
+    padding: 20px;
+  }
+
+  .contenedor-form h2 {
+    font-size: 1.5em;
+  }
+
+  .contenedor-input {
+    margin: 20px 0;
+  }
+
+  .contenedor-input label {
+    font-size: 0.9em;
   }
 }

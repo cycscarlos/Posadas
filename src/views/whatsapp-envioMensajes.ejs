@@ -15,6 +15,7 @@
 
   <!-- CSS de la aplicación -->
   <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/responsive-base.css" />
   <link rel="stylesheet" href="../css/navbar.css" />
   <link rel="stylesheet" href="../css/whatsappFormulario.css" />
   <link rel="stylesheet" href="../css/copyright.css" />
@@ -267,7 +268,7 @@
               mediante WhatsApp Business API.</p>
           </div>
 
-          <form id="whatsappForm" onsubmit="enviarMensaje(event)" class="form">
+          <form id="whatsappForm" class="form">
             <div class="inputBx">
               <label for="mensaje"><i class="fas fa-comment-alt"></i> Mensaje:</label>
               <textarea id="mensaje" rows="4" placeholder="Ingresa el mensaje promocional aquí..." required></textarea>
@@ -280,7 +281,7 @@
               <!-- Opción para todos -->
               <div class="inputBx checkbox-container">
                 <label class="checkbox-label">
-                  <input type="checkbox" id="seleccioneTodos" class="input" onclick="toggleSelect()" />
+                  <input type="checkbox" id="seleccioneTodos" class="input" />
                   <span>Enviar a todos los clientes</span>
                 </label>
               </div>
@@ -290,7 +291,7 @@
               <!-- Búsqueda de cliente -->
               <div class="inputBx">
                 <label for="search"><i class="fas fa-search"></i> Buscar cliente:</label>
-                <input type="text" id="search" placeholder="Escriba el nombre del cliente..." onkeyup="filterClientes()"
+                <input type="text" id="search" placeholder="Escriba el nombre del cliente..."
                   class="input" />
               </div>
 
@@ -319,6 +320,11 @@
 
     <!-- Footer -->
     <%- include('../../public/components/footer.html') %>
+    <script>
+      document.getElementById('whatsappForm').addEventListener('submit', enviarMensaje);
+      document.getElementById('seleccioneTodos').addEventListener('click', toggleSelect);
+      document.getElementById('search').addEventListener('keyup', filterClientes);
+    </script>
     <script src="../js/csrf-injector.js"></script>
 </body>
 

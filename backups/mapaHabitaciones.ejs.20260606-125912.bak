@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Habitaciones</title>
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/mapaHabitaciones.css" />
+    <link rel="preload" href="../img/playa3.webp" as="image" />
+    <style>
+        .disponible {
+            background-color: #008000;
+        }
+
+        .ocupada {
+            background-color: #ff0000;
+        }
+
+        .pre-reservada {
+            background-color: orange;
+        }
+
+        .mantenimiento {
+            background-color: blue;
+        }
+    </style>
+    <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
+
+<body>
+    <%- include('../../public/components/volver.html') %>
+
+        <div class="container">
+            <h1 class="title">Habitaciones <span>..Hoy</span></h1>
+            <div class="grid">
+                <% habitaciones.forEach(habitacion=> { %>
+                    <div class="cell <%= habitacion.colorClass %>"
+                        onclick="location.href='/mapaHabitacionCalendario/<%= habitacion.id_habitacion %>'">
+                        <%= habitacion.id_habitacion %>
+                            <div class="tooltip">
+                                <%= habitacion.tipo_habitacion %>
+                            </div>
+                    </div>
+                    <% }) %>
+            </div>
+        </div>
+    <script src="../js/csrf-injector.js"></script>
+</body>
+
+</html>

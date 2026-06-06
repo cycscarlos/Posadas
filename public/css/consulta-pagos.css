@@ -134,5 +134,30 @@ body::before {
 }
 
 .inputBx {
-  margin-bottom: 15px; /* Espaciado entre campos */
+  margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  .form {
+    width: 90%;
+    height: auto;
+    padding: 1.5em;
+  }
+  .container .title {
+    font-size: 1.8em;
+  }
+  .inputBx label {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .form {
+    width: 95%;
+    padding: 1em;
+  }
+  .inputBx input, .btn {
+    width: 100%;
+    margin: 1rem 0;
+  }
 }

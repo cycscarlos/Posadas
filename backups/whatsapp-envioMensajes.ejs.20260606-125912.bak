@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+  <title>Enviar Mensajes por WhatsApp</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <!-- Sweetalert 2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+
+  <!-- CSS de la aplicación -->
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
+  <link rel="stylesheet" href="../css/whatsappFormulario.css" />
+  <link rel="stylesheet" href="../css/copyright.css" />
+
+  <style>
+    .test-mode-banner {
+      background-color: #FFC107;
+      color: #000;
+      text-align: center;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        opacity: 0.8;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0.8;
+      }
+    }
+  </style>
+
+  <script>
+    // Función para enviar los mensajes por WhatsApp
+    async function enviarMensaje(event) {
+      event.preventDefault();
+
+      // Mostrar indicador de carga
+      Swal.fire({
+        title: 'Enviando mensajes',
+        text: 'Por favor espere...',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+      // Obtener datos del formulario
+      const mensaje = document.getElementById("mensaje").value;
+      const seleccioneTodos = document.getElementById("seleccioneTodos").checked;
+      const telefonoSelect = document.getElementById("telefonoSelect");
+      const telefono = seleccioneTodos ? null : telefonoSelect.value;
+
+      // Validación básica
+      if (!mensaje.trim()) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'El mensaje no puede estar vacío'
+        });
+        return;
+      }
+
+      if (!seleccioneTodos && !telefono) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Debe seleccionar al menos un destinatario'
+        });
+        return;
+      }
+
+      try {
+        // Enviar solicitud al servidor
+        const response = await fetch("/whatsapp-envioMensajes", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            mensaje: mensaje,
+            seleccioneTodos: seleccioneTodos,
+            telefono: telefono
+          }),
+        });
+
+        // Procesar respuesta
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          // Mensaje exitoso
+          Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: data.message,
+            confirmButtonText: 'Ver detalles',
+            showCancelButton: true,
+            cancelButtonText: 'Cerrar'
+          }).then((result) => {
+            if (result.isConfirmed && data.detalles) {
+              mostrarDetallesEnvio(data.detalles);
+            }
+          });
+
+          // Limpiar formulario solo en caso de éxito
+          document.getElementById("whatsappForm").reset();
+          document.getElementById("telefonoSelect").disabled = false;
+          document.getElementById("search").disabled = false;
+        } else {
+          // Error 
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: data.message || 'Error al enviar mensajes',
+            confirmButtonText: 'Ver detalles',
+            showCancelButton: true,
+            cancelButtonText: 'Cerrar'
+          }).then((result) => {
+            if (result.isConfirmed && data.detalles) {
+              mostrarDetallesEnvio(data.detalles);
+            }
+          });
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error de conexión. Intente nuevamente.'
+        });
+      }
+    }
+
+    // Función para mostrar detalles del envío
+    function mostrarDetallesEnvio(detalles) {
+      // Crear tabla HTML con los detalles
+      let tabla = '<div style="max-height: 300px; overflow-y: auto;"><table style="width: 100%; border-collapse: collapse;">';
+      tabla += '<thead><tr style="background-color: #f2f2f2;">';
+      tabla += '<th style="padding: 8px; border: 1px solid #ddd;">Cliente</th>';
+      tabla += '<th style="padding: 8px; border: 1px solid #ddd;">Teléfono</th>';
+      tabla += '<th style="padding: 8px; border: 1px solid #ddd;">Estado</th>';
+      tabla += '<th style="padding: 8px; border: 1px solid #ddd;">Detalles</th>';
+      tabla += '</tr></thead><tbody>';
+
+      detalles.forEach(d => {
+        tabla += `<tr style="border: 1px solid #ddd;">`;
+        tabla += `<td style="padding: 8px; border: 1px solid #ddd;">${d.nombre || 'N/A'}</td>`;
+        tabla += `<td style="padding: 8px; border: 1px solid #ddd;">${d.telefono || 'N/A'}</td>`;
+
+        // Estado con indicador de simulado si corresponde
+        if (d.enviado) {
+          let estadoText = '✅ Enviado';
+          if (d.simulado) {
+            estadoText += ' <small style="font-size: 11px; color: #555;">(simulado)</small>';
+          }
+          tabla += `<td style="padding: 8px; border: 1px solid #ddd; color: green;">${estadoText}</td>`;
+        } else {
+          let estadoText = '❌ Fallido';
+          if (d.simulado) {
+            estadoText += ' <small style="font-size: 11px; color: #555;">(simulado)</small>';
+          }
+          tabla += `<td style="padding: 8px; border: 1px solid #ddd; color: red;">${estadoText}</td>`;
+        }
+
+        // Columna de detalles
+        if (!d.enviado && d.error) {
+          tabla += `<td style="padding: 8px; border: 1px solid #ddd; color: #d32f2f; font-size: 13px;">${d.error}</td>`;
+        } else {
+          tabla += `<td style="padding: 8px; border: 1px solid #ddd; color: #555;">Mensaje entregado correctamente</td>`;
+        }
+
+        tabla += `</tr>`;
+      });
+
+      tabla += '</tbody></table></div>';
+
+      Swal.fire({
+        title: 'Detalles del envío',
+        html: tabla,
+        width: '800px',
+        confirmButtonText: 'Cerrar'
+      });
+    }
+
+    // Función para alternar el estado de los campos según la selección
+    function toggleSelect() {
+      const select = document.getElementById("telefonoSelect");
+      const search = document.getElementById("search");
+      const seleccioneTodos = document.getElementById("seleccioneTodos").checked;
+
+      if (seleccioneTodos) {
+        // Desactivar búsqueda individual
+        search.value = "";
+        select.selectedIndex = 0;
+        search.disabled = true;
+        select.disabled = true;
+      } else {
+        // Activar búsqueda individual
+        search.disabled = false;
+        select.disabled = false;
+      }
+    }
+
+    // Función para filtrar clientes por nombre
+    function filterClientes() {
+      const input = document.getElementById("search").value.toLowerCase();
+      const select = document.getElementById("telefonoSelect");
+      const options = select.options;
+
+      let found = false;
+
+      for (let i = 0; i < options.length; i++) {
+        const option = options[i];
+        const nombreCompleto = `${option.getAttribute("data-nombre")} ${option.getAttribute("data-apellido")}`.toLowerCase();
+        const visible = nombreCompleto.includes(input);
+
+        // Ocultar o mostrar opciones basado en el filtro
+        option.style.display = visible ? "block" : "none";
+
+        if (visible && !found) {
+          found = true;
+          // Opcional: seleccionar automáticamente la primera coincidencia
+          // select.selectedIndex = i;
+        }
+      }
+
+      // Si no se encontró coincidencia, limpiar la selección
+      if (!found && input.trim() !== "") {
+        select.selectedIndex = 0;
+      }
+    }
+  </script>
+    <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
+
+<body>
+  <%- include('../../public/components/header.html') %>
+
+    <div class="container">
+      <% if (locals.testMode) { %>
+        <div class="test-mode-banner">
+          <i class="fas fa-exclamation-triangle"></i>
+          MODO DE PRUEBA - Los mensajes no serán enviados realmente
+        </div>
+        <% } %>
+
+          <h1 class="title-whatsapp">Envío de Mensajes por WhatsApp</h1>
+          <div class="whatsapp-info">
+            <p><i class="fab fa-whatsapp"></i> Esta herramienta le permite enviar mensajes promocionales a sus clientes
+              mediante WhatsApp Business API.</p>
+          </div>
+
+          <form id="whatsappForm" onsubmit="enviarMensaje(event)" class="form">
+            <div class="inputBx">
+              <label for="mensaje"><i class="fas fa-comment-alt"></i> Mensaje:</label>
+              <textarea id="mensaje" rows="4" placeholder="Ingresa el mensaje promocional aquí..." required></textarea>
+              <small class="hint">El nombre del cliente se incluirá automáticamente al inicio del mensaje.</small>
+            </div>
+
+            <div class="destinatarios-section">
+              <h3><i class="fas fa-users"></i> Destinatarios</h3>
+
+              <!-- Opción para todos -->
+              <div class="inputBx checkbox-container">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="seleccioneTodos" class="input" onclick="toggleSelect()" />
+                  <span>Enviar a todos los clientes</span>
+                </label>
+              </div>
+
+              <div class="or-divider">o seleccione un cliente específico</div>
+
+              <!-- Búsqueda de cliente -->
+              <div class="inputBx">
+                <label for="search"><i class="fas fa-search"></i> Buscar cliente:</label>
+                <input type="text" id="search" placeholder="Escriba el nombre del cliente..." onkeyup="filterClientes()"
+                  class="input" />
+              </div>
+
+              <!-- Select de cliente -->
+              <div class="inputBx">
+                <label for="telefonoSelect"><i class="fas fa-user-check"></i> Seleccionar cliente:</label>
+                <select id="telefonoSelect" class="input">
+                  <option value="">-- Seleccione un cliente --</option>
+                  <% clientes.forEach(cliente=> { %>
+                    <option value="<%= cliente.telefono %>" data-nombre="<%= cliente.nombre %>"
+                      data-apellido="<%= cliente.apellido %>">
+                      <%= cliente.nombre %>
+                        <%= cliente.apellido %> (<%= cliente.telefono %>)
+                    </option>
+                    <% }) %>
+                </select>
+              </div>
+            </div>
+
+            <!-- Botón de enviar -->
+            <button type="submit" class="btn">
+              <i class="fab fa-whatsapp"></i> Enviar Mensajes
+            </button>
+          </form>
+    </div>
+
+    <!-- Footer -->
+    <%- include('../../public/components/footer.html') %>
+    <script src="../js/csrf-injector.js"></script>
+</body>
+
+</html>

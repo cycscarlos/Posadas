@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+    <title>Enviar Correos</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/responsive-base.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/enviar-correo.css" />
+    <link rel="stylesheet" href="../css/copyright.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Función para enviar mensaje por correos electrónicos -->
+    <script>
+      async function enviarCorreo(event) {
+        event.preventDefault();
+        const mensaje = document.getElementById("mensaje").value;
+        const seleccioneTodos =
+          document.getElementById("seleccioneTodos").checked;
+        const emailSelect = document.getElementById("emailSelect").value;
+
+        try {
+          const response = await fetch("/enviar-correo", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              mensaje,
+              seleccioneTodos,
+              email: emailSelect,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error("Error al enviar correos");
+          }
+
+          alert("Correo(s) enviado(s) correctamente");
+          document.getElementById("correoForm").reset();
+        } catch (error) {
+          console.error("Error al enviar el correo:", error);
+          alert(
+            "Ocurrió un error al enviar los correos. Por favor, inténtalo de nuevo más tarde."
+          );
+        }
+      }
+
+      function toggleEmailSelect() {
+        const select = document.getElementById("emailSelect");
+        const search = document.getElementById("search");
+        const seleccioneTodos =
+          document.getElementById("seleccioneTodos").checked;
+
+        if (seleccioneTodos) {
+          // Limpiar el campo de búsqueda y el select
+          search.value = "";
+          select.selectedIndex = 0; // Reinicia a la opción por defecto
+          // Desactivar el campo de búsqueda y select
+          search.disabled = true;
+          select.disabled = true;
+        } else {
+          // Activar el campo de búsqueda y select
+          search.disabled = false;
+          select.disabled = false;
+        }
+      }
+
+      // Nueva función para manejar el clic en el checkbox
+      function handleCheckboxClick() {
+        const checkbox = document.getElementById("seleccioneTodos");
+
+        // Mostrar alerta usando SweetAlert2
+        Swal.fire({
+          icon: "warning",
+          title: "Atención!",
+          text: "Por los momentos esta funcionalidad no está permitida.",
+          confirmButtonText: "Aceptar",
+        });
+
+        // Desmarcar el checkbox después de mostrar la alerta
+        checkbox.checked = false;
+      }
+
+      function filterClientes() {
+        const input = document.getElementById("search").value.toLowerCase();
+        const select = document.getElementById("emailSelect");
+        const options = select.options;
+
+        let found = false;
+
+        for (let i = 0; i < options.length; i++) {
+          const option = options[i];
+          const nombreCompleto = `${option.getAttribute(
+            "data-nombre"
+          )} ${option.getAttribute("data-apellido")}`.toLowerCase();
+          option.style.display = nombreCompleto.includes(input)
+            ? "block"
+            : "none";
+          if (nombreCompleto.includes(input)) found = true;
+        }
+
+        // Si no se encontró, se puede manejar de alguna forma, como sugerir el nombre o limpiar el select
+        if (!found) {
+          select.selectedIndex = 0; // Reinicia la selección si no se encuentra
+        }
+      }
+    </script>
+      <meta name="csrf-token" content="<%= csrfToken %>">
+</head>
+  <body>
+    <%- include('../../public/components/header.html') %>
+
+    <h1 class="title-whatsapp">Publicidad por Correo Electrónico</h1>
+    <form id="correoForm" onsubmit="enviarCorreo(event)" class="form">
+      <!-- Textarea -->
+      <div class="inputBx">
+        <textarea
+          id="mensaje"
+          rows="4"
+          placeholder="Ingresa el mensaje..."
+          required
+        ></textarea>
+      </div>
+
+      <!-- search -->
+      <div class="inputBx">
+        <input
+          type="text"
+          id="search"
+          placeholder="Buscar por nombre..."
+          onkeyup="filterClientes()"
+          class="input"
+        />
+      </div>
+
+      <!-- Select -->
+      <div class="inputBx">
+        <label for="emailSelect">Seleccionar Destinatario:</label>
+        <select id="emailSelect" class="input">
+          <option value="">-- Seleccionar --</option>
+          <% clientes.forEach(cliente => { %>
+          <option
+            value="<%= cliente.correo %>"
+            data-nombre="<%= cliente.nombre %>"
+            data-apellido="<%= cliente.apellido %>"
+          >
+            <%= cliente.nombre %> <%= cliente.apellido %> - <%= cliente.correo
+            %>
+          </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <!-- checkbox para seleccionar toda la BDD -->
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            id="seleccioneTodos"
+            class="input"
+            onclick="toggleEmailSelect()"
+          />
+          Seleccionar todos los destinatarios
+        </label>
+      </div> 
+
+      <!-- checkbox para seleccionar toda la BDD -->
+      <!-- <div>
+        <label>
+          <input
+            type="checkbox"
+            id="seleccioneTodos"
+            class="input"
+            onclick="handleCheckboxClick()"
+          />
+          Seleccionar todos los destinatarios
+        </label>
+      </div> -->
+
+      <!-- Botón de enviar -->
+      <button type="submit" class="btn">Enviar Correos</button>
+    </form>
+
+    <!-- footer -->
+    <%- include('../../public/components/footer.html') %>
+      <script src="../js/csrf-injector.js"></script>
+</body>
+</html>

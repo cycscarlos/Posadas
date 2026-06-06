@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="../css/login.css" />
+  <link rel="stylesheet" href="../css/copyright.css" />
+  <link rel="stylesheet" href="../css/password-toggle.css" />
+  <link rel="stylesheet" href="../css/responsive-base.css" />
+  <link rel="preload" href="../img/posadaLobby.webp" as="image" />
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <title>Inicio | Posada</title>
+</head>
+
+<body>
+  <%- include('../../public/components/login.html') %>
+
+    <div class="fondo">
+      <div class="contenedor-form login">
+        <h2>Iniciar Sesión</h2>
+        <form action="/login" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="contenedor-input">
+            <span class="icono"><i class="fa-solid fa-user"></i></span>
+            <input type="text" required name="username" autocomplete="off" id="username" value="" />
+            <label for="username">Usuario</label>
+          </div>
+
+          <div class="contenedor-input">
+            <!-- <span class="icono"><i class="fa-solid fa-lock"></i></span> -->
+            <input type="password" required name="clave" autocomplete="off" id="clave" value="" />
+            <label for="clave">Contraseña</label>
+            <span class="toggle-password icono" onclick="togglePasswordVisibility('clave', this)">
+              <i class="fa-solid fa-eye"></i>
+            </span>
+          </div>
+
+          <div class="olvidaste-clave">
+            <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <button type="submit" class="btn">Iniciar Sesión</button>
+        </form>
+      </div>
+    </div>
+    <footer class="footer">
+      <p>
+        Copyright &copy; Elaborado por
+        <a href="https://cycs.netlify.app" target="_blank">Carlos Colmenares A.</a> | Derechos Reservados
+      </p>
+    </footer>
+
+    <!-- Sweetalert 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+    <!-- Script para mostrar/ocultar contraseña -->
+    <script src="../js/password-toggle.js"></script>
+
+    <!-- Mensajes de alerta personalizados -->
+    <% if (typeof alert !="undefined" ) { %>
+      <script>
+        Swal.fire({
+          title: "<%= alertTitle %>",
+          text: "<%= alertMessage %>",
+          icon: "<%= alertIcon %>",
+          showConfirmButton: true,
+          timer: 3000,
+        }).then(() => {
+          window.location.href = "/<%= ruta %>";
+        });
+      </script>
+      <% } %>
+
+    <!-- Script para limpiar campos y evitar el autocompletado persistente -->
+    <script>
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const userField = document.getElementById('username');
+          const passField = document.getElementById('clave');
+          if (userField) userField.value = '';
+          if (passField) passField.value = '';
+        }, 100);
+      });
+    </script>
+
+    <script src="../js/csrf-injector.js"></script>
+</body>
+
+</html>
