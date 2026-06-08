@@ -24,3 +24,10 @@
    - No puedo iniciar/detener servicios (MySQL, servidor Node, etc.), modificar código, crear archivos, ejecutar scripts o probar la aplicación sin tu **autorización explícita**.
    - Debo preguntar: *"¿Lo hago yo o prefieres hacerlo tú?"*
    - Esto aplica a cualquier acción que afecte el estado del proyecto o del entorno de desarrollo.
+
+9. **Ciclo post-cambios:**
+   - Después de realizar los cambios, **tú pruebas la aplicación** y me informas el resultado.
+   - Si el resultado es **positivo** (funciona correctamente) → Yo hago un commit **checkpoint** con el formato `checkpoint: <breve descripción de lo realizado>`.
+   - Si el resultado es **negativo** pero el error es puntual y acotado (ej: un campo no acepta cierto formato, un mensaje en consola, un estilo roto) → solo corrijo el error específico que me indicas, sin revertir todo.
+   - Si el resultado es **negativo** y la página o la aplicación se rompe por completo (no carga, crash, white screen) → revierto los cambios automáticamente usando los backups o el checkpoint previo, e informo para que podamos corregir desde cero.
+   - El ciclo se repite hasta obtener un resultado positivo.

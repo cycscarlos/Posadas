@@ -19,6 +19,31 @@
   --logotype-color: #9d8d6c;
 }
 
+.prefix-group {
+  display: flex;
+  align-items: stretch;
+}
+.prefix-group select {
+  width: auto;
+  min-width: 55px;
+  padding: 0.3em 0;
+  font-size: 1.1em;
+  font-weight: 300;
+  color: #333;
+  border: none;
+  border-bottom: 1px solid rgba(15, 57, 87, 0.25);
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+  margin-right: 4px;
+  appearance: auto;
+}
+.prefix-group input {
+  flex: 1;
+  min-width: 0;
+}
+
 html {
   scroll-behavior: smooth;
 }

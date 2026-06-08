@@ -7,22 +7,24 @@ function validarFormulario() {
   var correo = document.getElementById("correo").value;
   var telefono = document.getElementById("telefono").value;
   var procedencia = document.getElementById("procedencia").value;
-  var procedencia = document.getElementById("personas").value;
-  var procedencia = document.getElementById("habitacion").value;
+  var personas = document.getElementById("personas").value;
+  var habitacion = document.getElementById("habitacion").value;
     var fechaEntrada = document.getElementById("fechaEntrada").value;
     var fechaSalida = document.getElementById("fechaSalida").value;
 
-  var regexNombre = /^[A-Za-z]{1,15}$/;
-  var regexNumerico = /^[0-9]{1,10}$/;
+  var regexNombre = /^[A-Za-záéíóúÁÉÍÓÚüÜñÑ. ]{1,15}$/;
+  var regexNumerico = /^[0-9]{1,8}$/;
+  var regexCedula = /^[A-Za-z]?-?\d{1,12}$/;
+  var regexTelefono = /^[\d+()\-. ]{7,20}$/;
   var regexAlfanumerico = /^[A-Za-z0-9]{1,30}$/;
   var regexFecha = /^(\d{2})\/(\d{2})\/(\d{4})$/;
 
   if (
     !regexNombre.test(nombre) ||
     !regexNombre.test(apellido) ||
-    !regexNumerico.test(cedula) ||
+    !regexCedula.test(cedula) ||
     !regexAlfanumerico.test(correo) ||
-    !regexNumerico.test(telefono) ||
+    !regexTelefono.test(telefono) ||
     !regexNombre.test(procedencia) ||
     !regexFecha.test(fechaEntrada) ||
     !regexFecha.test(fechaSalida) ||
@@ -37,7 +39,7 @@ function validarFormulario() {
       telefono,
       procedencia,
       personas,
-      hbitacion,
+      habitacion,
       fechaEntrada,
       fechaSalida
     );

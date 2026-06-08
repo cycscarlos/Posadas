@@ -43,8 +43,8 @@
                 <input
                   type="text"
                   name="nombre"
-                  title="Solo acepta letras y espacios en blanco"
-                  pattern="^[a-zA-Z ]{1,15}$"
+                  title="Solo acepta letras, espacios en blanco, acentos y puntos"
+                  pattern="^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ. ]{1,15}$"
                   required
                   id="nombre"
                   value="<%= user.nombre %>"
@@ -55,8 +55,8 @@
                 <input
                   type="text"
                   name="apellido"
-                  title="Solo acepta letras y espacios en blanco"
-                  pattern="^[a-zA-Z ]{1,15}$"
+                  title="Solo acepta letras, espacios en blanco, acentos y puntos"
+                  pattern="^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ. ]{1,15}$"
                   required
                   id="apellido"
                   value="<%= user.apellido %>"
@@ -64,15 +64,20 @@
                 <span>Apellido</span>
               </div>
               <div class="inputBox w50">
-                <input
-                  type="text"
-                  name="cedula"
-                  title="Solo acepta números y hasta un máximo de 8 caracteres"
-                  pattern="^[0-9]{1,8}$"
-                  required
-                  id="cedula"
-                  value="<%= user.cedula %>"
-                />
+                <div class="prefix-group">
+                  <select id="cedula_prefix" data-prefix="cedula">
+                    <option value="V-">V-</option>
+                    <option value="E-">E-</option>
+                  </select>
+                  <input
+                    type="text"
+                    name="cedula"
+                    id="cedula"
+                    data-format="cedula"
+                    data-stored="<%= user.cedula %>"
+                    required
+                  />
+                </div>
                 <span>Cédula</span>
               </div>
               <div class="inputBox w50">
@@ -80,7 +85,7 @@
                   type="email"
                   name="correo"
                   title="Email incorrecto"
-                  pattern="^[\w.+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,15}$"
+                  pattern="^[\w.+\-]+@[A-Za-z\d.\-]+\.[A-Za-z]{2,15}$"
                   required
                   id="correo"
                   value="<%= user.correo %>"
@@ -88,23 +93,28 @@
                 <span>Correo Electrónico</span>
               </div>
               <div class="inputBox w50">
-                <input
-                  type="text"
-                  name="telefono"
-                  title="Solo acepta números y hasta un máximo de 11 caracteres"
-                  pattern="^[0-9]{1,11}$"
-                  required
-                  id="telefono"
-                  value="<%= user.telefono %>"
-                />
+                <div class="prefix-group">
+                  <select id="telefono_prefix" data-prefix="telefono">
+                    <option value="+58">+58</option>
+                    <option value="+1">+1</option>
+                  </select>
+                  <input
+                    type="text"
+                    name="telefono"
+                    id="telefono"
+                    data-format="telefono"
+                    data-stored="<%= user.telefono %>"
+                    required
+                  />
+                </div>
                 <span>Número de teléfono</span>
               </div>
               <div class="inputBox w50">
                 <input
                   type="text"
                   name="procedencia"
-                  title="Solo acepta letras y espacios en blanco"
-                  pattern="^[a-zA-Z ]{1,15}$"
+                  title="Solo acepta letras, espacios en blanco, acentos y puntos"
+                  pattern="^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ. ]{1,15}$"
                   required
                   id="procedencia"
                   value="<%= user.procedencia %>"
@@ -170,6 +180,7 @@
     <script src="https://use.fontawesome.com/698a367122.js"></script>
     <script src="../js/formValidation.js"></script>
     <script src="../js/validaFecha.js"></script>
+    <script src="../js/formatInputs.js"></script>
       <script src="../js/csrf-injector.js"></script>
 </body>
 </html>
