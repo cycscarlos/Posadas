@@ -81,8 +81,11 @@ ul.pagination {
 }
 @media (max-width: 768px) {
   .title {
-    font-size: var(--step-4);
-    margin: 0 0 1rem 0;
+    font-size: clamp(0.9rem, 3.5vw, var(--step-4));
+    margin: 0;
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
