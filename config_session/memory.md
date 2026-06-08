@@ -23,9 +23,23 @@
 - ✅ **Opción B**: `authorize(["admin"])` agregado a 13 rutas en 9 archivos
 - ✅ Opción B ajuste: `consultaGral` permite admin + data entry
 - ✅ `scratch/` agregado a `.gitignore`
-- ✅ **Sesión 06/06/2026**: Eliminación de inline event handlers (`onclick`/`onsubmit`) en 4 vistas EJS que violaban CSP → reemplazados por `data-*` + event delegation. Vistas afectadas: `administracionManualEstados.ejs`, `consultaClienteCalendario.ejs`, `historialHabitaciones.ejs`, `mapaHabitacionCalendario.ejs`. Server probado — todos los endpoints 200 OK.
+- ✅ **Sesión 06/06/2026**: Eliminación de inline event handlers (`onclick`/`onsubmit`) en 4 vistas EJS que violaban CSP → reemplazados por `data-*` + event delegation.
+  - Vistas afectadas: `administracionManualEstados.ejs`, `consultaClienteCalendario.ejs`, `historialHabitaciones.ejs`, `mapaHabitacionCalendario.ejs`.
+  - Server probado — todos los endpoints 200 OK (4 vistas + 20 assets estáticos).
+  - Checkpoint: `0301603` — "checkpoint: elimina inline event handlers onclicken 4 vistas EJS (CSP)"
+  - 3 falsos positivos dentro de HTML comments (no ejecutados): `consultaClienteCalendario.ejs:98`, `enviar-correo.ejs:177`, `editar.ejs:30`.
+- ✅ **Sesión 08/06/2026**: Formato y validación de cédula/teléfono en formularios + tabla consultaGral.
+  - Cédula: dropdown V-/E- + autoformato con puntos (24.209.695). Almacena: `V-24209695`
+  - Teléfono: dropdown +58/+1 + autoformato según país (0414.324.63.96 / 212.345.6789). Almacena: `+5804143246396`
+  - Patrones HTML5 corregidos para compatibilidad con flag `v` (acentos, ranges inválidos)
+  - `formValidation.js`: bugs corregidos (variables mal asignadas, regexCedula separada)
+  - CSP: `use.fontawesome.com` agregado a `styleSrc`
+  - Regla #9 agregada a `rules.md` (ciclo post-cambios)
+  - Nuevo archivo: `public/js/formatInputs.js`
+  - Archivos modificados: `index.js`, `public/css/main.css`, `public/js/formValidation.js`, `src/controllers/ctrl_consultaGral.js`, `src/views/editar.ejs`, `src/views/registro.ejs`, `src/views/registro-modal.ejs`
+  - Checkpoint: `c14426c` — "checkpoint: formato y validacion de cedula y telefono (prefijos, puntos, acentos)"
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita
-- Consultar siempre antes de ejecutar acciones (iniciar/detener servicios, probar, modificar)
+- Consultar siempre antes de ejecutar acciones
 - Checkpoint antes de cambios masivos; backup antes de cambios individuales
