@@ -1,8 +1,6 @@
 // middleware/dateMiddleware.js
 const {
   formatDateToDDMMYYYY,
-  formatDateToYYYYMMDD,
-  validateDate,
 } = require("../utils/dateUtils");
 
 // Middleware para formatear fechas en las respuestas
@@ -20,27 +18,26 @@ const formatDatesInResponse = (req, res, next) => {
 
 // Middleware para validar y formatear fechas en las solicitudes
 const validateAndFormatDatesInRequest = (req, res, next) => {
-  const { fecha_entrada, fecha_salida } = req.body;
-  const today = new Date().toISOString().split("T")[0];
+  const entrada = req.body.entrada || req.body.fecha_entrada;
+  const salida = req.body.salida || req.body.fecha_salida;
 
-  if (fecha_entrada && fecha_salida) {
-    if (!validateDate(fecha_entrada) || !validateDate(fecha_salida)) {
-      return res.status(400).json({ error: "Fechas inválidas" });
-    }
-    const formattedFechaEntrada = formatDateToYYYYMMDD(fecha_entrada);
-    const formattedFechaSalida = formatDateToYYYYMMDD(fecha_salida);
+  if (entrada && salida) {
+    const dateEntrada = new Date(entrada + 'T12:00:00');
+    const dateSalida = new Date(salida + 'T12:00:00');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-    if (formattedFechaEntrada < today) {
-      return res
-        .status(400)
-        .json({
-          error:
-            "La fecha de entrada debe ser igual o mayor a la fecha del sistema",
-        });
+    if (isNaN(dateEntrada) || isNaN(dateSalida)) {
+      return res.status(400).json({ error: "Formato de fecha inválido" });
     }
 
-    req.body.fecha_entrada = formattedFechaEntrada;
-    req.body.fecha_salida = formattedFechaSalida;
+    if (dateEntrada < today) {
+      return res.status(400).json({ error: "La fecha de entrada debe ser igual o mayor a la fecha del sistema" });
+    }
+
+    if (dateSalida <= dateEntrada) {
+      return res.status(400).json({ error: "La fecha de salida debe ser posterior a la fecha de entrada" });
+    }
   }
   next();
 };

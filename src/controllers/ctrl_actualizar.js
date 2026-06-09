@@ -29,14 +29,12 @@ exports.actualizar = [
     }
 
     try {
-      const originalReservaResult = await query(
+      const reservaResult = await query(
         "SELECT id_habitacion FROM `reservas` WHERE id_cliente = ?",
         [id_cliente]
       );
-      const originalHabitacion =
-        originalReservaResult.length > 0
-          ? originalReservaResult[0].id_habitacion
-          : null;
+      const reservaExists = reservaResult.length > 0;
+      const originalHabitacion = reservaExists ? reservaResult[0].id_habitacion : null;
 
       await transaction(async ({ query: q }) => {
         await q(
@@ -53,10 +51,17 @@ exports.actualizar = [
           ]
         );
 
-        await q(
-          "UPDATE `reservas` SET id_habitacion = ?, fecha_entrada = ?, fecha_salida = ? WHERE id_cliente = ?",
-          [habitacion, entrada, salida, id_cliente]
-        );
+        if (reservaExists) {
+          await q(
+            "UPDATE `reservas` SET id_habitacion = ?, fecha_entrada = ?, fecha_salida = ? WHERE id_cliente = ?",
+            [habitacion, entrada, salida, id_cliente]
+          );
+        } else if (habitacion) {
+          await q(
+            "INSERT INTO `reservas` (id_cliente, id_habitacion, fecha_entrada, fecha_salida, estado) VALUES (?, ?, ?, ?, 'activa')",
+            [id_cliente, habitacion, entrada, salida]
+          );
+        }
 
         if (originalHabitacion && originalHabitacion !== habitacion) {
           await q(
