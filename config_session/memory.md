@@ -38,6 +38,15 @@
   - Nuevo archivo: `public/js/formatInputs.js`
   - Archivos modificados: `index.js`, `public/css/main.css`, `public/js/formValidation.js`, `src/controllers/ctrl_consultaGral.js`, `src/views/editar.ejs`, `src/views/registro.ejs`, `src/views/registro-modal.ejs`
   - Checkpoint: `c14426c` — "checkpoint: formato y validacion de cedula y telefono (prefijos, puntos, acentos)"
+- ✅ **Sesión 08/06/2026 (continuación)**:
+  - Bug: formato telefóno (regex greedy `\d+` capturaba todo) → corregido con detección por códigos conocidos +58/+1
+  - Bug: middleware `validateAndFormatDatesInRequest` nunca se ejecutaba (field names `fecha_entrada` vs `entrada`) + faltaba validación `salida > entrada` → corregido
+  - Bug: `ctrl_actualizar.js` hacía `UPDATE reservas` aunque no existiera fila → ahora hace `INSERT` si no existe
+  - Título de consultaGral movido al header (entre logo y Menú)
+  - `navbar.html` componentizado: acepta `pageTitle` opcional
+  - `userManagement.ejs`: título en header vía navbar
+  - Checkpoints: `521b273` (memory.md), `c14426c` (formato cédula/teléfono), `63eef80` (título consultaGral)
+  - Pendiente: aplicar patrón título-en-header a otras páginas (coordinar por separado)
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita
