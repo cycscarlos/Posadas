@@ -54,7 +54,8 @@
   - Inputs ensanchados de `60%` a `80%` para mejor balance visual
   - Archivos: `src/views/userManagement.ejs`, `public/css/userManagement.css`
   - Backup: `userManagement.css.20260609-200922.bak`, `userManagement.ejs.20260609-201159.bak`
-  - Pendiente: investigar `Uncaught users:316 SyntaxError: Unexpected token ')'` en consola DevTools (no afecta operatividad)
+  - Bug corregido: `if (btn)` sin llave de cierre en el handler de editar (`edit` click handler, línea 248 → `}` añadido). Causaba `Uncaught users:316 SyntaxError: Unexpected token ')'` en consola DevTools.
+  - Archivos: `src/views/userManagement.ejs`
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita
