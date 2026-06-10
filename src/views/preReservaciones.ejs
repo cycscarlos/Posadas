@@ -23,7 +23,7 @@
       <div class="topnav">
         <div class="logo"></div>    
         <!-- <h1 class="title">Pre-Reservación de Clientes</h1> -->
-        <%- include('../../public/components/navbar.html') %>
+        <%- include('../../public/components/navbar.html', { pageTitle: 'Pre-Reservación de Clientes' }) %>
       </div>
     </header>
 
@@ -205,8 +205,9 @@
                 >
               </fieldset>
 
-              <div class="inputBox w50">
+              <div class="inputBox w50 button-group">
                 <input type="submit" value="Pre-Reservar" />
+                <a href="/menu" class="btn-back" data-action="volver">Volver</a>
               </div>
             </div>
           </div>
@@ -247,6 +248,10 @@
       <script>
         document.querySelector('.contactForm form').addEventListener('submit', function(e) {
           if (!validarFormulario()) e.preventDefault();
+        });
+        document.addEventListener('click', function(e) {
+          var btn = e.target.closest('[data-action="volver"]');
+          if (btn) { e.preventDefault(); history.back(); }
         });
       </script>
       <script src="../js/csrf-injector.js"></script>

@@ -2,7 +2,7 @@
 
 1. **No puedes modificar código sin mi autorización.**
 2. **Solo estas autorizado a trabajar con los archivos locales.**
-3. **No estas autorizado a ejecutar el comando `git push`.**
+3. **No ejecutar `git push` sin autorización explícita.**
 4. **Modificación masiva (2+ archivos en un solo mensaje/tarea):**
    - Debes crear un commit **checkpoint** antes de comenzar.
    - El mensaje del commit debe usar el formato: `checkpoint: <breve descripción de lo que se hará>`

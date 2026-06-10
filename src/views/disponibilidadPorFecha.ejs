@@ -11,16 +11,19 @@
   <link rel="stylesheet" href="../css/responsive-base.css" />
   <link rel="stylesheet" href="../css/navbar.css" />
   <link rel="stylesheet" href="../css/disponibilidadPorFecha.css" />
+  <link rel="stylesheet" href="../css/copyright.css" />
     <meta name="csrf-token" content="<%= csrfToken %>">
 </head>
 
 <body>
-  <%- include('../../public/components/header.html') %>
+  <header class="topheader" id="topheader">
+    <div class="topnav">
+      <div class="logo"></div>
+      <%- include('../../public/components/navbar.html', { pageTitle: 'Disponibilidad por Rango de Fechas' }) %>
+    </div>
+  </header>
 
     <div class="container">
-      <h1 class="title">
-        Disponibilidad de Habitaciones<br /><small> por Rango de Fechas</small>
-      </h1>
       <form id="availabilityForm" method="POST">
         <div class="form-group">
           <label for="fechaInicio">Fecha de Entrada:</label>
@@ -39,6 +42,7 @@
       </form>
     </div>
 
+    <%- include('../../public/components/footer.html') %>
     <script src="../bootstrap/js/bootstrap.min.js"></script>
     <!-- Sweetalert 2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>

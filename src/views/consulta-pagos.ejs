@@ -9,14 +9,18 @@
     <link rel="stylesheet" href="../css/responsive-base.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/consulta-pagos.css" />
+    <link rel="stylesheet" href="../css/copyright.css" />
     <meta name="csrf-token" content="<%= csrfToken %>">
 </head>
 
 <body>
-    <%- include('../../public/components/volver.html') %>
+    <header class="topheader" id="topheader">
+        <div class="topnav">
+            <div class="logo"></div>
+            <%- include('../../public/components/navbar.html', { pageTitle: 'Pagos del Cliente' }) %>
+        </div>
+    </header>
         <div class="container">
-
-            <h1 class="title">Pagos del Cliente</h1>
 
             <!-- <h2 class="title">Buscar Cliente</h2> -->
             <form action="/pagos" method="GET" class="form">
@@ -28,6 +32,7 @@
             </form>
         </div>
 
+    <%- include('../../public/components/footer.html') %>
     <script src="../js/csrf-injector.js"></script>
 </body>
 

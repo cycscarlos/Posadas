@@ -15,9 +15,13 @@
 </head>
 
 <body>
-    <%- include('../../public/components/historialHabitaciones.html') %>
+    <header class="topheader" id="topheader">
+        <div class="topnav">
+            <div class="logo"></div>
+            <%- include('../../public/components/navbar.html', { pageTitle: 'Historial de Habitaciones' }) %>
+        </div>
+    </header>
         <div class="container-calendarios">
-            <h1 class="title"><small>Historial de Habitaciones</small></h1>
             <form class="searchForm" id="searchForm">
                 <input type="text" name="habitacion" id="habitacionSearch" placeholder="Buscar habitación" />
                 <input type="text" name="mes" id="mesSearch" placeholder="Buscar mes (ej. enero)" />

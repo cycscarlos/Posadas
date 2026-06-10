@@ -32,10 +32,11 @@ body {
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
   width: 100%;
   height: auto;
   overflow: hidden;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .contact-container {
@@ -178,6 +179,32 @@ body {
 
 .contact-container .contactForm input[type="checkbox"]:focus {
   outline: 2px solid var(--green-color); /* Efecto de enfoque */
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-back {
+  display: inline-block;
+  padding: 0.3em 1.5em;
+  background: #6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2em;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-back:hover {
+  background: #5a6268;
+  color: #fff;
+  text-decoration: none;
 }
 
 @media (max-width: 768px) {

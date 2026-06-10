@@ -40,23 +40,8 @@ img {
   font-family: var(--font-body);
 }
 
-/* Pseudo-elemento para el fondo con desenfoque y oscurecimiento */
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url("../img/playa3.webp") repeat center center/cover;
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.9) blur(0.1px);
-  border: none;
-  outline: none;
-  z-index: 0;
-  /* Oscurecimiento y desenfoque 
-  /*filter: brightness(0.5) blur(1.5px); /* Oscurecimiento y desenfoque */
+body {
+  background-color: #ffffff;
 }
 
 .form {

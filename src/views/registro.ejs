@@ -22,7 +22,7 @@
     <header class="topheader" id="topheader">
       <div class="topnav">
         <div class="logo"></div>      
-        <%- include('../../public/components/navbar.html') %>
+        <%- include('../../public/components/navbar.html', { pageTitle: 'Reservación de Clientes' }) %>
       </div>
     </header>
     <!-- Reservación -->
@@ -197,8 +197,9 @@
                 >
               </fieldset>
 
-              <div class="inputBox w50">
+              <div class="inputBox w50 button-group">
                 <input type="submit" value="Reservar" />
+                <a href="/menu" class="btn-back" data-action="volver">Volver</a>
               </div>
             </div>
           </div>
@@ -239,6 +240,10 @@
       <script>
         document.querySelector('.contactForm form').addEventListener('submit', function(e) {
           if (!validarFormulario()) e.preventDefault();
+        });
+        document.addEventListener('click', function(e) {
+          var btn = e.target.closest('[data-action="volver"]');
+          if (btn) { e.preventDefault(); history.back(); }
         });
       </script>
       <script src="../js/csrf-injector.js"></script>

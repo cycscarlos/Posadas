@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/responsive-base.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
     <link rel="stylesheet" href="../css/depuracion.css">
+    <link rel="stylesheet" href="../css/copyright.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta name="csrf-token" content="<%= csrfToken %>">
 </head>
@@ -18,14 +19,7 @@
     <header class="topheader" id="topheader">
         <div class="topnav">
             <div class="logo"></div>
-            <h1 class="title">Depuración de la BDD RESERVAS</h1>
-            <nav class="navbar">
-                <ul class="nav-links">
-                    <li>
-                        <a href="/menu" class="opcion-menu active">Menú</a>
-                    </li>
-                </ul>
-            </nav>
+            <%- include('../../public/components/navbar.html', { pageTitle: 'Depuración de la BDD' }) %>
         </div>
     </header>
 
@@ -49,6 +43,8 @@
             <button type="submit" class="submit-btn">Depurar</button>
         </form>
     </div>
+
+    <%- include('../../public/components/footer.html') %>
 
     <% if (success) { %>
         <script>

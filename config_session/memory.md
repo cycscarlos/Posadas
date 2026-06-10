@@ -47,6 +47,14 @@
   - `userManagement.ejs`: título en header vía navbar
   - Checkpoints: `521b273` (memory.md), `c14426c` (formato cédula/teléfono), `63eef80` (título consultaGral)
   - Pendiente: aplicar patrón título-en-header a otras páginas (coordinar por separado)
+- ✅ **Sesión 09/06/2026**: UI de userManagement corregida.
+  - `.container` margin-top reducido de `14rem` a `5rem` (formulario muy abajo)
+  - `#registerForm` centrado con flexbox (formulario no centrado)
+  - Título movido del header fijo al cuerpo (`<h1>` dentro de `.container`) — el título fijo estorbaba al hacer scroll en la tabla larga
+  - Inputs ensanchados de `60%` a `80%` para mejor balance visual
+  - Archivos: `src/views/userManagement.ejs`, `public/css/userManagement.css`
+  - Backup: `userManagement.css.20260609-200922.bak`, `userManagement.ejs.20260609-201159.bak`
+  - Pendiente: investigar `Uncaught users:316 SyntaxError: Unexpected token ')'` en consola DevTools (no afecta operatividad)
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita
