@@ -56,6 +56,18 @@
   - Backup: `userManagement.css.20260609-200922.bak`, `userManagement.ejs.20260609-201159.bak`
   - Bug corregido: `if (btn)` sin llave de cierre en el handler de editar (`edit` click handler, línea 248 → `}` añadido). Causaba `Uncaught users:316 SyntaxError: Unexpected token ')'` en consola DevTools.
   - Archivos: `src/views/userManagement.ejs`
+- ✅ **Sesión 09/06/2026 (continuación tarde)**:
+  - CSP: `connect-src` agregado `https://cdn.jsdelivr.net` (source map de Chart.js) — `index.js`
+  - `historialHabitaciones`: agregado `ORDER BY id_habitacion` a query + fix room #10 `estado='0'` → `'disponible'`
+  - Bug `preReservaciones.ejs`/`registro.ejs`: selector `.contactForm form` corregido a `form` (form era padre, no hijo)
+  - `disponibilidadPorFecha`: botón "Consultar en Grilla" → "Consultar en Gráfica" + fix overflow con `flex:1; white-space:nowrap`
+  - `whatsapp-envioMensajes.ejs`: UI reestructurada para ser idéntica a `enviar-correo.ejs` (mismo CSS, misma estructura, sin wrappers extras). Lógica intacta.
+  - `enviar-correo.ejs`: spinner SweetAlert (`Enviando correos...`) + SweetAlert éxito/error (reemplaza `alert()`)
+  - `ctrl_envioEmails.js`: plantilla HTML profesional con imágenes de playa (`playa7.webp`, `posadaLogo.webp`), paleta azul/dorado, saludo personalizado, bloque de mensaje destacado, botón "Ver Ofertas", footer con contacto
+  - Nuevo archivo: `.docs/habilitar-whatsapp-api.md` — guía paso a paso para habilitar WhatsApp API
+  - Backups: `enviar-correo.ejs.20260609-213906.bak`, `ctrl_envioEmails.js.20260609-213906.bak`
+  - Pendiente mañana: ajustar detalles de plantilla de correo y spinner
+  - Checkpoint final: pendiente
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita
