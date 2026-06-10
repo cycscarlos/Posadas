@@ -47,11 +47,16 @@ exports.enviarCorreo = async (req, res) => {
 
     for (const contacto of destinatarios) {
       console.log(`Enviando correo a: ${contacto.correo}`);
+      const htmlContent = mensaje
+        ? `<div style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.5; padding: 20px;">${mensaje.replace(/\n/g, '<br>')}</div>`
+        : '';
+
       await transporter.sendMail({
-        from: `"Posada" <${process.env.EMAIL_USER}>`, // Nombre del negocio
+        from: `"Posada" <${process.env.EMAIL_USER}>`,
         to: contacto.correo,
         subject: "Posada - ¡Invitación!",
         text: mensaje,
+        html: htmlContent,
       });
     }
 

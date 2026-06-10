@@ -56,6 +56,7 @@ Thumbs.db
 /trash
 docs/
 env/
+backups/
 
 # Scripts auxiliares de desarrollo
 /scratch

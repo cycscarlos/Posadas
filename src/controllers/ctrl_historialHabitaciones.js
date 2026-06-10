@@ -15,7 +15,7 @@ exports.verCalendarioDisponibilidad = async (req, res) => {
   try {
     // Obtener el estado de las habitaciones
     const habitaciones = await query(
-      "SELECT id_habitacion, estado FROM habitaciones"
+      "SELECT id_habitacion, estado FROM habitaciones ORDER BY id_habitacion"
     );
 
     // Obtener todas las reservas existentes de la tabla reservas
