@@ -34,12 +34,24 @@ new DataTable("#tablaConsultaGral", {
       text: "<i class='fas fa-file-pdf'></i>",
       titleAttr: "Exportar a PDF",
       className: "btn btn-danger",
+      orientation: "landscape",
+      pageSize: "LEGAL"
     },
     {
       extend: "print",
       text: "<i class='fa fa-print'></i>",
       titleAttr: "Imprimir",
       className: "btn btn-info",
+      exportOptions: {
+        columns: ":visible"
+      },
+      customize: function(win) {
+        $(win.document.body).find('table').addClass('display').css('font-size', '9px').css('width', '100%');
+        $(win.document.body).find('th, td').css('white-space', 'nowrap');
+        var style = win.document.createElement('style');
+        style.innerHTML = '@page { size: landscape; }';
+        win.document.head.appendChild(style);
+      }
     },
   ],
   // Definición de columnas
@@ -110,6 +122,7 @@ new DataTable("#tablaConsultaGral", {
     {
       // Columna 7: número de personas (int)
       targets: 7,
+      width: "50px",
       render: function (data, type, row) {
         return data; // devuelve personas
       },
@@ -117,6 +130,7 @@ new DataTable("#tablaConsultaGral", {
     {
       // Columna 8: Número Habitación (int)
       targets: 8,
+      width: "60px",
       render: function (data, type, row) {
         return data; // devuelve habitación
       },

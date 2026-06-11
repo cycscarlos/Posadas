@@ -79,6 +79,11 @@ ul.pagination {
   /* background-color: #fffacc;  */
   background-color: lime;
 }
+#tablaConsultaGral td:nth-child(4),
+#tablaConsultaGral td:nth-child(6) {
+  white-space: nowrap;
+}
+
 @media (max-width: 768px) {
   .title {
     font-size: clamp(0.9rem, 3.5vw, var(--step-4));

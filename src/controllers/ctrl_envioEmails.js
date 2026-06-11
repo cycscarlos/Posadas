@@ -4,7 +4,6 @@ const fs = require("fs");
 const nodemailer = require("nodemailer");
 
 function buildEmailHtml(nombreCliente, mensajeUsuario) {
-  const logoCid = "posadaLogo";
   const beachCid = "beachHeader";
   const mensajeHtml = mensajeUsuario ? mensajeUsuario.replace(/\n/g, '<br>') : '';
 
@@ -25,8 +24,7 @@ function buildEmailHtml(nombreCliente, mensajeUsuario) {
     .footer { background-color:#0077b6; color:#fff; padding:20px 35px; font-size:13px; line-height:1.5; }
     .footer a { color:#f6a700; text-decoration:none; }
     .social-icon { display:inline-block; margin-right:10px; font-size:18px; }
-    .logo-wrap { text-align:center; padding:20px 0 0; }
-    .logo-wrap img { height:50px; }
+
   </style>
 </head>
 <body class="email-body">
@@ -35,9 +33,6 @@ function buildEmailHtml(nombreCliente, mensajeUsuario) {
       <td align="center">
         <div class="email-container">
           <img src="cid:${beachCid}" alt="Playa Posada" class="header-img" style="width:100%; height:auto; display:block;">
-          <div class="logo-wrap">
-            <img src="cid:${logoCid}" alt="Posada Logo" style="height:50px;">
-          </div>
           <div class="content">
             <h1>¡Hola ${nombreCliente}!</h1>
             <p class="subtitle">Gracias por ser parte de nuestra familia Posada.</p>
@@ -52,17 +47,12 @@ function buildEmailHtml(nombreCliente, mensajeUsuario) {
               ¡Reserve ahora y descubra el paraíso en la costa!
             </p>
             <div class="divider"></div>
-            <p style="text-align:center; margin-top:10px;">
-              <a href="#" style="display:inline-block; background-color:#f6a700; color:#fff; text-decoration:none; padding:12px 30px; border-radius:6px; font-weight:bold; font-size:15px;">Ver Ofertas</a>
-            </p>
           </div>
           <div class="footer">
             <p style="margin:0 0 8px;"><strong>Posada</strong> — Su lugar en la playa</p>
-            <p style="margin:0 0 4px;"><span style="font-size:16px;">📞</span> +58 414 324 6396</p>
-            <p style="margin:0 0 4px;"><span style="font-size:16px;">✉️</span> <a href="mailto:${process.env.EMAIL_USER || 'contacto@posada.com'}">${process.env.EMAIL_USER || 'contacto@posada.com'}</a></p>
-            <p style="margin:10px 0 0; font-size:11px; opacity:0.7;">
-              Si no desea recibir más correos promocionales, responda este mensaje indicando "Cancelar suscripción".
-            </p>
+            <p style="margin:0 0 4px;"><span style="font-size:16px;">📞</span> (+58) (241) 435.38.60</p>
+            <p style="margin:0 0 4px;"><span style="font-size:16px;">✉️</span> <a href="mailto:posadacasamanantial@gmail.com" style="color:#fff;">posadacasamanantial@gmail.com</a></p>
+            <p style="margin:6px 0 0;"><span style="font-size:16px;">🌐</span> <a href="https://www.posadacasamanantial.com" style="color:#fff; text-decoration:underline;">www.posadacasamanantial.com</a></p>
           </div>
         </div>
       </td>
@@ -108,7 +98,6 @@ exports.enviarCorreo = async (req, res) => {
 
     const imgDir = path.join(__dirname, "../../public/img");
     const beachPath = path.join(imgDir, "playa7.webp");
-    const logoPath = path.join(imgDir, "posadaLogo.webp");
 
     console.log(
       "Correos destino: ",
@@ -133,11 +122,6 @@ exports.enviarCorreo = async (req, res) => {
             filename: "playa7.webp",
             path: beachPath,
             cid: "beachHeader",
-          },
-          {
-            filename: "posadaLogo.webp",
-            path: logoPath,
-            cid: "posadaLogo",
           },
         ],
       });
