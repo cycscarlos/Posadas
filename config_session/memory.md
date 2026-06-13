@@ -87,7 +87,18 @@
     1. `src/router.js` — montado chatbot antes de `authenticate` (ruta pública)
     2. `index.js` — middleware inyecta chatbot.js en todas las páginas automáticamente (sin modificar EJS)
   - CSP: sin cambios necesarios (todo same-origin + `'unsafe-inline'` ya presente)
-  - Git: `306129e` — checkpoint inicial
+  - Git: `8f0c30e` — checkpoint final
+- ✅ **Sesión 13/06/2026 (continuación)**: Página admin del chatbot.
+  - Archivos nuevos (4):
+    1. `src/controllers/ctrl_adminChatbot.js` — CRUD precios habitaciones + promociones
+    2. `src/routes/adminChatbot.js` — rutas con `authorize(["admin"])`
+    3. `src/views/adminChatbot.ejs` — vista estilo userManagement
+    4. `public/css/adminChatbot.css` — estilos consistentes
+  - Archivos modificados (2):
+    1. `src/router.js` — montado `adminChatbot` en rutas protegidas
+    2. `src/views/menu.ejs` — enlace en sidebar > Administración
+  - Bug fix: `req.csrfToken()` → `req.session.csrfToken` en controller
+  - Bug fix: query promociones eliminaba `fecha_inicio <= CURDATE()` (no mostraba promos futuras)
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita

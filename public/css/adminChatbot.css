@@ -1,5 +1,5 @@
 :root {
-  --admin-color: #0077b6;
+  --login-color: #f6a700;
 }
 
 * {
@@ -18,7 +18,7 @@ body {
 }
 
 .navbar ul li {
-  background-color: var(--admin-color);
+  background-color: var(--login-color);
 }
 
 .navbar ul a {
@@ -40,7 +40,7 @@ body {
 
 h1 {
   text-align: center;
-  color: var(--admin-color);
+  color: var(--login-color);
   margin: 20px auto;
   font-size: var(--step-2);
 }
@@ -82,7 +82,7 @@ textarea {
 }
 
 button {
-  background-color: var(--admin-color);
+  background-color: var(--login-color);
   color: white;
   padding: 10px 20px;
   border: none;

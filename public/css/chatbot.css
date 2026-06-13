@@ -96,6 +96,39 @@
   border-bottom-left-radius: 4px;
 }
 
+.chat-menu-msg {
+  max-width: 90% !important;
+}
+
+.chat-menu-msg p {
+  margin: 0 0 8px 0;
+}
+
+.chat-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.chat-menu-btn {
+  background: #fff;
+  border: 1px solid #0077b6;
+  color: #0077b6;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  width: 100%;
+}
+
+.chat-menu-btn:hover {
+  background: #0077b6;
+  color: #fff;
+}
+
 #chatbot-typing {
   align-self: flex-start;
   background: #e9ecef;

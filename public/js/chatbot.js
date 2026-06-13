@@ -21,7 +21,16 @@
       '<button id="chatbot-close" aria-label="Cerrar chat">&times;</button>' +
       "</div>" +
       '<div id="chatbot-messages">' +
-      '<div class="chatbot-msg bot">¡Hola! Soy el asistente virtual de Posada Casa Manantial. ¿En qué puedo ayudarte?</div>' +
+      '<div class="chatbot-msg bot chat-menu-msg">' +
+      "¡Hola! Soy el asistente virtual de Posada Casa Manantial. Seleccioná una opción:" +
+      '<div class="chat-menu">' +
+      '<button type="button" class="chat-menu-btn" data-msg="habitaciones">1. Tipos de habitación</button>' +
+      '<button type="button" class="chat-menu-btn" data-msg="precios">2. Precios</button>' +
+      '<button type="button" class="chat-menu-btn" data-msg="disponibilidad">3. Disponibilidad</button>' +
+      '<button type="button" class="chat-menu-btn" data-msg="promociones">4. Promociones</button>' +
+      '<button type="button" class="chat-menu-btn" data-msg="contacto">5. Información de contacto</button>' +
+      "</div>" +
+      "</div>" +
       "</div>" +
       '<div id="chatbot-typing">Escribiendo...</div>' +
       '<div id="chatbot-input-area">' +
@@ -35,11 +44,78 @@
     return panel;
   }
 
-  function addMessage(text, sender) {
+  function addMessage(text, sender, menu) {
     const container = document.getElementById("chatbot-messages");
     const div = document.createElement("div");
     div.className = "chatbot-msg " + sender;
-    div.textContent = text;
+    if (menu) div.classList.add("chat-menu-msg");
+    
+    var p = document.createElement("p");
+    p.textContent = text;
+    div.appendChild(p);
+    
+    if (menu) {
+      var menuDiv = document.createElement("div");
+      menuDiv.className = "chat-menu";
+      menu.forEach(function (item) {
+        var btn = document.createElement("button");
+        btn.className = "chat-menu-btn";
+        btn.setAttribute("data-msg", item.msg);
+        btn.textContent = item.label;
+        menuDiv.appendChild(btn);
+      });
+      div.appendChild(menuDiv);
+    }
+    
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function showMainMenu() {
+    const container = document.getElementById("chatbot-messages");
+    const div = document.createElement("div");
+    div.className = "chatbot-msg bot chat-menu-msg";
+    var p = document.createElement("p");
+    p.textContent = "Seleccioná una opción:";
+    div.appendChild(p);
+    var menuDiv = document.createElement("div");
+    menuDiv.className = "chat-menu";
+    var items = [
+      { msg: "habitaciones", label: "1. Tipos de habitación" },
+      { msg: "precios", label: "2. Precios" },
+      { msg: "disponibilidad", label: "3. Disponibilidad" },
+      { msg: "promociones", label: "4. Promociones" },
+      { msg: "contacto", label: "5. Información de contacto" },
+    ];
+    items.forEach(function (item) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chat-menu-btn";
+      btn.setAttribute("data-msg", item.msg);
+      btn.textContent = item.label;
+      menuDiv.appendChild(btn);
+    });
+    div.appendChild(menuDiv);
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function addBackMenu(text, sender) {
+    const container = document.getElementById("chatbot-messages");
+    const div = document.createElement("div");
+    div.className = "chatbot-msg " + sender + " chat-menu-msg";
+    var p = document.createElement("p");
+    p.textContent = text;
+    div.appendChild(p);
+    var menuDiv = document.createElement("div");
+    menuDiv.className = "chat-menu";
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chat-menu-btn";
+      btn.setAttribute("data-msg", "menu");
+      btn.textContent = "🔙 Menú principal";
+      menuDiv.appendChild(btn);
+    div.appendChild(menuDiv);
     container.appendChild(div);
     container.scrollTop = container.scrollHeight;
   }
@@ -78,6 +154,9 @@
       .then(function (data) {
         hideTyping();
         addMessage(data.reply, "bot");
+        if (data.showMenu !== false && text.toLowerCase() !== "menu") {
+          addBackMenu("¿Necesitas algo más?", "bot");
+        }
       })
       .catch(function () {
         hideTyping();
@@ -101,7 +180,7 @@
     if (bubble) bubble.style.display = state.open ? "none" : "flex";
     if (state.open) {
       const input = document.getElementById("chatbot-input");
-      if (input) setTimeout(function () { input.focus(); }, 300);
+      if (input) setTimeout(function () { input.focus(); }, 600);
     }
   }
 
@@ -131,6 +210,18 @@
         var input = document.getElementById("chatbot-input");
         var text = input && input.value.trim();
         if (text) sendMessage(text);
+      }
+    });
+
+    document.getElementById("chatbot-messages").addEventListener("click", function (e) {
+      var btn = e.target.closest(".chat-menu-btn");
+      if (!btn) return;
+      var msg = btn.getAttribute("data-msg");
+      if (!msg) return;
+      if (msg === "menu") {
+        showMainMenu();
+      } else {
+        sendMessage(msg);
       }
     });
   }
