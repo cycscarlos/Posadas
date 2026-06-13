@@ -40,6 +40,7 @@ const registro = require("./routes/registro");
 const statusReservaciones = require("./routes/statusReservaciones");
 const userManagement = require("./routes/userManagement");
 const whatsappEnvioMsgs = require("./routes/whatsappEnvioMsgs");
+const adminChatbot = require("./routes/adminChatbot");
 
 router.use(administracionManualEstados);
 router.use(actualizar);
@@ -63,5 +64,6 @@ router.use(registro);
 router.use(statusReservaciones);
 router.use(userManagement);
 router.use(whatsappEnvioMsgs);
+router.use(adminChatbot);
 
 module.exports = router;

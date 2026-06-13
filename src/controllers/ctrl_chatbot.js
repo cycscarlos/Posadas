@@ -167,7 +167,6 @@ const intents = [
           `SELECT titulo, descripcion, fecha_inicio, fecha_fin
            FROM promociones
            WHERE activo = 1
-             AND (fecha_inicio IS NULL OR fecha_inicio <= CURDATE())
              AND (fecha_fin IS NULL OR fecha_fin >= CURDATE())`
         );
         if (!rows || rows.length === 0) {
