@@ -3,7 +3,7 @@
 ## Contexto de la sesión
 - Proyecto: Sistema de Gestión Hotelera — Posadas
 - Estado: Todos los lotes completados (1-5) + Opción A + Opción B + Items 2-5
-- Git: `280b3ed` — Agrega /scratch a .gitignore
+- Git: `33aa207` — checkpoint: ajustes plantilla email
 - MySQL: Servicio WAMP MySQL 8.4.7 activo
 - Servidor Node: nodemon activo en http://localhost:3000
 
@@ -68,6 +68,15 @@
   - Backups: `enviar-correo.ejs.20260609-213906.bak`, `ctrl_envioEmails.js.20260609-213906.bak`
   - Pendiente mañana: ajustar detalles de plantilla de correo y spinner
   - Checkpoint final: pendiente
+
+- ✅ **Sesión 11/06/2026**: Múltiples mejoras:
+  - UI consultaGral: `white-space: nowrap` en cédula/teléfono + `width: 50px/60px` en personas/habitación
+  - Fix PDF: `orientation: landscape` + `pageSize: LEGAL` (muestra todas las columnas)
+  - Fix Print: `@page { size: landscape; }` + `font-size: 9px` + `white-space: nowrap`
+  - Plantilla email (`ctrl_envioEmails.js`): removido botón "Ver Ofertas", logo bajo header, logoCid, attachment logo; footer: email hardcodeado `posadacasamanantial@gmail.com`, eliminado párrafo "Cancelar suscripción", color `#0077b6`, agregado enlace web
+  - Nuevo archivo: `docs/plan-chatbot.md` — plan detallado para chatbot rule-based + BD
+  - Git: `33aa207` — checkpoint final
+  - **Pendiente para próxima sesión**: Implementar chatbot (5 archivos nuevos + 2 modificados + 1 migración SQL)
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita
