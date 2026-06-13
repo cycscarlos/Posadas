@@ -3,7 +3,7 @@
 ## Contexto de la sesión
 - Proyecto: Sistema de Gestión Hotelera — Posadas
 - Estado: Todos los lotes completados (1-5) + Opción A + Opción B + Items 2-5
-- Git: `33aa207` — checkpoint: ajustes plantilla email
+- Git: `5d121e5` — checkpoint: ¡Listo el Chatbot!
 - MySQL: Servicio WAMP MySQL 8.4.7 activo
 - Servidor Node: nodemon activo en http://localhost:3000
 
@@ -99,6 +99,17 @@
     2. `src/views/menu.ejs` — enlace en sidebar > Administración
   - Bug fix: `req.csrfToken()` → `req.session.csrfToken` en controller
   - Bug fix: query promociones eliminaba `fecha_inicio <= CURDATE()` (no mostraba promos futuras)
+- ✅ **Sesión 13/06/2026 (continuación tarde/noche)**: Mejoras finales Chatbot.
+  - Botón "🔙 Menú principal" + "¿Necesitas algo más?" solo aparece al final del flujo de disponibilidad (no en pasos intermedios `tipo`/`fecha`)
+  - Eliminado "o escribinos para más información" del mensaje final de disponibilidad
+  - Bugfix: quitado `AND h.estado = 'disponible'` de queries de disponibilidad (no mostraba habitaciones con estado 'ocupada' pero sin reservas solapadas)
+  - Agregado `\n\n` antes de "Podés contactarnos..." en mensajes de "no disponibles" (ambos handlers)
+  - Selección de tipo de habitación por número (1→Matrimonial, 2→Semi Suite, 3→Suite Junior, 4→Suite, 5→Suite VIP) en lugar de texto libre
+  - Chatbot inyectado solo en `home.ejs`, `menu.ejs`, `adminChatbot.ejs` (removido middleware global de `index.js`)
+  - Menú conversacional con botones clickeables (5 opciones + "🔙 Menú principal")
+  - Formato respuestas: bullet points sin tablas, precios en `$`
+  - Flujo multi-step disponibilidad: tipo (número) → fecha → días → consulta BD con overlap check
+  - Git: `5d121e5` — checkpoint: ¡Listo el Chatbot! (pusheado a origin/main)
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita
