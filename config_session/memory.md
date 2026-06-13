@@ -76,7 +76,18 @@
   - Plantilla email (`ctrl_envioEmails.js`): removido botón "Ver Ofertas", logo bajo header, logoCid, attachment logo; footer: email hardcodeado `posadacasamanantial@gmail.com`, eliminado párrafo "Cancelar suscripción", color `#0077b6`, agregado enlace web
   - Nuevo archivo: `docs/plan-chatbot.md` — plan detallado para chatbot rule-based + BD
   - Git: `33aa207` — checkpoint final
-  - **Pendiente para próxima sesión**: Implementar chatbot (5 archivos nuevos + 2 modificados + 1 migración SQL)
+  - ✅ **Sesión 13/06/2026**: Chatbot rule-based implementado.
+  - Archivos nuevos (5 + 1 SQL):
+    1. `tools/db/chatbot-migracion.sql` — columna `precio` en habitaciones + tabla `promociones`
+    2. `src/controllers/ctrl_chatbot.js` — motor rule-based con 13 intenciones (saludo, horarios, dirección, teléfono, email, web, servicios, habitaciones, precio, disponibilidad, promociones, gracias, ayuda)
+    3. `src/routes/chatbot.js` — ruta POST /chatbot/message (pública, sin autenticación)
+    4. `public/css/chatbot.css` — widget flotante responsive (burbuja 60×60, panel 350×500)
+    5. `public/js/chatbot.js` — UI del chat (crea DOM dinámicamente, fetch con CSRF automático)
+  - Archivos modificados (2):
+    1. `src/router.js` — montado chatbot antes de `authenticate` (ruta pública)
+    2. `index.js` — middleware inyecta chatbot.js en todas las páginas automáticamente (sin modificar EJS)
+  - CSP: sin cambios necesarios (todo same-origin + `'unsafe-inline'` ya presente)
+  - Git: `306129e` — checkpoint inicial
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita

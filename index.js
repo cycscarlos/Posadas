@@ -100,6 +100,30 @@ app.use((req, res, next) => {
   res.locals.success_msg = req.flash("success");
   res.locals.error_msg = req.flash("error");
 
+  // Inyectar chatbot.js en todas las respuestas HTML automáticamente
+  const originalRender = res.render.bind(res);
+  res.render = function (view, options, callback) {
+    const args = arguments;
+    const self = this;
+    originalRender(view, options, function (err, html) {
+      if (err) {
+        if (callback) return callback(err);
+        return self.send(err);
+      }
+      if (typeof html === "string") {
+        html = html.replace(
+          "</body>",
+          '<script src="/js/chatbot.js"></script></body>'
+        );
+      }
+      if (callback) {
+        callback(null, html);
+      } else {
+        self.send(html);
+      }
+    });
+  };
+
   // Establecer cabeceras de seguridad adicionales
   res.setHeader("X-XSS-Protection", "1; mode=block");
   res.setHeader("X-Content-Type-Options", "nosniff");

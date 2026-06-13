@@ -7,10 +7,12 @@ const authenticate = require("./middlewares/authenticate");
 const login = require("./routes/login");
 const logout = require("./routes/logout");
 const passwordReset = require("./routes/passwordReset");
+const chatbot = require("./routes/chatbot");
 
 router.use(login);
 router.use(logout);
 router.use(passwordReset);
+router.use(chatbot);
 
 // A partir de aquí, todas las rutas requieren autenticación
 router.use(authenticate);
