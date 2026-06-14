@@ -8,6 +8,9 @@
     "watch": "node --watch --trace-warnings index.js",
     "start": "node index.js"
   },
+  "engines": {
+    "node": ">=20"
+  },
   "author": "Carlos Colmenares A. || https://cycs.netlify.app",
   "license": "ISC",
   "dependencies": {
@@ -18,13 +21,14 @@
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
+    "express-mysql-session": "^3.0.3",
     "express-session": "^1.18.1",
     "helmet": "^8.1.0",
+    "morgan": "^1.10.0",
     "mysql2": "^3.22.2",
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.16",
-    "sweetalert2": "^11.14.5",
-    "morgan": "^1.10.0"
+    "sweetalert2": "^11.14.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"

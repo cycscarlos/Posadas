@@ -12,7 +12,7 @@ const helmet = require("helmet");
 dotenv.config({ path: path.join(__dirname, "env", ".env") });
 
 // Importaciones
-const { PORT, SESSION_SECRET, isDevelopment } = require("./src/config.js");
+const { PORT, SESSION_SECRET, SESSION_TABLE, isDevelopment, isRailway } = require("./src/config.js");
 const mainRouter = require("./src/router.js"); // Renombrado para mayor claridad
 const {
   automatizacionEstados,
@@ -71,9 +71,35 @@ app.use(
   })
 );
 
+// Trust proxy (necesario para Railway y otros proxies inversos)
+app.set("trust proxy", 1);
+
 // Configuración de sesiones con mayor seguridad
+// Solo en Railway se usa MySQL como store (los reinicios frecuentes pierden MemoryStore)
+let sessionStore;
+if (isRailway) {
+  const MySQLStore = require("express-mysql-session")(session);
+  const { pool } = require("./src/database/db.js");
+  sessionStore = new MySQLStore(
+    {
+      table: SESSION_TABLE,
+      createDatabaseTable: true,
+      schema: {
+        tableName: SESSION_TABLE,
+        columnNames: {
+          session_id: "session_id",
+          expires: "expires",
+          data: "data",
+        },
+      },
+    },
+    pool
+  );
+}
+
 app.use(
   session({
+    store: sessionStore,
     secret: SESSION_SECRET,
     resave: false,
     saveUninitialized: false, // Mejor para GDPR y evita crear sesiones vacías

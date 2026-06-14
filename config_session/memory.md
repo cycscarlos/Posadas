@@ -110,6 +110,12 @@
   - Formato respuestas: bullet points sin tablas, precios en `$`
   - Flujo multi-step disponibilidad: tipo (número) → fecha → días → consulta BD con overlap check
   - Git: `5d121e5` — checkpoint: ¡Listo el Chatbot! (pusheado a origin/main)
+- ✅ **Sesión 13/06/2026 — Railway config**:
+  - Dependencia: `express-mysql-session` instalada
+  - `src/config.js`: soporte para `DATABASE_URL`, `MYSQL_*`, detección automática de Railway (`RAILWAY_SERVICE_ID`)
+  - `index.js`: `trust proxy: 1` + MySQL session store en producción/Railway (tabla `sessions_railway`)
+  - `railway.json`: configuración Nixpacks + startCommand
+  - Backups: `config.js.20260613-164502.bak`, `index.js.20260613-164502.bak`, `package.json.20260613-164502.bak`
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita
