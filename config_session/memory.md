@@ -2,10 +2,11 @@
 
 ## Contexto de la sesión
 - Proyecto: Sistema de Gestión Hotelera — Posadas
-- Estado: Todos los lotes completados (1-5) + Opción A + Opción B + Items 2-5
-- Git: `5d121e5` — checkpoint: ¡Listo el Chatbot!
+- Estado: Todos los lotes completados (1-5) + Opción A + Opción B + Items 2-5 + Chatbot + AlwaysData
+- Git: `5810494` — fix: usa MemoryStore en AlwaysData
 - MySQL: Servicio WAMP MySQL 8.4.7 activo
 - Servidor Node: nodemon activo en http://localhost:3000
+- Producción: https://posadas.alwaysdata.net
 
 ## Logros
 - ✅ Lote 1: Hashes bcrypt reales + regeneración de sesión
@@ -116,6 +117,15 @@
   - `index.js`: `trust proxy: 1` + MySQL session store en producción/Railway (tabla `sessions_railway`)
   - `railway.json`: configuración Nixpacks + startCommand
   - Backups: `config.js.20260613-164502.bak`, `index.js.20260613-164502.bak`, `package.json.20260613-164502.bak`
+- ✅ **Sesión 14/06/2026 — Deploy a AlwaysData**:
+  - Plataforma cambiada de Railway a AlwaysData (Railway no permitía seleccionar repositorio)
+  - Cuenta creada en alwaysdata.com, sitio Node.js + MySQL configurado
+  - BD exportada de local (`mysqldump`) e importada vía phpMyAdmin de AlwaysData
+  - Bugfix: CSRF fallaba porque MySQL session store se activaba en producción → cambiado a solo Railway (`isRailway`)
+  - Colores del chatbot cambiados de `#0077b6` a `#f6a700` (brand color)
+  - `package.json` agregado `engines.node >=20`
+  - Commit: `5810494` — pusheado a origin/main
+  - URL producción: https://posadas.alwaysdata.net
 
 ## Reglas a cumplir
 - No modificar código sin autorización explícita
